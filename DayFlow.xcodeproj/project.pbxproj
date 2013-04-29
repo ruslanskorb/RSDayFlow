@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FF2A69CE172D2C07005A1A21 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2A69CD172D2C07005A1A21 /* Foundation.framework */; };
 		FF2A69D3172D2C07005A1A21 /* DayFlow.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FF2A69D2172D2C07005A1A21 /* DayFlow.h */; };
-		FF2A69D5172D2C07005A1A21 /* DayFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2A69D4172D2C07005A1A21 /* DayFlow.m */; };
 		FF2A69DD172D2C64005A1A21 /* DFDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2A69DC172D2C64005A1A21 /* DFDatePickerView.m */; };
 		FFB686AD172E8A660027ADF2 /* NSCalendar+DFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB686A3172E8A660027ADF2 /* NSCalendar+DFAdditions.m */; };
 		FFB686AE172E8A660027ADF2 /* DFDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB686A5172E8A660027ADF2 /* DFDatePickerViewController.m */; };
@@ -37,7 +36,6 @@
 		FF2A69CD172D2C07005A1A21 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FF2A69D1172D2C07005A1A21 /* DayFlow-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DayFlow-Prefix.pch"; sourceTree = "<group>"; };
 		FF2A69D2172D2C07005A1A21 /* DayFlow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DayFlow.h; path = DayFlow/DayFlow.h; sourceTree = "<group>"; };
-		FF2A69D4172D2C07005A1A21 /* DayFlow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DayFlow.m; path = DayFlow/DayFlow.m; sourceTree = "<group>"; };
 		FF2A69DB172D2C64005A1A21 /* DFDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFDatePickerView.h; path = DayFlow/DFDatePickerView.h; sourceTree = "<group>"; };
 		FF2A69DC172D2C64005A1A21 /* DFDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DFDatePickerView.m; path = DayFlow/DFDatePickerView.m; sourceTree = "<group>"; };
 		FFB686A3172E8A660027ADF2 /* NSCalendar+DFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendar+DFAdditions.m"; path = "DayFlow/NSCalendar+DFAdditions.m"; sourceTree = "<group>"; };
@@ -70,19 +68,18 @@
 			isa = PBXGroup;
 			children = (
 				FF2A69D2172D2C07005A1A21 /* DayFlow.h */,
-				FF2A69D4172D2C07005A1A21 /* DayFlow.m */,
+				FFB686A6172E8A660027ADF2 /* DFDatePickerViewController.h */,
+				FFB686A5172E8A660027ADF2 /* DFDatePickerViewController.m */,
 				FF2A69DB172D2C64005A1A21 /* DFDatePickerView.h */,
 				FF2A69DC172D2C64005A1A21 /* DFDatePickerView.m */,
-				FFB686A3172E8A660027ADF2 /* NSCalendar+DFAdditions.m */,
-				FFB686A4172E8A660027ADF2 /* NSCalendar+DFAdditions.h */,
-				FFB686A5172E8A660027ADF2 /* DFDatePickerViewController.m */,
-				FFB686A6172E8A660027ADF2 /* DFDatePickerViewController.h */,
-				FFB686A7172E8A660027ADF2 /* DFDatePickerMonthHeader.m */,
-				FFB686A8172E8A660027ADF2 /* DFDatePickerMonthHeader.h */,
-				FFB686A9172E8A660027ADF2 /* DFDatePickerDayCell.m */,
-				FFB686AA172E8A660027ADF2 /* DFDatePickerDayCell.h */,
-				FFB686AB172E8A660027ADF2 /* DFDatePickerCollectionView.m */,
 				FFB686AC172E8A660027ADF2 /* DFDatePickerCollectionView.h */,
+				FFB686AB172E8A660027ADF2 /* DFDatePickerCollectionView.m */,
+				FFB686A8172E8A660027ADF2 /* DFDatePickerMonthHeader.h */,
+				FFB686A7172E8A660027ADF2 /* DFDatePickerMonthHeader.m */,
+				FFB686AA172E8A660027ADF2 /* DFDatePickerDayCell.h */,
+				FFB686A9172E8A660027ADF2 /* DFDatePickerDayCell.m */,
+				FFB686A4172E8A660027ADF2 /* NSCalendar+DFAdditions.h */,
+				FFB686A3172E8A660027ADF2 /* NSCalendar+DFAdditions.m */,
 				FF2A69D0172D2C07005A1A21 /* Supporting Files */,
 				FF2A69CC172D2C07005A1A21 /* Frameworks */,
 				FF2A69CB172D2C07005A1A21 /* Products */,
@@ -165,7 +162,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF2A69D5172D2C07005A1A21 /* DayFlow.m in Sources */,
 				FF2A69DD172D2C64005A1A21 /* DFDatePickerView.m in Sources */,
 				FFB686AD172E8A660027ADF2 /* NSCalendar+DFAdditions.m in Sources */,
 				FFB686AE172E8A660027ADF2 /* DFDatePickerViewController.m in Sources */,

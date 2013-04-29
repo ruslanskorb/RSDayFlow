@@ -1,11 +1,3 @@
-//
-//  DFDatePickerMonthHeader.m
-//  Pods
-//
-//  Created by Evadne Wu on 4/28/13.
-//
-//
-
 #import "DFDatePickerMonthHeader.h"
 
 @implementation DFDatePickerMonthHeader
