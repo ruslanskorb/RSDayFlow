@@ -1,9 +1,9 @@
-#import "NSCalendar+DFAdditions.h"
+#import "NSCalendar+RSDFAdditions.h"
 
-@implementation NSCalendar (DFAdditions)
+@implementation NSCalendar (RSDFAdditions)
 
-- (NSDateFormatter *) df_dateFormatterNamed:(NSString *)name withConstructor:(NSDateFormatter *(^)(void))block {
-	
+- (NSDateFormatter *)df_dateFormatterNamed:(NSString *)name withConstructor:(NSDateFormatter *(^)(void))block
+{
 	//	We can not use objc_setAssociatedObject() because it has no thread safety
 	//	Modeled after http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 	//	Intended for use where there are a myriad of date formatters keyed on a calendar
@@ -17,7 +17,6 @@
 	}
 	
 	return dateFormatter;
-
 }
 
 @end
