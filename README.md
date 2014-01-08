@@ -1,6 +1,10 @@
 # RSDayFlow
 
-<img src="Screenshot.png" width="320" height="568">
+<table>
+	<tr>
+		<td><img src="Screenshot.png" width="320" height="568" align="middle"></td>
+	</tr>
+</table>
 
 > [RSDayFlow](https://github.com/ruslanskorb/RSDayFlow) is a slim fork of [DayFlow](https://github.com/evadne/DayFlow) with updates and extensions:
 
