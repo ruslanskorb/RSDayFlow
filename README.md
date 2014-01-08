@@ -1,23 +1,37 @@
-# DayFlow
+# RSDayFlow
 
-iOS Date Picker + Infinite Scrolling.
+<img src="Screenshot.png" width="320" height="568">
+
+> [RSDayFlow](https://github.com/ruslanskorb/RSDayFlow) is a slim fork of [DayFlow](https://github.com/evadne/DayFlow) with updates and extensions:
+
+> * Possibility to mark the date
+* 2 colours of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
+* Design like iOS 7
+* Some other updates
+
+iOS 7 Date Picker + Infinite Scrolling.
 
 ## Play
 
-Look at the [Sample App](https://github.com/evadne/DayFlow-Sample). Check out the [Sample Video](http://vimeo.com/evadne/dayflow-debut). Have fun. Make it faster. Fork and send pull requests. Figure out hooks for customization.
+Look at the [Sample App](https://github.com/ruslanskorb/RSDayFlow-Sample). Have fun. Make it faster. Fork and send pull requests. Figure out hooks for customization.
 
 ## Use
 
-Plop `DFDatePickerViewController` in, and implement the one method in `<DFDatePickerViewControllerDelegate>`:
+Plop `RSDFDatePickerView` in, and implement the one method in `<RSDFDatePickerViewDelegate>`:
 
-	- (void) datePickerViewController:(DFDatePickerViewController *)controller didSelectDate:(NSDate *)date;
+	- (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date;
+	
+Or implement the one method in `RSDFDatePickerViewDataSource`:
+
+	- (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view;
 
 That pretty much sums up what it does.
 
 ## Licensing
 
-This project is in the public domain.  You can embed it in works for hire or use it for evil.  Attribution by linking to the [project page](https://github.com/evadne/DayFlow) and chocolate delivery is appreciated.
+This project is in the public domain.  You can embed it in works for hire or use it for evil.  Attribution by linking to the [project page](https://github.com/ruslanskorb/RSDayFlow) and chocolate delivery is appreciated.
 
 ## Credits
 
 *	[Evadne Wu](http://radi.ws)
+*	[Ruslan Skorb](http://lnkd.in/gsBbvb)
