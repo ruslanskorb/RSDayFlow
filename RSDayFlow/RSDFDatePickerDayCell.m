@@ -41,11 +41,11 @@
 - (void)commonInitializer
 {
     self.backgroundColor = [UIColor whiteColor];
-    self.dividerTopImageView.hidden = NO;
-    self.dateLabel.hidden           = NO;
     self.todayImageView.hidden      = YES;
     self.overlayImageView.hidden    = YES;
     self.markerImageView.hidden     = YES;
+    self.dividerTopImageView.hidden = NO;
+    self.dateLabel.hidden           = NO;
 }
 
 - (void)setDate:(RSDFDatePickerDate)date
