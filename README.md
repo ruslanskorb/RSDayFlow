@@ -9,7 +9,7 @@
 > [RSDayFlow](https://github.com/ruslanskorb/RSDayFlow) is a slim fork of [DayFlow](https://github.com/evadne/DayFlow) with updates and extensions:
 
 > * Possibility to mark the date
-* 2 colours of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
+* 2 colors of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
 * Design like iOS 7
 * Some other updates
 

@@ -41,11 +41,11 @@
 - (void)commonInitializer
 {
     self.backgroundColor = [UIColor whiteColor];
-    self.dividerTopImageView.hidden = NO;
-    self.dateLabel.hidden           = NO;
     self.todayImageView.hidden      = YES;
     self.overlayImageView.hidden    = YES;
     self.markerImageView.hidden     = YES;
+    self.dividerTopImageView.hidden = NO;
+    self.dateLabel.hidden           = NO;
 }
 
 - (void)setDate:(RSDFDatePickerDate)date
@@ -124,7 +124,7 @@
     if (!_today) {
         self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
     } else {
-        self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18.0f];
+        self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
         self.dateLabel.textColor = [UIColor whiteColor];
     }
     self.todayImageView.hidden = !_today;
