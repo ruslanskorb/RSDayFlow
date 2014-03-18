@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = 'https://github.com/ruslanskorb/RSDayFlow'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.authors      = { 'Evadne Wu' => 'ev@radi.ws', 'Ruslan Skorb' => 'ruslan.skorb@gmail.com' }
-  s.source       = { :git => 'https://github.com/ruslanskorb/RSDayFlow.git', :tag => '0.1.1' }
+  s.source       = { :git => 'https://github.com/ruslanskorb/RSDayFlow.git', :tag => '0.1.2' }
   s.platform     = :ios, '7.0'
   s.source_files = 'RSDayFlow', 'RSDayFlow/**/*.{h,m}'
   s.frameworks = 'QuartzCore', 'UIKit'
