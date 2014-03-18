@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'RSDayFlow'
-  s.version      = '0.1.1'
+  s.version      = '0.1.2'
   s.summary      = 'Scrollable iOS 7 Date Picker.'
   s.homepage     = 'https://github.com/ruslanskorb/RSDayFlow'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
