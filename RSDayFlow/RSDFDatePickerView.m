@@ -4,16 +4,20 @@
 #import "RSDFDatePickerDayCell.h"
 #import "RSDFDatePickerMonthHeader.h"
 #import "RSDFDatePickerView.h"
+#import "RSDFDatePickerDaysOfWeekView.h"
 #import "NSCalendar+RSDFAdditions.h"
 
 static NSString * const DFDatePickerViewCellIdentifier = @"dateCell";
 static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
+static const CGFloat DFDatePickerViewDaysOfWeekViewWidth = 320.0f;
+static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 @interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, readonly, strong) NSCalendar *calendar;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate fromDate;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate toDate;
+@property (nonatomic, readonly, strong) RSDFDatePickerDaysOfWeekView *daysOfWeekView;
 @property (nonatomic, readonly, strong) UICollectionView *collectionView;
 @property (nonatomic, readonly, strong) UICollectionViewFlowLayout *collectionViewLayout;
 @property (nonatomic, readonly, strong) NSDate *today;
@@ -25,6 +29,7 @@ static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
 @synthesize calendar = _calendar;
 @synthesize fromDate = _fromDate;
 @synthesize toDate = _toDate;
+@synthesize daysOfWeekView = _daysOfWeekView;
 @synthesize collectionView = _collectionView;
 @synthesize collectionViewLayout = _collectionViewLayout;
 
@@ -74,7 +79,12 @@ static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
 {
 	[super layoutSubviews];
 	
-	self.collectionView.frame = self.bounds;
+    self.daysOfWeekView.frame = [self daysOfWeekViewFrame];
+    if (!self.daysOfWeekView.superview) {
+        [self addSubview:self.daysOfWeekView];
+    }
+    
+    self.collectionView.frame = [self collectionViewFrame];
 	if (!self.collectionView.superview) {
         if (self.collectionView.numberOfSections > 0) {
             RSDFDatePickerDate todayPickerDate = [self pickerDateFromDate:_today];
@@ -98,15 +108,46 @@ static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
 	
 	if (newSuperview && !_collectionView) {
 		//	do some initialization!
+        RSDFDatePickerDaysOfWeekView *v = self.daysOfWeekView;
+        [v layoutIfNeeded];
+        
 		UICollectionView *cv = self.collectionView;
         [cv layoutIfNeeded];
 	}
 }
 
+- (CGRect)daysOfWeekViewFrame
+{
+    CGRect namesOfDaysViewFrame = self.bounds;
+    namesOfDaysViewFrame.origin.x = (CGRectGetWidth(self.bounds) - DFDatePickerViewDaysOfWeekViewWidth) / 2;
+    namesOfDaysViewFrame.size.width = DFDatePickerViewDaysOfWeekViewWidth;
+    namesOfDaysViewFrame.size.height = DFDatePickerViewDaysOfWeekViewHeight;
+    return namesOfDaysViewFrame;
+}
+
+- (UIView *)daysOfWeekView
+{
+    if (!_daysOfWeekView) {
+        _daysOfWeekView = [[RSDFDatePickerDaysOfWeekView alloc] initWithFrame:[self daysOfWeekViewFrame]];
+    }
+    
+    return _daysOfWeekView;
+}
+
+- (CGRect)collectionViewFrame
+{
+    CGRect collectionViewFrame = self.bounds;
+    collectionViewFrame.origin.x = (CGRectGetWidth(self.bounds) - DFDatePickerViewDaysOfWeekViewWidth) / 2;
+    collectionViewFrame.origin.y += DFDatePickerViewDaysOfWeekViewHeight;
+    collectionViewFrame.size.width = DFDatePickerViewDaysOfWeekViewWidth;
+    collectionViewFrame.size.height -= DFDatePickerViewDaysOfWeekViewHeight;
+    return collectionViewFrame;
+}
+
 - (UICollectionView *)collectionView
 {
 	if (!_collectionView) {
-		_collectionView = [[RSDFDatePickerCollectionView alloc] initWithFrame:self.bounds collectionViewLayout:self.collectionViewLayout];
+		_collectionView = [[RSDFDatePickerCollectionView alloc] initWithFrame:[self collectionViewFrame] collectionViewLayout:self.collectionViewLayout];
 		_collectionView.backgroundColor = [UIColor whiteColor];
 		_collectionView.dataSource = self;
 		_collectionView.delegate = self;
