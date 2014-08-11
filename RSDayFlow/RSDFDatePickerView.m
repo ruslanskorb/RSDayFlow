@@ -37,7 +37,8 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 {
     _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
-    NSDate *now = [_calendar dateFromComponents:[_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit fromDate:[NSDate date]]];
+    NSDateComponents *nowYearMonthComponents = [_calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
+    NSDate *now = [_calendar dateFromComponents:nowYearMonthComponents];
     
     _fromDate = [self pickerDateFromDate:[_calendar dateByAddingComponents:((^{
         NSDateComponents *components = [NSDateComponents new];
@@ -51,10 +52,8 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         return components;
     })()) toDate:now options:0]];
     
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
-    _today = [calendar dateFromComponents:components];;
+    NSDateComponents *todayYearMonthDayComponents = [_calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+    _today = [_calendar dateFromComponents:todayYearMonthDayComponents];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
