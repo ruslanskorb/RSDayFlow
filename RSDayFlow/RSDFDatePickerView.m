@@ -376,14 +376,16 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:cellDate].weekday;
         cell.dayOff = (weekday == 1) || (weekday == 7);
         
-        NSDictionary *markedDates = [self.dataSource datePickerViewMarkedDates:self];
-        NSNumber *markedDateState = [markedDates objectForKey:cellDate];
-        if (markedDateState) {
-            cell.marked = YES;
-            cell.completed = [markedDateState boolValue];
-        } else {
-            cell.marked = NO;
-            cell.completed = NO;
+        if ([self.dataSource respondsToSelector:@selector(datePickerViewMarkedDates:)]) {
+            NSDictionary *markedDates = [self.dataSource datePickerViewMarkedDates:self];
+            NSNumber *markedDateState = [markedDates objectForKey:cellDate];
+            if (markedDateState) {
+                cell.marked = YES;
+                cell.completed = [markedDateState boolValue];
+            } else {
+                cell.marked = NO;
+                cell.completed = NO;
+            }
         }
         
         cell.today = ([cellDate compare:_today] == NSOrderedSame) ? YES : NO;
@@ -410,10 +412,11 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
-	NSDate *selectedDate = cell ? [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:cell.date]] : nil;
-    [self.delegate datePickerView:self didSelectDate:selectedDate];
-    [self.collectionView reloadData];
+    if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
+        RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
+        NSDate *selectedDate = cell ? [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:cell.date]] : nil;
+        [self.delegate datePickerView:self didSelectDate:selectedDate];
+    }
 }
 
 - (UICollectionReusableView *) collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath

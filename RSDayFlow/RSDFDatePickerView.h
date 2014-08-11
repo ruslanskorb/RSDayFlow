@@ -12,15 +12,18 @@
 
 @end
 
-@protocol RSDFDatePickerViewDelegate
+@protocol RSDFDatePickerViewDelegate <NSObject>
+
+@optional
 
 - (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date;
 
 @end
 
-@protocol RSDFDatePickerViewDataSource
+@protocol RSDFDatePickerViewDataSource <NSObject>
 
 @optional
+
 - (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view;
 
 @end
