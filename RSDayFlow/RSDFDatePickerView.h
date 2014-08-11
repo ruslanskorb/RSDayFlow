@@ -8,6 +8,7 @@
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDelegate> delegate;
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
+- (void)scrollToToday:(BOOL)animated;
 - (void)reloadData;
 
 @end

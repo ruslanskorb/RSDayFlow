@@ -85,18 +85,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
     
     self.collectionView.frame = [self collectionViewFrame];
 	if (!self.collectionView.superview) {
-        if (self.collectionView.numberOfSections > 0) {
-            RSDFDatePickerDate todayPickerDate = [self pickerDateFromDate:_today];
-            NSInteger section = self.collectionView.numberOfSections / 2;
-            NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
-            NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
-            
-            // weekday start from 1 and include first day of month
-            NSInteger item = weekday + todayPickerDate.day - 2;
-            
-            NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
-            [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
-        }
+        [self scrollToToday:NO];
 		[self addSubview:self.collectionView];
 	}
 }
@@ -305,6 +294,46 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		cv.contentOffset.x,
 		cv.contentOffset.y + (toSectionOrigin.y - fromSectionOrigin.y)
 	}];
+}
+
+- (void)scrollToToday:(BOOL)animated
+{
+    UICollectionView *cv = self.collectionView;
+	UICollectionViewFlowLayout *cvLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	
+	NSArray *visibleCells = [self.collectionView visibleCells];
+	if (![visibleCells count])
+		return;
+    
+    NSDateComponents *nowYearMonthComponents = [_calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
+    NSDate *now = [_calendar dateFromComponents:nowYearMonthComponents];
+    
+    _fromDate = [self pickerDateFromDate:[_calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = -6;
+        return components;
+    })()) toDate:now options:0]];
+    
+    _toDate = [self pickerDateFromDate:[_calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = 6;
+        return components;
+    })()) toDate:now options:0]];
+    
+    [cv reloadData];
+	[cvLayout invalidateLayout];
+	[cvLayout prepareLayout];
+    
+    RSDFDatePickerDate todayPickerDate = [self pickerDateFromDate:_today];
+    NSInteger section = self.collectionView.numberOfSections / 2;
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+    
+    // weekday start from 1 and include first day of month
+    NSInteger item = weekday + todayPickerDate.day - 2;
+    
+    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
