@@ -426,7 +426,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 			NSDateFormatter *dateFormatter = [NSDateFormatter new];
 			dateFormatter.calendar = self.calendar;
 			dateFormatter.dateFormat = @"MMM yyyy";
-            dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+            dateFormatter.locale = [NSLocale currentLocale];
 			return dateFormatter;
 		}];
 		
