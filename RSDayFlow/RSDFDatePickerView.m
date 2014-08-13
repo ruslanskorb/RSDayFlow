@@ -116,7 +116,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 - (UIView *)daysOfWeekView
 {
     if (!_daysOfWeekView) {
-        _daysOfWeekView = [[RSDFDatePickerDaysOfWeekView alloc] initWithFrame:[self daysOfWeekViewFrame]];
+        _daysOfWeekView = [[RSDFDatePickerDaysOfWeekView alloc] initWithFrame:[self daysOfWeekViewFrame] calendar:self.calendar];
     }
     
     return _daysOfWeekView;
@@ -454,10 +454,9 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		RSDFDatePickerMonthHeader *monthHeader = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:DFDatePickerViewMonthHeaderIdentifier forIndexPath:indexPath];
 		
 		NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarMonthHeader" withConstructor:^{
-			NSDateFormatter *dateFormatter = [NSDateFormatter new];
+			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 			dateFormatter.calendar = self.calendar;
-			dateFormatter.dateFormat = @"MMM yyyy";
-            dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+            dateFormatter.locale = [NSLocale currentLocale];
 			return dateFormatter;
 		}];
 		
@@ -465,7 +464,9 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         RSDFDatePickerDate date = [self pickerDateFromDate:formattedDate];
         
         monthHeader.date = date;
-        monthHeader.dateLabel.text = [[dateFormatter stringFromDate:formattedDate] uppercaseString];
+        
+        NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
+        monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %lu", monthString, (unsigned long)date.year] uppercaseString];
 		
         RSDFDatePickerDate today = [self pickerDateFromDate:_today];
         if ( (today.month == date.month) && (today.year == date.year) ) {

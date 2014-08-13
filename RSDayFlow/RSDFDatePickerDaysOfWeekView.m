@@ -1,6 +1,25 @@
 #import "RSDFDatePickerDaysOfWeekView.h"
+#import "NSCalendar+RSDFAdditions.h"
+
+@interface RSDFDatePickerDaysOfWeekView ()
+
+@property (strong, nonatomic) NSCalendar *calendar;
+
+@end
 
 @implementation RSDFDatePickerDaysOfWeekView
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _calendar = calendar;
+        [self commonInitializer];
+    }
+    return self;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -20,83 +39,60 @@
     return self;
 }
 
+#pragma mark - Custom Accessors
+
+- (NSCalendar *)calendar
+{
+    if (!_calendar) {
+        _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    }
+    return _calendar;
+}
+
+#pragma mark - Private
+
 - (void)commonInitializer
 {
     self.backgroundColor = [UIColor colorWithRed:248.0/255 green:248.0/255 blue:248.0/255 alpha:1.0];
     
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-    UIColor *dayColor = [UIColor blackColor];
-    UIColor *dayOffColor = [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0];
-    CGFloat yCenter = CGRectGetHeight(self.bounds) / 2;
+    UIColor *weekdayLabelBackgroundColor = [UIColor clearColor];
+    UIFont *weekdayLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
+    UIColor *weekdayLabelDayTextColor = [UIColor blackColor];
+    UIColor *weekdayLabelDayOffTextColor = [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0];
     
     //	Hard key these things.
-	//	44 * 7 + 2 * 6 = 320; from collectionViewLayout of RSDFDatePickerView
+    //	44 * 7 + 2 * 6 = 320; from collectionViewLayout of RSDFDatePickerView
     
     CGFloat dayItemWidth = 44.0f;
     CGFloat minimumInteritemSpacing = 2.0f;
     
-    UILabel *sunday = [[UILabel alloc] init];
-    sunday.font = font;
-    sunday.text = @"S";
-    sunday.textColor = dayOffColor;
-    [sunday sizeToFit];
-    CGFloat xCenter = dayItemWidth / 2;
-    sunday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:sunday];
+    CGFloat yCenter = CGRectGetHeight(self.bounds) / 2;
+    __block CGFloat xCenter = dayItemWidth / 2;
     
-    UILabel *monday = [[UILabel alloc] init];
-    monday.font = font;
-    monday.text = @"M";
-    monday.textColor = dayColor;
-    [monday sizeToFit];
-    xCenter += (dayItemWidth + minimumInteritemSpacing);
-    monday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:monday];
+    NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarDaysOfWeekView" withConstructor:^{
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.calendar = self.calendar;
+        dateFormatter.locale = [NSLocale currentLocale];
+        return dateFormatter;
+    }];
     
-    UILabel *tuesday = [[UILabel alloc] init];
-    tuesday.font = font;
-    tuesday.text = @"T";
-    tuesday.textColor = dayColor;
-    [tuesday sizeToFit];
-    xCenter += (dayItemWidth + minimumInteritemSpacing);
-    tuesday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:tuesday];
-    
-    UILabel *wednesday = [[UILabel alloc] init];
-    wednesday.font = font;
-    wednesday.text = @"W";
-    wednesday.textColor = dayColor;
-    [wednesday sizeToFit];
-    xCenter += (dayItemWidth + minimumInteritemSpacing);
-    wednesday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:wednesday];
-    
-    UILabel *thursday = [[UILabel alloc] init];
-    thursday.font = font;
-    thursday.text = @"T";
-    thursday.textColor = dayColor;
-    [thursday sizeToFit];
-    xCenter += (dayItemWidth + minimumInteritemSpacing);
-    thursday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:thursday];
-    
-    UILabel *friday = [[UILabel alloc] init];
-    friday.font = font;
-    friday.text = @"F";
-    friday.textColor = dayColor;
-    [friday sizeToFit];
-    xCenter += (dayItemWidth + minimumInteritemSpacing);
-    friday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:friday];
-    
-    UILabel *saturday = [[UILabel alloc] init];
-    saturday.font = font;
-    saturday.text = @"S";
-    saturday.textColor = dayOffColor;
-    [saturday sizeToFit];
-    xCenter += (dayItemWidth + minimumInteritemSpacing);
-    saturday.center = CGPointMake(xCenter, yCenter);
-    [self addSubview:saturday];
+    NSArray *weekdaySymbols = [dateFormatter veryShortStandaloneWeekdaySymbols];
+    [weekdaySymbols enumerateObjectsUsingBlock:^(NSString *weekdaySymbol, NSUInteger idx, BOOL *stop) {
+        UILabel *weekdayLabel = [[UILabel alloc] init];
+        weekdayLabel.backgroundColor = weekdayLabelBackgroundColor;
+        weekdayLabel.font = weekdayLabelFont;
+        if ( (idx != 0) && (idx != 6) ) {
+            weekdayLabel.textColor = weekdayLabelDayTextColor;
+        } else {
+            weekdayLabel.textColor = weekdayLabelDayOffTextColor;
+        }
+        weekdayLabel.text = weekdaySymbol;
+        [weekdayLabel sizeToFit];
+        weekdayLabel.center = CGPointMake(xCenter, yCenter);
+        [self addSubview:weekdayLabel];
+        
+        xCenter += (dayItemWidth + minimumInteritemSpacing);
+    }];
 }
 
 @end
