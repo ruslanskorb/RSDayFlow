@@ -28,6 +28,8 @@
     UIColor *dayColor = [UIColor blackColor];
     UIColor *dayOffColor = [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0];
     CGFloat yCenter = CGRectGetHeight(self.bounds) / 2;
+
+    NSArray *weekdays = [[[NSDateFormatter alloc] init] veryShortWeekdaySymbols];
     
     //	Hard key these things.
 	//	44 * 7 + 2 * 6 = 320; from collectionViewLayout of RSDFDatePickerView
@@ -37,7 +39,7 @@
     
     UILabel *sunday = [[UILabel alloc] init];
     sunday.font = font;
-    sunday.text = @"S";
+    sunday.text = [weekdays objectAtIndex:0];
     sunday.textColor = dayOffColor;
     [sunday sizeToFit];
     CGFloat xCenter = dayItemWidth / 2;
@@ -46,7 +48,7 @@
     
     UILabel *monday = [[UILabel alloc] init];
     monday.font = font;
-    monday.text = @"M";
+    monday.text = [weekdays objectAtIndex:1];
     monday.textColor = dayColor;
     [monday sizeToFit];
     xCenter += (dayItemWidth + minimumInteritemSpacing);
@@ -55,7 +57,7 @@
     
     UILabel *tuesday = [[UILabel alloc] init];
     tuesday.font = font;
-    tuesday.text = @"T";
+    tuesday.text = [weekdays objectAtIndex:2];
     tuesday.textColor = dayColor;
     [tuesday sizeToFit];
     xCenter += (dayItemWidth + minimumInteritemSpacing);
@@ -64,7 +66,7 @@
     
     UILabel *wednesday = [[UILabel alloc] init];
     wednesday.font = font;
-    wednesday.text = @"W";
+    wednesday.text = [weekdays objectAtIndex:3];
     wednesday.textColor = dayColor;
     [wednesday sizeToFit];
     xCenter += (dayItemWidth + minimumInteritemSpacing);
@@ -73,7 +75,7 @@
     
     UILabel *thursday = [[UILabel alloc] init];
     thursday.font = font;
-    thursday.text = @"T";
+    thursday.text = [weekdays objectAtIndex:4];
     thursday.textColor = dayColor;
     [thursday sizeToFit];
     xCenter += (dayItemWidth + minimumInteritemSpacing);
@@ -82,7 +84,7 @@
     
     UILabel *friday = [[UILabel alloc] init];
     friday.font = font;
-    friday.text = @"F";
+    friday.text = [weekdays objectAtIndex:5];
     friday.textColor = dayColor;
     [friday sizeToFit];
     xCenter += (dayItemWidth + minimumInteritemSpacing);
@@ -91,7 +93,7 @@
     
     UILabel *saturday = [[UILabel alloc] init];
     saturday.font = font;
-    saturday.text = @"S";
+    saturday.text = [weekdays objectAtIndex:6];
     saturday.textColor = dayOffColor;
     [saturday sizeToFit];
     xCenter += (dayItemWidth + minimumInteritemSpacing);
