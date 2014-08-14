@@ -72,16 +72,27 @@
     NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarDaysOfWeekView" withConstructor:^{
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.calendar = self.calendar;
-        dateFormatter.locale = [NSLocale currentLocale];
+        dateFormatter.locale = [self.calendar locale];
         return dateFormatter;
     }];
     
     NSArray *weekdaySymbols = [dateFormatter veryShortStandaloneWeekdaySymbols];
-    [weekdaySymbols enumerateObjectsUsingBlock:^(NSString *weekdaySymbol, NSUInteger idx, BOOL *stop) {
+    NSArray *reorderedWeekdaySymbols = nil;
+    
+    // weekday start from 1
+    NSUInteger firstWeekdayIndex = [self.calendar firstWeekday] - 1;
+    if (firstWeekdayIndex > 0) {
+        reorderedWeekdaySymbols = [[weekdaySymbols subarrayWithRange:NSMakeRange(firstWeekdayIndex, [weekdaySymbols count] - firstWeekdayIndex)]
+                                   arrayByAddingObjectsFromArray:[weekdaySymbols subarrayWithRange:NSMakeRange(0, firstWeekdayIndex)]];
+    } else {
+        reorderedWeekdaySymbols = weekdaySymbols;
+    }
+    
+    [reorderedWeekdaySymbols enumerateObjectsUsingBlock:^(NSString *weekdaySymbol, NSUInteger idx, BOOL *stop) {
         UILabel *weekdayLabel = [[UILabel alloc] init];
         weekdayLabel.backgroundColor = weekdayLabelBackgroundColor;
         weekdayLabel.font = weekdayLabelFont;
-        if ( (idx != 0) && (idx != 6) ) {
+        if ([weekdaySymbols indexOfObjectIdenticalTo:weekdaySymbol] != 0 && [weekdaySymbols indexOfObjectIdenticalTo:weekdaySymbol] != 6) {
             weekdayLabel.textColor = weekdayLabelDayTextColor;
         } else {
             weekdayLabel.textColor = weekdayLabelDayOffTextColor;

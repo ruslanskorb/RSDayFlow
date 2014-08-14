@@ -36,6 +36,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 - (void)configureCalendar
 {
     _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    _calendar.locale = [NSLocale currentLocale];
     
     NSDateComponents *nowYearMonthComponents = [_calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
     NSDate *now = [_calendar dateFromComponents:nowYearMonthComponents];
@@ -391,7 +392,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	
 	NSDate *cellDate = [self.calendar dateByAddingComponents:((^{
 		NSDateComponents *dateComponents = [NSDateComponents new];
-		dateComponents.day = indexPath.item - (weekday - 1);
+		dateComponents.day = indexPath.item - (weekday - self.calendar.firstWeekday);
 		return dateComponents;
 	})()) toDate:firstDayInMonth options:0];
 	RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
@@ -456,7 +457,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarMonthHeader" withConstructor:^{
 			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 			dateFormatter.calendar = self.calendar;
-            dateFormatter.locale = [NSLocale currentLocale];
+            dateFormatter.locale = [self.calendar locale];
 			return dateFormatter;
 		}];
 		
