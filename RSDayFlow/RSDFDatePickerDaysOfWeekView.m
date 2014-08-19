@@ -11,16 +11,6 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        _calendar = calendar;
-        [self commonInitializer];
-    }
-    return self;
-}
-
 - (instancetype)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
@@ -39,12 +29,23 @@
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _calendar = calendar;
+        [self commonInitializer];
+    }
+    return self;
+}
+
 #pragma mark - Custom Accessors
 
 - (NSCalendar *)calendar
 {
     if (!_calendar) {
         _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        _calendar.locale = [NSLocale currentLocale];
     }
     return _calendar;
 }
@@ -53,21 +54,21 @@
 
 - (void)commonInitializer
 {
-    self.backgroundColor = [UIColor colorWithRed:248.0/255 green:248.0/255 blue:248.0/255 alpha:1.0];
+    self.backgroundColor = [self selfBackgroundColor];
     
-    UIColor *weekdayLabelBackgroundColor = [UIColor clearColor];
-    UIFont *weekdayLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-    UIColor *weekdayLabelDayTextColor = [UIColor blackColor];
-    UIColor *weekdayLabelDayOffTextColor = [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0];
+    UIColor *dayOfWeekLabelBackgroundColor = [UIColor clearColor];
+    UIFont *dayOfWeekLabelFont = [self dayOfWeekLabelFont];
+    UIColor *dayOfWeekLabelTextColor = [self dayOfWeekLabelTextColor];
+    UIColor *dayOffOfWeekLabelTextColor = [self dayOffOfWeekLabelTextColor];
     
     //	Hard key these things.
-    //	44 * 7 + 2 * 6 = 320; from collectionViewLayout of RSDFDatePickerView
+    //	44 * 7 + 2 * 6 = 320; in accordance with RSDFDatePickerCollectionViewLayout
     
-    CGFloat dayItemWidth = 44.0f;
-    CGFloat minimumInteritemSpacing = 2.0f;
+    CGSize itemSize = [self selfItemSize];
+    CGFloat interitemSpacing = [self selfInteritemSpacing];
     
-    CGFloat yCenter = CGRectGetHeight(self.bounds) / 2;
-    __block CGFloat xCenter = dayItemWidth / 2;
+    CGFloat y = 0;
+    __block CGFloat x = 0;
     
     NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarDaysOfWeekView" withConstructor:^{
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -89,21 +90,56 @@
     }
     
     [reorderedWeekdaySymbols enumerateObjectsUsingBlock:^(NSString *weekdaySymbol, NSUInteger idx, BOOL *stop) {
-        UILabel *weekdayLabel = [[UILabel alloc] init];
-        weekdayLabel.backgroundColor = weekdayLabelBackgroundColor;
-        weekdayLabel.font = weekdayLabelFont;
+        UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, itemSize.width, itemSize.height)];
+        weekdayLabel.textAlignment = NSTextAlignmentCenter;
+        weekdayLabel.backgroundColor = dayOfWeekLabelBackgroundColor;
+        weekdayLabel.font = dayOfWeekLabelFont;
         if ([weekdaySymbols indexOfObjectIdenticalTo:weekdaySymbol] != 0 && [weekdaySymbols indexOfObjectIdenticalTo:weekdaySymbol] != 6) {
-            weekdayLabel.textColor = weekdayLabelDayTextColor;
+            weekdayLabel.textColor = dayOfWeekLabelTextColor;
         } else {
-            weekdayLabel.textColor = weekdayLabelDayOffTextColor;
+            weekdayLabel.textColor = dayOffOfWeekLabelTextColor;
         }
         weekdayLabel.text = weekdaySymbol;
-        [weekdayLabel sizeToFit];
-        weekdayLabel.center = CGPointMake(xCenter, yCenter);
         [self addSubview:weekdayLabel];
         
-        xCenter += (dayItemWidth + minimumInteritemSpacing);
+        x += (itemSize.width + interitemSpacing);
     }];
+}
+
+#pragma mark - Attributes of the View
+
+- (UIColor *)selfBackgroundColor
+{
+    return [UIColor colorWithRed:248.0/255 green:248.0/255 blue:248.0/255 alpha:1.0];
+}
+
+#pragma mark - Attributes of the Layout
+
+- (CGSize)selfItemSize
+{
+    return (CGSize){ 44, 22 };
+}
+
+- (CGFloat)selfInteritemSpacing
+{
+    return 2.0f;
+}
+
+#pragma mark - Attributes of Subviews
+
+- (UIFont *)dayOfWeekLabelFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
+}
+
+- (UIColor *)dayOfWeekLabelTextColor
+{
+    return [UIColor blackColor];
+}
+
+- (UIColor *)dayOffOfWeekLabelTextColor
+{
+    return [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0];
 }
 
 @end

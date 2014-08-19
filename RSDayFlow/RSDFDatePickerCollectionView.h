@@ -20,6 +20,10 @@
 
 @end
 
+
+/**
+ The `RSDFDatePickerCollectionView` is a collection view which used to display days and months in the date picker view.
+ */
 @interface RSDFDatePickerCollectionView : UICollectionView
 
 /**
@@ -28,5 +32,16 @@
  @discussion A `RSDFDatePickerCollectionView` delegate uses to support layout subviews in the date picker view.
  */
 @property (nonatomic, assign) id <RSDFDatePickerCollectionViewDelegate> delegate;
+
+///---------------------------------------
+/// @name Accessing Attributes of the View
+///---------------------------------------
+
+/**
+ The view’s background color. Default value is `[UIColor whiteColor]`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)selfBackgroundColor;
 
 @end

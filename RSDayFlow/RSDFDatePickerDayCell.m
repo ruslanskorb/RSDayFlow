@@ -5,22 +5,24 @@
 + (NSCache *)imageCache;
 + (id)fetchObjectForKey:(id)key withCreator:(id(^)(void))block;
 
-@property (nonatomic, readonly, strong) UIImageView *dividerTopImageView;
-@property (nonatomic, readonly, strong) UIImageView *markerImageView;
-@property (nonatomic, readonly, strong) UIImageView *overlayImageView;
 @property (nonatomic, readonly, strong) UIImageView *todayImageView;
+@property (nonatomic, readonly, strong) UIImageView *overlayImageView;
+@property (nonatomic, readonly, strong) UIImageView *markImageView;
+@property (nonatomic, readonly, strong) UIImageView *dividerImageView;
 
 @end
 
 @implementation RSDFDatePickerDayCell
 
-@synthesize dateLabel           = _dateLabel;
-@synthesize dividerTopImageView = _dividerTopImageView;
-@synthesize markerImageView     = _markerImageView;
-@synthesize overlayImageView    = _overlayImageView;
-@synthesize todayImageView      = _todayImageView;
+@synthesize dateLabel = _dateLabel;
+@synthesize todayImageView = _todayImageView;
+@synthesize overlayImageView = _overlayImageView;
+@synthesize markImageView = _markImageView;
+@synthesize dividerImageView = _dividerImageView;
 
-- (id)initWithFrame:(CGRect)frame
+#pragma mark - Lifecycle
+
+- (instancetype)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self) {
@@ -29,7 +31,7 @@
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -40,13 +42,22 @@
 
 - (void)commonInitializer
 {
-    self.backgroundColor = [UIColor whiteColor];
-    self.todayImageView.hidden      = YES;
-    self.overlayImageView.hidden    = YES;
-    self.markerImageView.hidden     = YES;
-    self.dividerTopImageView.hidden = NO;
-    self.dateLabel.hidden           = NO;
+    self.backgroundColor = [self selfBackgroundColor];
+    
+    self.todayImageView.hidden = YES;
+    self.overlayImageView.hidden = YES;
+    self.markImageView.hidden = YES;
+    self.dividerImageView.hidden = NO;
+    self.dateLabel.hidden = NO;
+    
+    [self addSubview:self.todayImageView];
+    [self addSubview:self.overlayImageView];
+    [self addSubview:self.markImageView];
+    [self addSubview:self.dividerImageView];
+    [self addSubview:self.dateLabel];
 }
+
+#pragma mark - Custom Accessors
 
 - (void)setDate:(RSDFDatePickerDate)date
 {
@@ -57,64 +68,36 @@
 {
     _enabled = enabled;
     if (!_enabled) {
-        self.todayImageView.hidden  = YES;
-        self.markerImageView.hidden = YES;
+        self.todayImageView.hidden = YES;
+        self.markImageView.hidden = YES;
     }
-    self.dateLabel.hidden           = !_enabled;
-    self.dividerTopImageView.hidden = !_enabled;
+    self.dateLabel.hidden = !_enabled;
+    self.dividerImageView.hidden = !_enabled;
 }
 
 - (void)setDayOff:(BOOL)dayOff
 {
     _dayOff = dayOff;
     if (!_dayOff) {
-        self.dateLabel.textColor = [UIColor blackColor];
+        self.dateLabel.textColor = [self dayLabelTextColor];
     } else {
-        self.dateLabel.textColor = [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+        self.dateLabel.textColor = [self dayOffLabelTextColor];
     }
 }
 
 - (void)setMarked:(BOOL)marked
 {
     _marked = marked;
-    self.markerImageView.hidden = !_marked;
+    self.markImageView.hidden = !_marked;
 }
 
 - (void)setCompleted:(BOOL)completed
 {
     _completed = completed;
-    if (_completed) {
-        self.markerImageView.image = [[self class] fetchObjectForKey:@"img_marker_green" withCreator:^id{
-            UIGraphicsBeginImageContextWithOptions(_markerImageView.frame.size, NO, self.window.screen.scale);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            
-            CGRect rect = _markerImageView.frame;
-            rect.origin = CGPointZero;
-            
-            CGContextSetFillColorWithColor(context, [UIColor colorWithRed:83/255.0f green:215/255.0f blue:105/255.0f alpha:1.0f].CGColor);
-            CGContextFillEllipseInRect(context, rect);
-            
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            
-            return image;
-        }];
+    if (!_completed) {
+        self.markImageView.image = [self incompleteMarkImage];
     } else {
-        self.markerImageView.image = [[self class] fetchObjectForKey:@"img_marker_gray" withCreator:^id{
-            UIGraphicsBeginImageContextWithOptions(_markerImageView.frame.size, NO, self.window.screen.scale);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            
-            CGRect rect = _markerImageView.frame;
-            rect.origin = CGPointZero;
-            
-            CGContextSetFillColorWithColor(context, [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].CGColor);
-            CGContextFillEllipseInRect(context, rect);
-            
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            
-            return image;
-        }];
+        self.markImageView.image = [self completeMarkImage];
     }
 }
 
@@ -122,10 +105,15 @@
 {
     _today = today;
     if (!_today) {
-        self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
+        self.dateLabel.font = [self dayLabelFont];
+        if (!self.dayOff) {
+            self.dateLabel.textColor = [self dayLabelTextColor];
+        } else {
+            self.dateLabel.textColor = [self dayOffLabelTextColor];
+        }
     } else {
-        self.dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
-        self.dateLabel.textColor = [UIColor whiteColor];
+        self.dateLabel.font = [self todayLabelFont];
+        self.dateLabel.textColor = [self todayLabelTextColor];
     }
     self.todayImageView.hidden = !_today;
 }
@@ -133,7 +121,20 @@
 - (void)setHighlighted:(BOOL)highlighted
 {
 	[super setHighlighted:highlighted];
-	self.overlayImageView.hidden = !(self.highlighted);
+	self.overlayImageView.hidden = !self.highlighted;
+}
+
+- (UILabel *)dateLabel
+{
+    if (!_dateLabel) {
+        CGRect frame = CGRectMake(self.bounds.origin.x, self.todayImageView.frame.origin.y,
+                                  self.bounds.size.width, self.todayImageView.frame.size.height);
+        _dateLabel = [[UILabel alloc] initWithFrame:frame];
+        _dateLabel.backgroundColor = [UIColor clearColor];
+        _dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _dateLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _dateLabel;
 }
 
 - (UIImageView *)todayImageView
@@ -141,107 +142,51 @@
     if (!_todayImageView) {
         CGRect frame = CGRectMake(0.0f, 0.0f, 35.0f, 35.0f);
         _todayImageView = [[UIImageView alloc] initWithFrame:frame];
-        _todayImageView.center = CGPointMake(self.frame.size.width/2, 23.0f);
         _todayImageView.backgroundColor = [UIColor clearColor];
-        
-        _todayImageView.image = [[self class] fetchObjectForKey:@"img_today" withCreator:^id{
-            UIGraphicsBeginImageContextWithOptions(_todayImageView.frame.size, NO, self.window.screen.scale);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            
-            CGRect rect = _todayImageView.frame;
-            rect.origin = CGPointZero;
-            
-            CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f].CGColor);
-            CGContextFillEllipseInRect(context, rect);
-            
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            
-            return image;
-        }];
-        
-        [self.contentView addSubview:_todayImageView];
+        _todayImageView.center = CGPointMake(self.frame.size.width / 2, 23.0f);
+        _todayImageView.contentMode = UIViewContentModeCenter;
+        _todayImageView.image = [self todayImage];
     }
     return _todayImageView;
-}
-
-- (UIImageView *)dividerTopImageView
-{
-	if (!_dividerTopImageView) {
-        CGRect frame = CGRectMake(0.0f, 0.0f, 50.0f, 0.5f);
-        _dividerTopImageView = [[UIImageView alloc] initWithFrame:frame];
-        
-        _dividerTopImageView.image = [[self class] fetchObjectForKey:@"img_divider_top" withCreator:^id{
-            UIGraphicsBeginImageContextWithOptions(_dividerTopImageView.frame.size, NO, self.window.screen.scale);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            CGContextSetFillColorWithColor(context, [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f].CGColor);
-            CGContextFillRect(context, _dividerTopImageView.frame);
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            return image;
-        }];
-        
-		[self.contentView addSubview:_dividerTopImageView];
-	}
-	return _dividerTopImageView;
 }
 
 - (UIImageView *)overlayImageView
 {
 	if (!_overlayImageView) {
         _overlayImageView = [[UIImageView alloc] initWithFrame:self.todayImageView.frame];
-        
-        _overlayImageView.image = [[self class] fetchObjectForKey:@"img_overlay" withCreator:^id{
-            UIGraphicsBeginImageContextWithOptions(_overlayImageView.frame.size, NO, self.window.screen.scale);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            
-            CGRect rect = _overlayImageView.frame;
-            rect.origin = CGPointZero;
-            
-            CGContextSetFillColorWithColor(context, [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].CGColor);
-            CGContextFillEllipseInRect(context, rect);
-            
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            
-            return image;
-        }];
-        
-        _overlayImageView.opaque = YES;
+        _overlayImageView.backgroundColor = [UIColor clearColor];
+        _overlayImageView.opaque = NO;
         _overlayImageView.alpha = 0.5f;
-        [self.contentView addSubview:_overlayImageView];
+        _overlayImageView.contentMode = UIViewContentModeCenter;
+        _overlayImageView.image = [self overlayImage];
 	}
 	return _overlayImageView;
 }
 
-- (UILabel *)dateLabel
+- (UIImageView *)markImageView
 {
-    if (!_dateLabel) {
-        CGRect frame = CGRectMake(self.bounds.origin.x,
-                                  self.todayImageView.frame.origin.y,
-                                  self.bounds.size.width,
-                                  self.todayImageView.frame.size.height);
-        _dateLabel = [[UILabel alloc] initWithFrame:frame];
-        _dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _dateLabel.textAlignment = NSTextAlignmentCenter;
-        _dateLabel.backgroundColor = [UIColor clearColor];
-        [self.contentView addSubview:_dateLabel];
+    if (!_markImageView) {
+        CGRect frame = CGRectMake(0.0f, 0.0f, 9.0f, 9.0f);
+        _markImageView = [[UIImageView alloc] initWithFrame:frame];
+        _markImageView.backgroundColor = [UIColor clearColor];
+        _markImageView.center = CGPointMake(self.frame.size.width / 2, 50.0f);
+        _markImageView.contentMode = UIViewContentModeCenter;
     }
-    return _dateLabel;
+    return _markImageView;
 }
 
-- (UIImageView *)markerImageView
+- (UIImageView *)dividerImageView
 {
-    if (!_markerImageView) {
-        CGRect frame = CGRectMake(0.0f, 0.0f, 9.0f, 9.0f);
-        _markerImageView = [[UIImageView alloc] initWithFrame:frame];
-        CGFloat centerX = self.frame.size.width / 2;
-        CGFloat centerY = 50.0f;
-        _markerImageView.center = CGPointMake(centerX, centerY);
-        [self.contentView addSubview:_markerImageView];
-    }
-    return _markerImageView;
+	if (!_dividerImageView) {
+        CGRect frame = CGRectMake(0.0f, 0.0f, 50.0f, 0.5f);
+        _dividerImageView = [[UIImageView alloc] initWithFrame:frame];
+        _dividerImageView.contentMode = UIViewContentModeCenter;
+        _dividerImageView.image = [self dividerImage];
+	}
+	return _dividerImageView;
 }
+
+#pragma mark - Private
 
 + (NSCache *)imageCache
 {
@@ -261,6 +206,182 @@
 		[[self imageCache] setObject:answer forKey:key];
 	}
 	return answer;
+}
+
+- (UIImage *)ellipseImageWithKey:(NSString *)key frame:(CGRect)frame color:(UIColor *)color
+{
+    UIImage *ellipseImage = [[self class] fetchObjectForKey:key withCreator:^id{
+        UIGraphicsBeginImageContextWithOptions(frame.size, NO, self.window.screen.scale);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        CGRect rect = frame;
+        rect.origin = CGPointZero;
+        
+        CGContextSetFillColorWithColor(context, color.CGColor);
+        CGContextFillEllipseInRect(context, rect);
+        
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        return image;
+    }];
+    return ellipseImage;
+}
+
+- (UIImage *)rectImageWithKey:(NSString *)key frame:(CGRect)frame color:(UIColor *)color
+{
+    UIImage *rectImage = [[self class] fetchObjectForKey:key withCreator:^id{
+        UIGraphicsBeginImageContextWithOptions(frame.size, NO, self.window.screen.scale);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        CGContextSetFillColorWithColor(context, color.CGColor);
+        CGContextFillRect(context, frame);
+        
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        return image;
+    }];
+    return rectImage;
+}
+
+#pragma mark - Atrributes of the View
+
+- (UIColor *)selfBackgroundColor
+{
+    return [UIColor clearColor];
+}
+
+#pragma mark - Attributes of Subviews
+
+- (UIFont *)dayLabelFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
+}
+
+- (UIColor *)dayLabelTextColor
+{
+    return [UIColor blackColor];
+}
+
+- (UIColor *)dayOffLabelTextColor
+{
+    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+}
+
+- (UIFont *)todayLabelFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+}
+
+- (UIColor *)todayLabelTextColor
+{
+    return [UIColor whiteColor];;
+}
+
+- (UIColor *)todayImageColor
+{
+    return [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customTodayImage
+{
+    return nil;
+}
+
+- (UIImage *)todayImage
+{
+    UIImage *todayImage = [self customTodayImage];
+    if (!todayImage) {
+        UIColor *todayImageColor = [self todayImageColor];
+        NSString *todayImageKey = [NSString stringWithFormat:@"img_today_%@", [todayImageColor description]];
+        todayImage = [self ellipseImageWithKey:todayImageKey frame:self.todayImageView.frame color:todayImageColor];
+    }
+    return todayImage;
+}
+
+- (UIColor *)overlayImageColor
+{
+    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customOverlayImage
+{
+    return nil;
+}
+
+- (UIImage *)overlayImage
+{
+    UIImage *overlayImage = [self customOverlayImage];
+    if (!overlayImage) {
+        UIColor *overlayImageColor = [self overlayImageColor];
+        NSString *overlayImageKey = [NSString stringWithFormat:@"img_overlay_%@", [overlayImageColor description]];
+        overlayImage = [self ellipseImageWithKey:overlayImageKey frame:self.overlayImageView.frame color:overlayImageColor];
+    }
+    return overlayImage;
+}
+
+- (UIColor *)incompleteMarkImageColor
+{
+    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customIncompleteMarkImage
+{
+    return nil;
+}
+
+- (UIImage *)incompleteMarkImage
+{
+    UIImage *incompleteMarkImage = [self customIncompleteMarkImage];
+    if (!incompleteMarkImage) {
+        UIColor *incompleteMarkImageColor = [self incompleteMarkImageColor];
+        NSString *incompleteMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [incompleteMarkImageColor description]];
+        incompleteMarkImage = [self ellipseImageWithKey:incompleteMarkImageKey frame:self.markImageView.frame color:incompleteMarkImageColor];
+    }
+    return incompleteMarkImage;
+}
+
+- (UIColor *)completeMarkImageColor
+{
+    return [UIColor colorWithRed:83/255.0f green:215/255.0f blue:105/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customCompleteMarkImage
+{
+    return nil;
+}
+
+- (UIImage *)completeMarkImage
+{
+    UIImage *completeMarkImage = [self customCompleteMarkImage];
+    if (!completeMarkImage) {
+        UIColor *completeMarkImageColor = [self completeMarkImageColor];
+        NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
+        completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
+    }
+    return completeMarkImage;
+}
+
+- (UIColor *)dividerImageColor
+{
+    return [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customDividerImage
+{
+    return nil;
+}
+
+- (UIImage *)dividerImage
+{
+    UIImage *dividerImage = [self customDividerImage];
+    if (!dividerImage) {
+        UIColor *dividerImageColor = [self dividerImageColor];
+        NSString *dividerImageKey = [NSString stringWithFormat:@"img_divider_%@", [dividerImageColor description]];
+        dividerImage = [self rectImageWithKey:dividerImageKey frame:self.dividerImageView.frame color:dividerImageColor];
+    }
+    return dividerImage;
 }
 
 @end

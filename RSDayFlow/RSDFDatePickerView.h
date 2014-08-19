@@ -4,7 +4,7 @@
 @protocol RSDFDatePickerViewDataSource;
 
 /**
- `RSDFDatePickerView` is a calendar view with infinity scrolling.
+ The `RSDFDatePickerView` is a calendar view with infinity scrolling.
 */
 @interface RSDFDatePickerView : UIView
 
@@ -53,6 +53,45 @@
  @discussion Discard the dataSource and delegate data and requery as necessary.
  */
 - (void)reloadData;
+
+///------------------------------------
+/// @name Accessing Classes of Subviews
+///------------------------------------
+
+/**
+ The class of the view with labels for each day of the week. Default value is `RSDFDatePickerDaysOfWeekView`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (Class)daysOfWeekViewClass;
+
+/**
+ The class of the collection view which used to display days and months in the date picker view. Default value is `RSDFDatePickerCollectionView`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (Class)collectionViewClass;
+
+/**
+ The class of the layout of the collection view which used the date picker. Default value is `RSDFDatePickerCollectionViewLayout`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (Class)collectionViewLayoutClass;
+
+/**
+ The class of the reusable view which used to display a month and year in the date picker view. Default value is `RSDFDatePickerMonthHeader`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (Class)monthHeaderClass;
+
+/**
+ The class of the cell which used to display a day in the date picker view. Default value is `RSDFDatePickerDayCell`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (Class)dayCellClass;
 
 @end
 
