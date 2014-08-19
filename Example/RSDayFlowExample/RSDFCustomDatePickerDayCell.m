@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerViewController.h
+// RSDFCustomDatePickerDayCell.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,10 +23,48 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSDFCustomDatePickerDayCell.h"
 
-@class RSDFDatePickerView;
+@implementation RSDFCustomDatePickerDayCell
 
-@interface RSDFDatePickerViewController : UIViewController
+- (UIFont *)dayLabelFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
+}
+
+- (UIColor *)dayLabelTextColor
+{
+    return [UIColor colorWithRed:51/255.0f green:37/255.0f blue:36/255.0f alpha:1.0f];
+}
+
+- (UIColor *)dayOffLabelTextColor
+{
+    return [UIColor colorWithRed:51/255.0f green:37/255.0f blue:36/255.0f alpha:1.0f];
+}
+
+- (UIFont *)todayLabelFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Bold" size:17.0f];
+}
+
+- (UIColor *)todayLabelTextColor
+{
+    return [UIColor colorWithRed:3/255.0f green:117/255.0f blue:214/255.0f alpha:1.0f];
+}
+
+- (UIColor *)todayImageColor
+{
+    return [UIColor clearColor];
+}
+
+- (UIColor *)overlayImageColor
+{
+    return [UIColor colorWithWhite:1.0f alpha:1.0f];
+}
+
+- (UIColor *)dividerImageColor
+{
+    return [UIColor clearColor];
+}
 
 @end

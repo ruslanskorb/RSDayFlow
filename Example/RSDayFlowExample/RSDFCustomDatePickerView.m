@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerViewController.h
+// RSDFCustomDatePickerView.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,10 +23,38 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSDFCustomDatePickerView.h"
+#import "RSDFCustomDatePickerDaysOfWeekView.h"
+#import "RSDFCustomDatePickerCollectionView.h"
+#import "RSDFCustomDatePickerCollectionViewLayout.h"
+#import "RSDFCustomDatePickerMonthHeader.h"
+#import "RSDFCustomDatePickerDayCell.h"
 
-@class RSDFDatePickerView;
+@implementation RSDFCustomDatePickerView
 
-@interface RSDFDatePickerViewController : UIViewController
+- (Class)daysOfWeekViewClass
+{
+    return [RSDFCustomDatePickerDaysOfWeekView class];
+}
+
+- (Class)collectionViewClass
+{
+    return [RSDFCustomDatePickerCollectionView class];
+}
+
+- (Class)collectionViewLayoutClass
+{
+    return [RSDFCustomDatePickerCollectionViewLayout class];
+}
+
+- (Class)monthHeaderClass
+{
+    return [RSDFCustomDatePickerMonthHeader class];
+}
+
+- (Class)dayCellClass
+{
+    return [RSDFCustomDatePickerDayCell class];
+}
 
 @end

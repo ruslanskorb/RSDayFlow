@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerViewController.h
+// RSDFCustomDatePickerDayCell.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,10 +23,8 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSDFDatePickerDayCell.h"
 
-@class RSDFDatePickerView;
-
-@interface RSDFDatePickerViewController : UIViewController
+@interface RSDFCustomDatePickerDayCell : RSDFDatePickerDayCell
 
 @end

@@ -25,14 +25,17 @@
 
 #import "RSDFDatePickerViewController.h"
 #import "RSDFDatePickerView.h"
+#import "RSDFCustomDatePickerView.h"
 
 @interface RSDFDatePickerViewController() <RSDFDatePickerViewDelegate, RSDFDatePickerViewDataSource>
+
+@property (strong, nonatomic) NSDictionary *markedDates;
+@property (strong, nonatomic) RSDFDatePickerView *datePickerView;
+@property (strong, nonatomic) RSDFCustomDatePickerView *customDatePickerView;
 
 @end
 
 @implementation RSDFDatePickerViewController
-
-@synthesize datePickerView = _datePickerView;
 
 #pragma mark - Lifecycle
 
@@ -57,11 +60,40 @@
     UIBarButtonItem *today = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStyleBordered target:self action:@selector(onTodayButtonTouch:)];
     self.navigationItem.rightBarButtonItem = today;
     
+    UIBarButtonItem *restyle = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStyleBordered target:self action:@selector(onRestyleButtonTouch:)];
+    self.navigationItem.leftBarButtonItem = restyle;
+    
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     [self.view addSubview:self.datePickerView];
 }
 
 #pragma mark - Custom Accessors
+
+- (NSDictionary *)markedDates
+{
+    if (!_markedDates) {
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *todayComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+        NSDate *today = [calendar dateFromComponents:todayComponents];
+        
+        NSArray *numberOfDaysFromToday = @[@(-8), @(-2), @(-1), @(0), @(2), @(4), @(8), @(13), @(22)];
+        
+        NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+        NSMutableDictionary *markedDates = [[NSMutableDictionary alloc] initWithCapacity:[numberOfDaysFromToday count]];
+        [numberOfDaysFromToday enumerateObjectsUsingBlock:^(NSNumber *numberOfDays, NSUInteger idx, BOOL *stop) {
+            dateComponents.day = [numberOfDays integerValue];
+            NSDate *date = [calendar dateByAddingComponents:dateComponents toDate:today options:0];
+            if ([date compare:today] == NSOrderedAscending) {
+                markedDates[date] = @YES;
+            } else {
+                markedDates[date] = @NO;
+            }
+        }];
+        
+        _markedDates = [markedDates copy];
+    }
+    return _markedDates;
+}
 
 - (RSDFDatePickerView *)datePickerView
 {
@@ -74,11 +106,39 @@
 	return _datePickerView;
 }
 
+- (RSDFCustomDatePickerView *)customDatePickerView
+{
+    if (!_customDatePickerView) {
+        _customDatePickerView = [[RSDFCustomDatePickerView alloc] initWithFrame:self.view.bounds];
+        _customDatePickerView.delegate = self;
+        _customDatePickerView.dataSource = self;
+		_customDatePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    }
+    return _customDatePickerView;
+}
+
 #pragma mark - Action handling
 
 - (void)onTodayButtonTouch:(UIBarButtonItem *)sender
 {
-    [self.datePickerView scrollToToday:YES];
+    if (self.datePickerView.superview) {
+        [self.datePickerView scrollToToday:YES];
+    } else {
+        [self.customDatePickerView scrollToToday:YES];
+    }
+}
+
+- (void)onRestyleButtonTouch:(UIBarButtonItem *)sender
+{
+    if (self.datePickerView.superview) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
+        [self.datePickerView removeFromSuperview];
+        [self.view addSubview:self.customDatePickerView];
+    } else {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
+        [self.customDatePickerView removeFromSuperview];
+        [self.view addSubview:self.datePickerView];
+    }
 }
 
 #pragma mark - RSDFDatePickerViewDelegate
@@ -92,25 +152,7 @@
 
 - (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view
 {
-	NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *todayComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
-    NSDate *today = [calendar dateFromComponents:todayComponents];
-    
-    NSArray *numberOfDaysFromToday = @[@(-8), @(-2), @(-1), @(0), @(2), @(4), @(8), @(13), @(22)];
-    
-    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    NSMutableDictionary *markedDates = [[NSMutableDictionary alloc] initWithCapacity:[numberOfDaysFromToday count]];
-    [numberOfDaysFromToday enumerateObjectsUsingBlock:^(NSNumber *numberOfDays, NSUInteger idx, BOOL *stop) {
-        dateComponents.day = [numberOfDays integerValue];
-        NSDate *date = [calendar dateByAddingComponents:dateComponents toDate:today options:0];
-        if ([date compare:today] == NSOrderedAscending) {
-            markedDates[date] = @YES;
-        } else {
-            markedDates[date] = @NO;
-        }
-    }];
-    
-    return [markedDates copy];
+	return self.markedDates;
 }
 
 @end

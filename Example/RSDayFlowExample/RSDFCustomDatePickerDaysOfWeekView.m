@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerViewController.h
+// RSDFCustomDatePickerDaysOfWeekView.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,10 +23,18 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSDFCustomDatePickerDaysOfWeekView.h"
 
-@class RSDFDatePickerView;
+@implementation RSDFCustomDatePickerDaysOfWeekView
 
-@interface RSDFDatePickerViewController : UIViewController
+- (UIColor *)selfBackgroundColor
+{
+    return [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
+}
+
+- (UIColor *)dayOffOfWeekLabelTextColor
+{
+    return [UIColor blackColor];
+}
 
 @end

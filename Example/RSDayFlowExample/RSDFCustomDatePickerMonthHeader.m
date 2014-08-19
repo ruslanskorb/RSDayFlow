@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerViewController.h
+// RSDFCustomDatePickerMonthHeader.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,10 +23,28 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSDFCustomDatePickerMonthHeader.h"
 
-@class RSDFDatePickerView;
+@implementation RSDFCustomDatePickerMonthHeader
 
-@interface RSDFDatePickerViewController : UIViewController
+- (UIColor *)selfBackgroundColor
+{
+    return [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
+}
+
+- (UIFont *)monthLabelFont
+{
+    return [UIFont fontWithName:@"Avenir-Medium" size:18.0f];
+}
+
+- (UIColor *)monthLabelTextColor
+{
+    return [UIColor colorWithRed:51/255.0f green:37/255.0f blue:36/255.0f alpha:1.0f];
+}
+
+- (UIColor *)currentMonthLabelTextColor
+{
+    return [UIColor colorWithRed:3/255.0f green:117/255.0f blue:214/255.0f alpha:1.0f];
+}
 
 @end

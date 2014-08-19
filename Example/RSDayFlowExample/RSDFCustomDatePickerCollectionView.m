@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerViewController.h
+// RSDFCustomDatePickerCollectionView.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,10 +23,13 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "RSDFCustomDatePickerCollectionView.h"
 
-@class RSDFDatePickerView;
+@implementation RSDFCustomDatePickerCollectionView
 
-@interface RSDFDatePickerViewController : UIViewController
+- (UIColor *)selfBackgroundColor
+{
+    return [UIColor clearColor];
+}
 
 @end
