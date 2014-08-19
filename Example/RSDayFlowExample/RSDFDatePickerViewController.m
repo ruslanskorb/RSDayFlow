@@ -41,6 +41,7 @@
 	[super viewDidLoad];
 	
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.navigationItem.title = @"RSDayFlow";
 
@@ -52,6 +53,9 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    
+    UIBarButtonItem *today = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStyleBordered target:self action:@selector(onTodayButtonTouch:)];
+    self.navigationItem.rightBarButtonItem = today;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     [self.view addSubview:self.datePickerView];
@@ -68,6 +72,13 @@
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;
+}
+
+#pragma mark - Action handling
+
+- (void)onTodayButtonTouch:(UIBarButtonItem *)sender
+{
+    [self.datePickerView scrollToToday:YES];
 }
 
 #pragma mark - RSDFDatePickerViewDelegate
