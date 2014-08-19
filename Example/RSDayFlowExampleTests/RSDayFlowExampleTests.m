@@ -1,5 +1,5 @@
 //
-// RSDayFlow.h
+// RSDayFlowExampleTests.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,19 +23,29 @@
 // THE SOFTWARE.
 //
 
-/**
- `RSDayFlow` is an iOS 7 Calendar with Infinite Scrolling.
- */
+#import <XCTest/XCTest.h>
 
-typedef struct {
-	NSUInteger year;
-	NSUInteger month;
-	NSUInteger day;
-} RSDFDatePickerDate;
+@interface RSDayFlowExampleTests : XCTestCase
 
-#import "RSDFDatePickerView.h"
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "RSDFDatePickerCollectionView.h"
-#import "RSDFDatePickerCollectionViewLayout.h"
-#import "RSDFDatePickerMonthHeader.h"
-#import "RSDFDatePickerDayCell.h"
+@end
+
+@implementation RSDayFlowExampleTests
+
+- (void)setUp
+{
+    [super setUp];
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+}
+
+- (void)tearDown
+{
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
+}
+
+- (void)testExample
+{
+    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+}
+
+@end

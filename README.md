@@ -34,7 +34,7 @@ Import the class header.
 Just create your date picker view and set a delegate / a data source if needed.
 
 ``` objective-c
-- (void) viewDidLoad
+- (void)viewDidLoad
 {
 	[super viewDidLoad];
 	
@@ -84,16 +84,20 @@ Then implement the data source function.
 }
 ```
 
+## Customization
+
+Every view is customizable to fit your need.
+Create a subclass of the desired view and override the default values.
+
 ## Coming Soon
 
-- Make the code more documented
-- Make every view maximum customizable
-
+- Add support for any of the calendars `NSCalendar` supports.
 - If you would like to request a new feature, feel free to raise as an issue.
 
 ## Demo
 
-Look at the [Sample App](https://github.com/ruslanskorb/RSDayFlow-Sample). Have fun. Make it faster. Fork and send pull requests. Figure out hooks for customization.
+Build and run the `RSDayFlowExample` project in Xcode to see `RSDayFlow` in action.
+Have fun. Make it faster. Fork and send pull requests. Figure out hooks for customization.
 
 
 ## Contact
@@ -102,7 +106,6 @@ Ruslan Skorb
 
 - http://github.com/ruslanskorb
 - http://twitter.com/ruslanskorb
-- http://lnkd.in/gsBbvb
 - ruslan.skorb@gmail.com
 
 ## License

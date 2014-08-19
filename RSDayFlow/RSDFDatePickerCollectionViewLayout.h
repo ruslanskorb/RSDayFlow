@@ -1,5 +1,5 @@
 //
-// RSDFDatePickerCollectionView.h
+// RSDFDatePickerCollectionViewLayout.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -25,48 +25,41 @@
 
 #import <UIKit/UIKit.h>
 
-@class RSDFDatePickerCollectionView;
-
 /**
- The `RSDFDatePickerCollectionViewDelegate` protocol defines the message sent to a collection view delegate when the collection view will layout subviews.
+ The `RSDFDatePickerCollectionViewLayout` is a layout of the collection view which used the date picker.
  */
-@protocol RSDFDatePickerCollectionViewDelegate <UICollectionViewDelegate>
+@interface RSDFDatePickerCollectionViewLayout : UICollectionViewFlowLayout
 
-///---------------------------------
-/// @name Supporting Layout Subviews
-///---------------------------------
-
-/**
- Tells the delegate that the collection view will layout subviews.
- 
- @param pickerCollectionView The collection view which will layout subviews.
- */
-- (void) pickerCollectionViewWillLayoutSubviews:(RSDFDatePickerCollectionView *)pickerCollectionView;
-
-@end
-
+///-----------------------------------------
+/// @name Accessing Attributes of the Layout
+///-----------------------------------------
 
 /**
- The `RSDFDatePickerCollectionView` is a collection view which used to display days and months in the date picker view.
- */
-@interface RSDFDatePickerCollectionView : UICollectionView
-
-/**
- The receiver's delegate.
- 
- @discussion A `RSDFDatePickerCollectionView` delegate uses to support layout subviews in the date picker view.
- */
-@property (nonatomic, assign) id <RSDFDatePickerCollectionViewDelegate> delegate;
-
-///---------------------------------------
-/// @name Accessing Attributes of the View
-///---------------------------------------
-
-/**
- The view’s background color. Default value is `[UIColor whiteColor]`.
+ The default sizes to use for section headers. Default value is {320, 64}.
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIColor *)selfBackgroundColor;
+- (CGSize)selfHeaderReferenceSize;
+
+/**
+ The default size to use for cells. Default value is {44, 70}.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGSize)selfItemSize;
+
+/**
+ The minimum spacing to use between lines of items in the grid. Default value is `2.0f`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGFloat)selfMinimumLineSpacing;
+
+/**
+ The minimum spacing to use between items in the same row. Default value is `2.0f`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGFloat)selfMinimumInteritemSpacing;
 
 @end

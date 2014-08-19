@@ -1,0 +1,575 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B82FFF9819A35722000816FF /* RSDFDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9719A35722000816FF /* RSDFDatePickerCollectionViewLayout.m */; };
+		B82FFFA519A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9A19A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m */; };
+		B82FFFA619A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9C19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m */; };
+		B82FFFA719A37EDB000816FF /* RSDFCustomDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9E19A37EDB000816FF /* RSDFCustomDatePickerDayCell.m */; };
+		B82FFFA819A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFFA019A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m */; };
+		B82FFFA919A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFFA219A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m */; };
+		B82FFFAA19A37EDB000816FF /* RSDFCustomDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFFA419A37EDB000816FF /* RSDFCustomDatePickerView.m */; };
+		B8F807C119A34B990047C24B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C019A34B990047C24B /* Foundation.framework */; };
+		B8F807C319A34B9A0047C24B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C219A34B9A0047C24B /* CoreGraphics.framework */; };
+		B8F807C519A34B9A0047C24B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C419A34B9A0047C24B /* UIKit.framework */; };
+		B8F807CB19A34B9A0047C24B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B8F807C919A34B9A0047C24B /* InfoPlist.strings */; };
+		B8F807CD19A34B9A0047C24B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F807CC19A34B9A0047C24B /* main.m */; };
+		B8F807D119A34B9A0047C24B /* RSDFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F807D019A34B9A0047C24B /* RSDFAppDelegate.m */; };
+		B8F807D319A34B9A0047C24B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8F807D219A34B9A0047C24B /* Images.xcassets */; };
+		B8F807DA19A34B9A0047C24B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807D919A34B9A0047C24B /* XCTest.framework */; };
+		B8F807DB19A34B9A0047C24B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C019A34B990047C24B /* Foundation.framework */; };
+		B8F807DC19A34B9A0047C24B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C419A34B9A0047C24B /* UIKit.framework */; };
+		B8F807E419A34B9A0047C24B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B8F807E219A34B9A0047C24B /* InfoPlist.strings */; };
+		B8F807E619A34B9A0047C24B /* RSDayFlowExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */; };
+		B8F8080819A34CDC0047C24B /* RSDFDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8080719A34CDC0047C24B /* RSDFDatePickerViewController.m */; };
+		B8F8081819A3502D0047C24B /* NSCalendar+RSDFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8080B19A3502D0047C24B /* NSCalendar+RSDFAdditions.m */; };
+		B8F8081919A3502D0047C24B /* RSDFDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8080F19A3502D0047C24B /* RSDFDatePickerCollectionView.m */; };
+		B8F8081A19A3502D0047C24B /* RSDFDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8081119A3502D0047C24B /* RSDFDatePickerDayCell.m */; };
+		B8F8081B19A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8081319A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.m */; };
+		B8F8081C19A3502D0047C24B /* RSDFDatePickerMonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8081519A3502D0047C24B /* RSDFDatePickerMonthHeader.m */; };
+		B8F8081D19A3502D0047C24B /* RSDFDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8081719A3502D0047C24B /* RSDFDatePickerView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B8F807DD19A34B9A0047C24B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B8F807B519A34B990047C24B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B8F807BC19A34B990047C24B;
+			remoteInfo = RSDayFlowExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B82FFF9619A35722000816FF /* RSDFDatePickerCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerCollectionViewLayout.h; sourceTree = "<group>"; };
+		B82FFF9719A35722000816FF /* RSDFDatePickerCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerCollectionViewLayout.m; sourceTree = "<group>"; };
+		B82FFF9919A37EDB000816FF /* RSDFCustomDatePickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerCollectionView.h; sourceTree = "<group>"; };
+		B82FFF9A19A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerCollectionView.m; sourceTree = "<group>"; };
+		B82FFF9B19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerCollectionViewLayout.h; sourceTree = "<group>"; };
+		B82FFF9C19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerCollectionViewLayout.m; sourceTree = "<group>"; };
+		B82FFF9D19A37EDB000816FF /* RSDFCustomDatePickerDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerDayCell.h; sourceTree = "<group>"; };
+		B82FFF9E19A37EDB000816FF /* RSDFCustomDatePickerDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerDayCell.m; sourceTree = "<group>"; };
+		B82FFF9F19A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerDaysOfWeekView.h; sourceTree = "<group>"; };
+		B82FFFA019A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerDaysOfWeekView.m; sourceTree = "<group>"; };
+		B82FFFA119A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerMonthHeader.h; sourceTree = "<group>"; };
+		B82FFFA219A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerMonthHeader.m; sourceTree = "<group>"; };
+		B82FFFA319A37EDB000816FF /* RSDFCustomDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerView.h; sourceTree = "<group>"; };
+		B82FFFA419A37EDB000816FF /* RSDFCustomDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerView.m; sourceTree = "<group>"; };
+		B8F807BD19A34B990047C24B /* RSDayFlowExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSDayFlowExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8F807C019A34B990047C24B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B8F807C219A34B9A0047C24B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B8F807C419A34B9A0047C24B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B8F807C819A34B9A0047C24B /* RSDayFlowExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RSDayFlowExample-Info.plist"; sourceTree = "<group>"; };
+		B8F807CA19A34B9A0047C24B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B8F807CC19A34B9A0047C24B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B8F807CE19A34B9A0047C24B /* RSDayFlowExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSDayFlowExample-Prefix.pch"; sourceTree = "<group>"; };
+		B8F807CF19A34B9A0047C24B /* RSDFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSDFAppDelegate.h; sourceTree = "<group>"; };
+		B8F807D019A34B9A0047C24B /* RSDFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSDFAppDelegate.m; sourceTree = "<group>"; };
+		B8F807D219A34B9A0047C24B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B8F807D819A34B9A0047C24B /* RSDayFlowExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RSDayFlowExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8F807D919A34B9A0047C24B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		B8F807E119A34B9A0047C24B /* RSDayFlowExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RSDayFlowExampleTests-Info.plist"; sourceTree = "<group>"; };
+		B8F807E319A34B9A0047C24B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSDayFlowExampleTests.m; sourceTree = "<group>"; };
+		B8F8080619A34CDC0047C24B /* RSDFDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerViewController.h; sourceTree = "<group>"; };
+		B8F8080719A34CDC0047C24B /* RSDFDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerViewController.m; sourceTree = "<group>"; };
+		B8F8080A19A3502D0047C24B /* NSCalendar+RSDFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCalendar+RSDFAdditions.h"; sourceTree = "<group>"; };
+		B8F8080B19A3502D0047C24B /* NSCalendar+RSDFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCalendar+RSDFAdditions.m"; sourceTree = "<group>"; };
+		B8F8080D19A3502D0047C24B /* RSDayFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDayFlow.h; sourceTree = "<group>"; };
+		B8F8080E19A3502D0047C24B /* RSDFDatePickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerCollectionView.h; sourceTree = "<group>"; };
+		B8F8080F19A3502D0047C24B /* RSDFDatePickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerCollectionView.m; sourceTree = "<group>"; };
+		B8F8081019A3502D0047C24B /* RSDFDatePickerDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerDayCell.h; sourceTree = "<group>"; };
+		B8F8081119A3502D0047C24B /* RSDFDatePickerDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerDayCell.m; sourceTree = "<group>"; };
+		B8F8081219A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerDaysOfWeekView.h; sourceTree = "<group>"; };
+		B8F8081319A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerDaysOfWeekView.m; sourceTree = "<group>"; };
+		B8F8081419A3502D0047C24B /* RSDFDatePickerMonthHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerMonthHeader.h; sourceTree = "<group>"; };
+		B8F8081519A3502D0047C24B /* RSDFDatePickerMonthHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerMonthHeader.m; sourceTree = "<group>"; };
+		B8F8081619A3502D0047C24B /* RSDFDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerView.h; sourceTree = "<group>"; };
+		B8F8081719A3502D0047C24B /* RSDFDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B8F807BA19A34B990047C24B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8F807C319A34B9A0047C24B /* CoreGraphics.framework in Frameworks */,
+				B8F807C519A34B9A0047C24B /* UIKit.framework in Frameworks */,
+				B8F807C119A34B990047C24B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B8F807D519A34B9A0047C24B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8F807DA19A34B9A0047C24B /* XCTest.framework in Frameworks */,
+				B8F807DC19A34B9A0047C24B /* UIKit.framework in Frameworks */,
+				B8F807DB19A34B9A0047C24B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B82FFFAB19A37EDF000816FF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B82FFFA319A37EDB000816FF /* RSDFCustomDatePickerView.h */,
+				B82FFFA419A37EDB000816FF /* RSDFCustomDatePickerView.m */,
+				B82FFF9F19A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.h */,
+				B82FFFA019A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m */,
+				B82FFF9919A37EDB000816FF /* RSDFCustomDatePickerCollectionView.h */,
+				B82FFF9A19A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m */,
+				B82FFF9B19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.h */,
+				B82FFF9C19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m */,
+				B82FFFA119A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.h */,
+				B82FFFA219A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m */,
+				B82FFF9D19A37EDB000816FF /* RSDFCustomDatePickerDayCell.h */,
+				B82FFF9E19A37EDB000816FF /* RSDFCustomDatePickerDayCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		B8F807B419A34B990047C24B = {
+			isa = PBXGroup;
+			children = (
+				B8F807C619A34B9A0047C24B /* Classes */,
+				B8F8080419A34C3C0047C24B /* Vendor */,
+				B8F807DF19A34B9A0047C24B /* RSDayFlowExampleTests */,
+				B8F807BF19A34B990047C24B /* Frameworks */,
+				B8F807BE19A34B990047C24B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B8F807BE19A34B990047C24B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B8F807BD19A34B990047C24B /* RSDayFlowExample.app */,
+				B8F807D819A34B9A0047C24B /* RSDayFlowExampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B8F807BF19A34B990047C24B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B8F807C019A34B990047C24B /* Foundation.framework */,
+				B8F807C219A34B9A0047C24B /* CoreGraphics.framework */,
+				B8F807C419A34B9A0047C24B /* UIKit.framework */,
+				B8F807D919A34B9A0047C24B /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B8F807C619A34B9A0047C24B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B8F807CF19A34B9A0047C24B /* RSDFAppDelegate.h */,
+				B8F807D019A34B9A0047C24B /* RSDFAppDelegate.m */,
+				B8F8080519A34CC00047C24B /* Controllers */,
+				B82FFFAB19A37EDF000816FF /* Views */,
+				B8F807D219A34B9A0047C24B /* Images.xcassets */,
+				B8F807C719A34B9A0047C24B /* Supporting Files */,
+			);
+			name = Classes;
+			path = RSDayFlowExample;
+			sourceTree = "<group>";
+		};
+		B8F807C719A34B9A0047C24B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B8F807C819A34B9A0047C24B /* RSDayFlowExample-Info.plist */,
+				B8F807C919A34B9A0047C24B /* InfoPlist.strings */,
+				B8F807CC19A34B9A0047C24B /* main.m */,
+				B8F807CE19A34B9A0047C24B /* RSDayFlowExample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B8F807DF19A34B9A0047C24B /* RSDayFlowExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */,
+				B8F807E019A34B9A0047C24B /* Supporting Files */,
+			);
+			path = RSDayFlowExampleTests;
+			sourceTree = "<group>";
+		};
+		B8F807E019A34B9A0047C24B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B8F807E119A34B9A0047C24B /* RSDayFlowExampleTests-Info.plist */,
+				B8F807E219A34B9A0047C24B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B8F8080419A34C3C0047C24B /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				B8F8080919A3502D0047C24B /* RSDayFlow */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		B8F8080519A34CC00047C24B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B8F8080619A34CDC0047C24B /* RSDFDatePickerViewController.h */,
+				B8F8080719A34CDC0047C24B /* RSDFDatePickerViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		B8F8080919A3502D0047C24B /* RSDayFlow */ = {
+			isa = PBXGroup;
+			children = (
+				B8F8080D19A3502D0047C24B /* RSDayFlow.h */,
+				B8F8081619A3502D0047C24B /* RSDFDatePickerView.h */,
+				B8F8081719A3502D0047C24B /* RSDFDatePickerView.m */,
+				B8F8081219A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.h */,
+				B8F8081319A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.m */,
+				B8F8080E19A3502D0047C24B /* RSDFDatePickerCollectionView.h */,
+				B8F8080F19A3502D0047C24B /* RSDFDatePickerCollectionView.m */,
+				B82FFF9619A35722000816FF /* RSDFDatePickerCollectionViewLayout.h */,
+				B82FFF9719A35722000816FF /* RSDFDatePickerCollectionViewLayout.m */,
+				B8F8081419A3502D0047C24B /* RSDFDatePickerMonthHeader.h */,
+				B8F8081519A3502D0047C24B /* RSDFDatePickerMonthHeader.m */,
+				B8F8081019A3502D0047C24B /* RSDFDatePickerDayCell.h */,
+				B8F8081119A3502D0047C24B /* RSDFDatePickerDayCell.m */,
+				B8F8080A19A3502D0047C24B /* NSCalendar+RSDFAdditions.h */,
+				B8F8080B19A3502D0047C24B /* NSCalendar+RSDFAdditions.m */,
+			);
+			name = RSDayFlow;
+			path = ../RSDayFlow;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B8F807BC19A34B990047C24B /* RSDayFlowExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B8F807E919A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExample" */;
+			buildPhases = (
+				B8F807B919A34B990047C24B /* Sources */,
+				B8F807BA19A34B990047C24B /* Frameworks */,
+				B8F807BB19A34B990047C24B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RSDayFlowExample;
+			productName = RSDayFlowExample;
+			productReference = B8F807BD19A34B990047C24B /* RSDayFlowExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B8F807D719A34B9A0047C24B /* RSDayFlowExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B8F807EC19A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExampleTests" */;
+			buildPhases = (
+				B8F807D419A34B9A0047C24B /* Sources */,
+				B8F807D519A34B9A0047C24B /* Frameworks */,
+				B8F807D619A34B9A0047C24B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B8F807DE19A34B9A0047C24B /* PBXTargetDependency */,
+			);
+			name = RSDayFlowExampleTests;
+			productName = RSDayFlowExampleTests;
+			productReference = B8F807D819A34B9A0047C24B /* RSDayFlowExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B8F807B519A34B990047C24B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = RSDF;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Ruslan Skorb";
+				TargetAttributes = {
+					B8F807D719A34B9A0047C24B = {
+						TestTargetID = B8F807BC19A34B990047C24B;
+					};
+				};
+			};
+			buildConfigurationList = B8F807B819A34B990047C24B /* Build configuration list for PBXProject "RSDayFlowExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B8F807B419A34B990047C24B;
+			productRefGroup = B8F807BE19A34B990047C24B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B8F807BC19A34B990047C24B /* RSDayFlowExample */,
+				B8F807D719A34B9A0047C24B /* RSDayFlowExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B8F807BB19A34B990047C24B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8F807CB19A34B9A0047C24B /* InfoPlist.strings in Resources */,
+				B8F807D319A34B9A0047C24B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B8F807D619A34B9A0047C24B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8F807E419A34B9A0047C24B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B8F807B919A34B990047C24B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B82FFFA619A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m in Sources */,
+				B82FFFA519A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m in Sources */,
+				B8F8081C19A3502D0047C24B /* RSDFDatePickerMonthHeader.m in Sources */,
+				B82FFFA919A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m in Sources */,
+				B8F807CD19A34B9A0047C24B /* main.m in Sources */,
+				B82FFFA819A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m in Sources */,
+				B82FFFAA19A37EDB000816FF /* RSDFCustomDatePickerView.m in Sources */,
+				B8F8081D19A3502D0047C24B /* RSDFDatePickerView.m in Sources */,
+				B8F8081A19A3502D0047C24B /* RSDFDatePickerDayCell.m in Sources */,
+				B8F8081819A3502D0047C24B /* NSCalendar+RSDFAdditions.m in Sources */,
+				B82FFF9819A35722000816FF /* RSDFDatePickerCollectionViewLayout.m in Sources */,
+				B8F8081B19A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.m in Sources */,
+				B8F8080819A34CDC0047C24B /* RSDFDatePickerViewController.m in Sources */,
+				B82FFFA719A37EDB000816FF /* RSDFCustomDatePickerDayCell.m in Sources */,
+				B8F807D119A34B9A0047C24B /* RSDFAppDelegate.m in Sources */,
+				B8F8081919A3502D0047C24B /* RSDFDatePickerCollectionView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B8F807D419A34B9A0047C24B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8F807E619A34B9A0047C24B /* RSDayFlowExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B8F807DE19A34B9A0047C24B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B8F807BC19A34B990047C24B /* RSDayFlowExample */;
+			targetProxy = B8F807DD19A34B9A0047C24B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B8F807C919A34B9A0047C24B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8F807CA19A34B9A0047C24B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B8F807E219A34B9A0047C24B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8F807E319A34B9A0047C24B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B8F807E719A34B9A0047C24B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		B8F807E819A34B9A0047C24B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B8F807EA19A34B9A0047C24B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
+				INFOPLIST_FILE = "RSDayFlowExample/RSDayFlowExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B8F807EB19A34B9A0047C24B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
+				INFOPLIST_FILE = "RSDayFlowExample/RSDayFlowExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		B8F807ED19A34B9A0047C24B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "RSDayFlowExampleTests/RSDayFlowExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		B8F807EE19A34B9A0047C24B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
+				INFOPLIST_FILE = "RSDayFlowExampleTests/RSDayFlowExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B8F807B819A34B990047C24B /* Build configuration list for PBXProject "RSDayFlowExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B8F807E719A34B9A0047C24B /* Debug */,
+				B8F807E819A34B9A0047C24B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B8F807E919A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B8F807EA19A34B9A0047C24B /* Debug */,
+				B8F807EB19A34B9A0047C24B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B8F807EC19A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B8F807ED19A34B9A0047C24B /* Debug */,
+				B8F807EE19A34B9A0047C24B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B8F807B519A34B990047C24B /* Project object */;
+}

@@ -1,5 +1,5 @@
 //
-// RSDayFlow.h
+// main.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,19 +23,13 @@
 // THE SOFTWARE.
 //
 
-/**
- `RSDayFlow` is an iOS 7 Calendar with Infinite Scrolling.
- */
+#import <UIKit/UIKit.h>
 
-typedef struct {
-	NSUInteger year;
-	NSUInteger month;
-	NSUInteger day;
-} RSDFDatePickerDate;
+#import "RSDFAppDelegate.h"
 
-#import "RSDFDatePickerView.h"
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "RSDFDatePickerCollectionView.h"
-#import "RSDFDatePickerCollectionViewLayout.h"
-#import "RSDFDatePickerMonthHeader.h"
-#import "RSDFDatePickerDayCell.h"
+int main(int argc, char * argv[])
+{
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([RSDFAppDelegate class]));
+    }
+}

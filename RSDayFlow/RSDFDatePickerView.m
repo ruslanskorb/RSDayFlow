@@ -1,16 +1,43 @@
+//
+// RSDFDatePickerView.m
+//
+// Copyright (c) 2013 Evadne Wu, http://radi.ws/
+// Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+
 #import <QuartzCore/QuartzCore.h>
 #import "RSDayFlow.h"
 #import "RSDFDatePickerCollectionView.h"
+#import "RSDFDatePickerCollectionViewLayout.h"
 #import "RSDFDatePickerDayCell.h"
 #import "RSDFDatePickerMonthHeader.h"
 #import "RSDFDatePickerView.h"
 #import "RSDFDatePickerDaysOfWeekView.h"
 #import "NSCalendar+RSDFAdditions.h"
 
-static NSString * const DFDatePickerViewCellIdentifier = @"dateCell";
-static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
-static const CGFloat DFDatePickerViewDaysOfWeekViewWidth = 320.0f;
-static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
+static NSString * const RSDFDatePickerViewMonthHeaderIdentifier = @"RSDFDatePickerViewMonthHeaderIdentifier";
+static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerViewDayCellIdentifier";
+
+static const CGFloat RSDFDatePickerViewDaysOfWeekViewWidth = 320.0f;
+static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 @interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -18,8 +45,8 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate fromDate;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate toDate;
 @property (nonatomic, readonly, strong) RSDFDatePickerDaysOfWeekView *daysOfWeekView;
-@property (nonatomic, readonly, strong) UICollectionView *collectionView;
-@property (nonatomic, readonly, strong) UICollectionViewFlowLayout *collectionViewLayout;
+@property (nonatomic, readonly, strong) RSDFDatePickerCollectionView *collectionView;
+@property (nonatomic, readonly, strong) RSDFDatePickerCollectionViewLayout *collectionViewLayout;
 @property (nonatomic, readonly, strong) NSDate *today;
 
 @end
@@ -33,31 +60,9 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 @synthesize collectionView = _collectionView;
 @synthesize collectionViewLayout = _collectionViewLayout;
 
-- (void)configureCalendar
-{
-    _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    
-    NSDate *now = [_calendar dateFromComponents:[_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit fromDate:[NSDate date]]];
-    
-    _fromDate = [self pickerDateFromDate:[_calendar dateByAddingComponents:((^{
-        NSDateComponents *components = [NSDateComponents new];
-        components.month = -6;
-        return components;
-    })()) toDate:now options:0]];
-    
-    _toDate = [self pickerDateFromDate:[_calendar dateByAddingComponents:((^{
-        NSDateComponents *components = [NSDateComponents new];
-        components.month = 6;
-        return components;
-    })()) toDate:now options:0]];
-    
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
-    _today = [calendar dateFromComponents:components];;
-}
+#pragma mark - Lifecycle
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -66,7 +71,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
     if (self) {
@@ -77,7 +82,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 - (void)layoutSubviews
 {
-	[super layoutSubviews];
+    [super layoutSubviews];
 	
     self.daysOfWeekView.frame = [self daysOfWeekViewFrame];
     if (!self.daysOfWeekView.superview) {
@@ -86,18 +91,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
     
     self.collectionView.frame = [self collectionViewFrame];
 	if (!self.collectionView.superview) {
-        if (self.collectionView.numberOfSections > 0) {
-            RSDFDatePickerDate todayPickerDate = [self pickerDateFromDate:_today];
-            NSInteger section = self.collectionView.numberOfSections / 2;
-            NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
-            NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
-            
-            // weekday start from 1 and include first day of month
-            NSInteger item = weekday + todayPickerDate.day - 2;
-            
-            NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
-            [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
-        }
+        [self scrollToToday:NO];
 		[self addSubview:self.collectionView];
 	}
 }
@@ -116,96 +110,158 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	}
 }
 
+#pragma mark - Custom Accessors
+
+- (NSCalendar *)calendar
+{
+    if (!_calendar) {
+        _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        _calendar.locale = [NSLocale currentLocale];
+    }
+    return _calendar;
+}
+
 - (CGRect)daysOfWeekViewFrame
 {
     CGRect namesOfDaysViewFrame = self.bounds;
-    namesOfDaysViewFrame.origin.x = (CGRectGetWidth(self.bounds) - DFDatePickerViewDaysOfWeekViewWidth) / 2;
-    namesOfDaysViewFrame.size.width = DFDatePickerViewDaysOfWeekViewWidth;
-    namesOfDaysViewFrame.size.height = DFDatePickerViewDaysOfWeekViewHeight;
+    namesOfDaysViewFrame.origin.x = (CGRectGetWidth(self.bounds) - RSDFDatePickerViewDaysOfWeekViewWidth) / 2;
+    namesOfDaysViewFrame.size.width = RSDFDatePickerViewDaysOfWeekViewWidth;
+    namesOfDaysViewFrame.size.height = RSDFDatePickerViewDaysOfWeekViewHeight;
     return namesOfDaysViewFrame;
 }
 
-- (UIView *)daysOfWeekView
+- (Class)daysOfWeekViewClass
+{
+    return [RSDFDatePickerDaysOfWeekView class];
+}
+
+- (RSDFDatePickerDaysOfWeekView *)daysOfWeekView
 {
     if (!_daysOfWeekView) {
-        _daysOfWeekView = [[RSDFDatePickerDaysOfWeekView alloc] initWithFrame:[self daysOfWeekViewFrame]];
+        _daysOfWeekView = [[[self daysOfWeekViewClass] alloc] initWithFrame:[self daysOfWeekViewFrame] calendar:self.calendar];
     }
-    
     return _daysOfWeekView;
+}
+
+- (Class)collectionViewClass
+{
+    return [RSDFDatePickerCollectionView class];
 }
 
 - (CGRect)collectionViewFrame
 {
     CGRect collectionViewFrame = self.bounds;
-    collectionViewFrame.origin.x = (CGRectGetWidth(self.bounds) - DFDatePickerViewDaysOfWeekViewWidth) / 2;
-    collectionViewFrame.origin.y += DFDatePickerViewDaysOfWeekViewHeight;
-    collectionViewFrame.size.width = DFDatePickerViewDaysOfWeekViewWidth;
-    collectionViewFrame.size.height -= DFDatePickerViewDaysOfWeekViewHeight;
+    collectionViewFrame.origin.x = (CGRectGetWidth(self.bounds) - RSDFDatePickerViewDaysOfWeekViewWidth) / 2;
+    collectionViewFrame.origin.y += RSDFDatePickerViewDaysOfWeekViewHeight;
+    collectionViewFrame.size.width = RSDFDatePickerViewDaysOfWeekViewWidth;
+    collectionViewFrame.size.height -= RSDFDatePickerViewDaysOfWeekViewHeight;
     return collectionViewFrame;
 }
 
-- (UICollectionView *)collectionView
+- (RSDFDatePickerCollectionView *)collectionView
 {
 	if (!_collectionView) {
-		_collectionView = [[RSDFDatePickerCollectionView alloc] initWithFrame:[self collectionViewFrame] collectionViewLayout:self.collectionViewLayout];
-		_collectionView.backgroundColor = [UIColor whiteColor];
-		_collectionView.dataSource = self;
-		_collectionView.delegate = self;
-		_collectionView.showsVerticalScrollIndicator = NO;
-		_collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.scrollsToTop = NO;
-        _collectionView.delaysContentTouches = NO;
-		[_collectionView registerClass:[RSDFDatePickerDayCell class] forCellWithReuseIdentifier:DFDatePickerViewCellIdentifier];
-		[_collectionView registerClass:[RSDFDatePickerMonthHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DFDatePickerViewMonthHeaderIdentifier];
-        
-		[_collectionView reloadData];
+        _collectionView = [[[self collectionViewClass] alloc] initWithFrame:[self collectionViewFrame] collectionViewLayout:self.collectionViewLayout];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        [_collectionView registerClass:[self monthHeaderClass] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:RSDFDatePickerViewMonthHeaderIdentifier];
+        [_collectionView registerClass:[self dayCellClass] forCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier];
+        [_collectionView reloadData];
 	}
-	
 	return _collectionView;
 }
 
-- (UICollectionViewFlowLayout *)collectionViewLayout
+- (Class)collectionViewLayoutClass
 {
-	//	Hard key these things.
-	//	44 * 7 + 2 * 6 = 320; this is how the Calendar.app works
-	//	and this also avoids the “one pixel” confusion which might or might not work
-	//	If you need to decorate, key decorative views in.
-	
+    return [RSDFDatePickerCollectionViewLayout class];
+}
+
+- (RSDFDatePickerCollectionViewLayout *)collectionViewLayout
+{
 	if (!_collectionViewLayout) {
-		_collectionViewLayout = [UICollectionViewFlowLayout new];
-		_collectionViewLayout.headerReferenceSize = (CGSize){ 320, 64 };
-		_collectionViewLayout.itemSize = (CGSize){ 44, 70 };
-		_collectionViewLayout.minimumLineSpacing = 2.0f;
-		_collectionViewLayout.minimumInteritemSpacing = 2.0f;
+        _collectionViewLayout = [[[self collectionViewLayoutClass] alloc] init];
 	}
-	
 	return _collectionViewLayout;
 }
 
-- (void)pickerCollectionViewWillLayoutSubviews:(RSDFDatePickerCollectionView *)pickerCollectionView
+- (Class)monthHeaderClass
 {
-	//	Note: relayout is slower than calculating 3 or 6 months’ worth of data at a time
-	//	So we punt 6 months at a time.
+    return [RSDFDatePickerMonthHeader class];
+}
+
+- (Class)dayCellClass
+{
+    return [RSDFDatePickerDayCell class];
+}
+
+#pragma mark - Public
+
+- (void)scrollToToday:(BOOL)animated
+{
+    RSDFDatePickerCollectionView *cv = self.collectionView;
+	RSDFDatePickerCollectionViewLayout *cvLayout = (RSDFDatePickerCollectionViewLayout *)self.collectionView.collectionViewLayout;
 	
-	//	Running Time	Self		Symbol Name
-	//
-	//	1647.0ms   23.7%	1647.0	 	objc_msgSend
-	//	193.0ms    2.7%	193.0	 	-[NSIndexPath compare:]
-	//	163.0ms    2.3%	163.0	 	objc::DenseMap<objc_object*, unsigned long, true, objc::DenseMapInfo<objc_object*>, objc::DenseMapInfo<unsigned long> >::LookupBucketFor(objc_object* const&, std::pair<objc_object*, unsigned long>*&) const
-	//	141.0ms    2.0%	141.0	 	DYLD-STUB$$-[_UIHostedTextServiceSession dismissTextServiceAnimated:]
-	//	138.0ms    1.9%	138.0	 	-[NSObject retain]
-	//	136.0ms    1.9%	136.0	 	-[NSIndexPath indexAtPosition:]
-	//	124.0ms    1.7%	124.0	 	-[_UICollectionViewItemKey isEqual:]
-	//	118.0ms    1.7%	118.0	 	_objc_rootReleaseWasZero
-	//	105.0ms    1.5%	105.0	 	DYLD-STUB$$CFDictionarySetValue$shim
-	
-	if (pickerCollectionView.contentOffset.y < 0.0f) {
-		[self appendPastDates];
-	}
-	
-	if (pickerCollectionView.contentOffset.y > (pickerCollectionView.contentSize.height - CGRectGetHeight(pickerCollectionView.bounds))) {
-		[self appendFutureDates];
-	}
+	NSArray *visibleCells = [self.collectionView visibleCells];
+	if (![visibleCells count])
+		return;
+    
+    NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
+    NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
+    
+    _fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = -6;
+        return components;
+    })()) toDate:now options:0]];
+    
+    _toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = 6;
+        return components;
+    })()) toDate:now options:0]];
+    
+    [cv reloadData];
+	[cvLayout invalidateLayout];
+	[cvLayout prepareLayout];
+    
+    RSDFDatePickerDate todayPickerDate = [self pickerDateFromDate:_today];
+    NSInteger section = self.collectionView.numberOfSections / 2;
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+    
+    // weekday start from 1 and include first day of month
+    NSInteger item = weekday + todayPickerDate.day - 2;
+    
+    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
+}
+
+- (void)reloadData
+{
+    [self.collectionView reloadData];
+}
+
+#pragma mark - Private
+
+- (void)configureCalendar
+{
+    NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
+    NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
+    
+    _fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = -6;
+        return components;
+    })()) toDate:now options:0]];
+    
+    _toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = 6;
+        return components;
+    })()) toDate:now options:0]];
+    
+    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
 }
 
 - (void)appendPastDates
@@ -215,7 +271,6 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		dateComponents.month = -6;
 		return dateComponents;
 	})())];
-    
 }
 
 - (void)appendFutureDates
@@ -225,13 +280,12 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		dateComponents.month = 6;
 		return dateComponents;
 	})())];
-	
 }
 
 - (void)shiftDatesByComponents:(NSDateComponents *)components
 {
-	UICollectionView *cv = self.collectionView;
-	UICollectionViewFlowLayout *cvLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	RSDFDatePickerCollectionView *cv = self.collectionView;
+	RSDFDatePickerCollectionViewLayout *cvLayout = (RSDFDatePickerCollectionViewLayout *)self.collectionView.collectionViewLayout;
 	
 	NSArray *visibleCells = [self.collectionView visibleCells];
 	if (![visibleCells count])
@@ -308,16 +362,6 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	}];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-	return [self.calendar components:NSMonthCalendarUnit fromDate:[self dateFromPickerDate:self.fromDate] toDate:[self dateFromPickerDate:self.toDate] options:0].month;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-	return 7 * [self numberOfWeeksForMonthOfDate:[self dateForFirstDayInSection:section]];
-}
-
 - (NSDate *)dateForFirstDayInSection:(NSInteger)section
 {
 	return [self.calendar dateByAddingComponents:((^{
@@ -353,9 +397,45 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	return 1 + [self.calendar components:NSWeekCalendarUnit fromDate:fromSunday toDate:toSunday options:0].week;
 }
 
+- (NSDate *)dateFromPickerDate:(RSDFDatePickerDate)dateStruct
+{
+	return [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:dateStruct]];
+}
+
+- (NSDateComponents *)dateComponentsFromPickerDate:(RSDFDatePickerDate)dateStruct
+{
+	NSDateComponents *components = [NSDateComponents new];
+	components.year = dateStruct.year;
+	components.month = dateStruct.month;
+	components.day = dateStruct.day;
+	return components;
+}
+
+- (RSDFDatePickerDate)pickerDateFromDate:(NSDate *)date
+{
+	NSDateComponents *components = [self.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+	return (RSDFDatePickerDate) {
+		components.year,
+		components.month,
+		components.day
+	};
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+	return [self.calendar components:NSMonthCalendarUnit fromDate:[self dateFromPickerDate:self.fromDate] toDate:[self dateFromPickerDate:self.toDate] options:0].month;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+	return 7 * [self numberOfWeeksForMonthOfDate:[self dateForFirstDayInSection:section]];
+}
+
 - (RSDFDatePickerDayCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	RSDFDatePickerDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DFDatePickerViewCellIdentifier forIndexPath:indexPath];
+	RSDFDatePickerDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier forIndexPath:indexPath];
 	
 	NSDate *firstDayInMonth = [self dateForFirstDayInSection:indexPath.section];
 	RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
@@ -363,7 +443,7 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	
 	NSDate *cellDate = [self.calendar dateByAddingComponents:((^{
 		NSDateComponents *dateComponents = [NSDateComponents new];
-		dateComponents.day = indexPath.item - (weekday - 1);
+		dateComponents.day = indexPath.item - (weekday - self.calendar.firstWeekday);
 		return dateComponents;
 	})()) toDate:firstDayInMonth options:0];
 	RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
@@ -376,14 +456,16 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:cellDate].weekday;
         cell.dayOff = (weekday == 1) || (weekday == 7);
         
-        NSDictionary *markedDates = [self.dataSource datePickerViewMarkedDates:self];
-        NSNumber *markedDateState = [markedDates objectForKey:cellDate];
-        if (markedDateState) {
-            cell.marked = YES;
-            cell.completed = [markedDateState boolValue];
-        } else {
-            cell.marked = NO;
-            cell.completed = NO;
+        if ([self.dataSource respondsToSelector:@selector(datePickerViewMarkedDates:)]) {
+            NSDictionary *markedDates = [self.dataSource datePickerViewMarkedDates:self];
+            NSNumber *markedDateState = [markedDates objectForKey:cellDate];
+            if (markedDateState) {
+                cell.marked = YES;
+                cell.completed = [markedDateState boolValue];
+            } else {
+                cell.marked = NO;
+                cell.completed = NO;
+            }
         }
         
         cell.today = ([cellDate compare:_today] == NSOrderedSame) ? YES : NO;
@@ -392,41 +474,16 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	return cell;
 }
 
-//	We are cheating by piggybacking on view state to avoid recalculation
-//	in -collectionView:shouldHighlightItemAtIndexPath:
-//	and -collectionView:shouldSelectItemAtIndexPath:.
-
-//	A native refactoring process might introduce duplicate state which is bad too.
-
-- (BOOL) collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-	return ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).enabled;
-}
-
-- (BOOL) collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-	return ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).enabled;
-}
-
-- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-	RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
-	NSDate *selectedDate = cell ? [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:cell.date]] : nil;
-    [self.delegate datePickerView:self didSelectDate:selectedDate];
-    [self.collectionView reloadData];
-}
-
-- (UICollectionReusableView *) collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
 	if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
 		
-		RSDFDatePickerMonthHeader *monthHeader = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:DFDatePickerViewMonthHeaderIdentifier forIndexPath:indexPath];
+		RSDFDatePickerMonthHeader *monthHeader = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:RSDFDatePickerViewMonthHeaderIdentifier forIndexPath:indexPath];
 		
 		NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarMonthHeader" withConstructor:^{
-			NSDateFormatter *dateFormatter = [NSDateFormatter new];
+			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 			dateFormatter.calendar = self.calendar;
-			dateFormatter.dateFormat = @"MMM yyyy";
-            dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+            dateFormatter.locale = [self.calendar locale];
 			return dateFormatter;
 		}];
 		
@@ -434,7 +491,9 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         RSDFDatePickerDate date = [self pickerDateFromDate:formattedDate];
         
         monthHeader.date = date;
-        monthHeader.dateLabel.text = [[dateFormatter stringFromDate:formattedDate] uppercaseString];
+        
+        NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
+        monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %lu", monthString, (unsigned long)date.year] uppercaseString];
 		
         RSDFDatePickerDate today = [self pickerDateFromDate:_today];
         if ( (today.month == date.month) && (today.year == date.year) ) {
@@ -450,33 +509,59 @@ static const CGFloat DFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	return nil;
 }
 
-- (NSDate *) dateFromPickerDate:(RSDFDatePickerDate)dateStruct
+#pragma mark - UICollectionViewDelegate
+
+//	We are cheating by piggybacking on view state to avoid recalculation
+//	in -collectionView:shouldHighlightItemAtIndexPath:
+//	and -collectionView:shouldSelectItemAtIndexPath:.
+
+//	A native refactoring process might introduce duplicate state which is bad too.
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	return [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:dateStruct]];
+	return ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).enabled;
 }
 
-- (NSDateComponents *) dateComponentsFromPickerDate:(RSDFDatePickerDate)dateStruct
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDateComponents *components = [NSDateComponents new];
-	components.year = dateStruct.year;
-	components.month = dateStruct.month;
-	components.day = dateStruct.day;
-	return components;
+	return ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).enabled;
 }
 
-- (RSDFDatePickerDate) pickerDateFromDate:(NSDate *)date
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDateComponents *components = [self.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
-	return (RSDFDatePickerDate) {
-		components.year,
-		components.month,
-		components.day
-	};
+    if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
+        RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
+        NSDate *selectedDate = cell ? [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:cell.date]] : nil;
+        [self.delegate datePickerView:self didSelectDate:selectedDate];
+    }
 }
 
-- (void)reloadData
+#pragma mark - RSDFDatePickerCollectionViewDelegate
+
+- (void)pickerCollectionViewWillLayoutSubviews:(RSDFDatePickerCollectionView *)pickerCollectionView
 {
-    [self.collectionView reloadData];
+	//	Note: relayout is slower than calculating 3 or 6 months’ worth of data at a time
+	//	So we punt 6 months at a time.
+	
+	//	Running Time	Self		Symbol Name
+	//
+	//	1647.0ms   23.7%	1647.0	 	objc_msgSend
+	//	193.0ms    2.7%	193.0	 	-[NSIndexPath compare:]
+	//	163.0ms    2.3%	163.0	 	objc::DenseMap<objc_object*, unsigned long, true, objc::DenseMapInfo<objc_object*>, objc::DenseMapInfo<unsigned long> >::LookupBucketFor(objc_object* const&, std::pair<objc_object*, unsigned long>*&) const
+	//	141.0ms    2.0%	141.0	 	DYLD-STUB$$-[_UIHostedTextServiceSession dismissTextServiceAnimated:]
+	//	138.0ms    1.9%	138.0	 	-[NSObject retain]
+	//	136.0ms    1.9%	136.0	 	-[NSIndexPath indexAtPosition:]
+	//	124.0ms    1.7%	124.0	 	-[_UICollectionViewItemKey isEqual:]
+	//	118.0ms    1.7%	118.0	 	_objc_rootReleaseWasZero
+	//	105.0ms    1.5%	105.0	 	DYLD-STUB$$CFDictionarySetValue$shim
+	
+	if (pickerCollectionView.contentOffset.y < 0.0f) {
+		[self appendPastDates];
+	}
+	
+	if (pickerCollectionView.contentOffset.y > (pickerCollectionView.contentSize.height - CGRectGetHeight(pickerCollectionView.bounds))) {
+		[self appendFutureDates];
+	}
 }
 
 @end

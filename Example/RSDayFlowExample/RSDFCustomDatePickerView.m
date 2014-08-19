@@ -1,5 +1,5 @@
 //
-// RSDayFlow.h
+// RSDFCustomDatePickerView.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
@@ -23,19 +23,38 @@
 // THE SOFTWARE.
 //
 
-/**
- `RSDayFlow` is an iOS 7 Calendar with Infinite Scrolling.
- */
+#import "RSDFCustomDatePickerView.h"
+#import "RSDFCustomDatePickerDaysOfWeekView.h"
+#import "RSDFCustomDatePickerCollectionView.h"
+#import "RSDFCustomDatePickerCollectionViewLayout.h"
+#import "RSDFCustomDatePickerMonthHeader.h"
+#import "RSDFCustomDatePickerDayCell.h"
 
-typedef struct {
-	NSUInteger year;
-	NSUInteger month;
-	NSUInteger day;
-} RSDFDatePickerDate;
+@implementation RSDFCustomDatePickerView
 
-#import "RSDFDatePickerView.h"
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "RSDFDatePickerCollectionView.h"
-#import "RSDFDatePickerCollectionViewLayout.h"
-#import "RSDFDatePickerMonthHeader.h"
-#import "RSDFDatePickerDayCell.h"
+- (Class)daysOfWeekViewClass
+{
+    return [RSDFCustomDatePickerDaysOfWeekView class];
+}
+
+- (Class)collectionViewClass
+{
+    return [RSDFCustomDatePickerCollectionView class];
+}
+
+- (Class)collectionViewLayoutClass
+{
+    return [RSDFCustomDatePickerCollectionViewLayout class];
+}
+
+- (Class)monthHeaderClass
+{
+    return [RSDFCustomDatePickerMonthHeader class];
+}
+
+- (Class)dayCellClass
+{
+    return [RSDFCustomDatePickerDayCell class];
+}
+
+@end
