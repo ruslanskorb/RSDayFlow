@@ -80,7 +80,7 @@ Then implement the data source function.
 	NSDate *today = [NSDate date];
     NSNumber *isCompletedAllTasks = @(NO);
     NSDictionary *dates = @{today: isCompletedAllTasks};
-    return markedDates;
+    return dates;
 }
 ```
 
