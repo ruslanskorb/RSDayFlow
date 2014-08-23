@@ -394,7 +394,7 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		return dateComponents;
 	})())];
 	
-	return 1 + [self.calendar components:NSWeekCalendarUnit fromDate:fromSunday toDate:toSunday options:0].week;
+	return 1 + [self.calendar components:NSWeekOfYearCalendarUnit fromDate:fromSunday toDate:toSunday options:0].weekOfYear;
 }
 
 - (NSDate *)dateFromPickerDate:(RSDFDatePickerDate)dateStruct
