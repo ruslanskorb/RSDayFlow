@@ -108,6 +108,12 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		UICollectionView *cv = self.collectionView;
         [cv layoutIfNeeded];
 	}
+    
+    if (newSuperview && !self.superview) {
+        [self registerForNotifications];
+    } else if (!newSuperview) {
+        [self unregisterForNotifications];
+    }
 }
 
 #pragma mark - Custom Accessors
@@ -394,7 +400,7 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		return dateComponents;
 	})())];
 	
-	return 1 + [self.calendar components:NSWeekCalendarUnit fromDate:fromSunday toDate:toSunday options:0].week;
+	return 1 + [self.calendar components:NSWeekOfYearCalendarUnit fromDate:fromSunday toDate:toSunday options:0].weekOfYear;
 }
 
 - (NSDate *)dateFromPickerDate:(RSDFDatePickerDate)dateStruct
@@ -419,6 +425,31 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		components.month,
 		components.day
 	};
+}
+
+#pragma mark - Notifications
+
+- (void)registerForNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(significantTimeChange:)
+                                                 name:UIApplicationSignificantTimeChangeNotification
+                                               object:nil];
+}
+
+- (void)unregisterForNotifications
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationSignificantTimeChangeNotification
+                                                  object:nil];
+}
+
+- (void)significantTimeChange:(NSNotification *)notification
+{
+    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
+    
+    [self.collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
