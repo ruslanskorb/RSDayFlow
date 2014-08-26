@@ -50,11 +50,11 @@
 @property (nonatomic, readwrite, assign) RSDFDatePickerDate date;
 
 /**
- A Boolean value that determines whether the cell's day is enabled.
+ A Boolean value that determines whether the cell's day that's not this month.
  
- @discussion Cells with inactive days do not display the content.
+ @discussion Cells with these days do not display the today image, the overlay image, the marks and the divider image.
 */
-@property (nonatomic, getter = isEnabled) BOOL enabled;
+@property (nonatomic, getter = isNotThisMonth) BOOL notThisMonth;
 
 /**
  A Boolean value that determines whether the cell's day is day off.
@@ -111,6 +111,13 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)dayOffLabelTextColor;
+
+/**
+ The text color for the label of the day that's not this month. Default value is [UIColor clearColor].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)notThisMonthLabelTextColor;
 
 /**
  The font for the label of the current day. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].

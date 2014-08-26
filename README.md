@@ -91,7 +91,7 @@ Create a subclass of the desired view and override the default values.
 
 ## Coming Soon
 
-- Add support for any of the calendars `NSCalendar` supports.
+- Add more customization points.
 - If you would like to request a new feature, feel free to raise as an issue.
 
 ## Demo

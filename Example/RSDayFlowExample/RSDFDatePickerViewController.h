@@ -29,4 +29,6 @@
 
 @interface RSDFDatePickerViewController : UIViewController
 
+@property (strong, nonatomic) NSCalendar *calendar;
+
 @end

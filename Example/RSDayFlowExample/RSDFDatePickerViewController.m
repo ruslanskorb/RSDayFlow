@@ -30,6 +30,7 @@
 @interface RSDFDatePickerViewController() <RSDFDatePickerViewDelegate, RSDFDatePickerViewDataSource>
 
 @property (strong, nonatomic) NSDictionary *markedDates;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) RSDFDatePickerView *datePickerView;
 @property (strong, nonatomic) RSDFCustomDatePickerView *customDatePickerView;
 
@@ -39,15 +40,13 @@
 
 #pragma mark - Lifecycle
 
-- (void) viewDidLoad
+- (void)viewDidLoad
 {
 	[super viewDidLoad];
 	
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.navigationItem.title = @"RSDayFlow";
-
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.opaque = YES;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
@@ -68,6 +67,15 @@
 }
 
 #pragma mark - Custom Accessors
+
+- (void)setCalendar:(NSCalendar *)calendar
+{
+    if (![_calendar isEqual:calendar]) {
+        _calendar = calendar;
+        
+        self.title = [_calendar.calendarIdentifier capitalizedString];
+    }
+}
 
 - (NSDictionary *)markedDates
 {
@@ -95,10 +103,21 @@
     return _markedDates;
 }
 
+- (NSDateFormatter *)dateFormatter
+{
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setCalendar:self.calendar];
+        [_dateFormatter setLocale:[self.calendar locale]];
+        [_dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    }
+    return _dateFormatter;
+}
+
 - (RSDFDatePickerView *)datePickerView
 {
 	if (!_datePickerView) {
-		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds];
+		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar];
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -109,7 +128,7 @@
 - (RSDFCustomDatePickerView *)customDatePickerView
 {
     if (!_customDatePickerView) {
-        _customDatePickerView = [[RSDFCustomDatePickerView alloc] initWithFrame:self.view.bounds];
+        _customDatePickerView = [[RSDFCustomDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar];
         _customDatePickerView.delegate = self;
         _customDatePickerView.dataSource = self;
 		_customDatePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -145,7 +164,7 @@
 
 - (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date
 {
-    [[[UIAlertView alloc] initWithTitle:@"Picked Date" message:[date description] delegate:nil cancelButtonTitle:@":D" otherButtonTitles:nil] show];
+    [[[UIAlertView alloc] initWithTitle:@"Picked Date" message:[self.dateFormatter stringFromDate:date] delegate:nil cancelButtonTitle:@":D" otherButtonTitles:nil] show];
 }
 
 #pragma mark - RSDFDatePickerViewDataSource
