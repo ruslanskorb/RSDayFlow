@@ -93,14 +93,24 @@
 {
     _notThisMonth = notThisMonth;
     if (_notThisMonth) {
+        self.dateLabel.textColor = [self notThisMonthLabelTextColor];
+        self.dateLabel.font = [self dayLabelFont];
         self.todayImageView.hidden = YES;
         self.markImageView.hidden = YES;
-        self.dateLabel.hidden = YES;
         self.dividerImageView.hidden = YES;
     } else {
+        if (!self.isDayOff) {
+            self.dateLabel.textColor = [self dayLabelTextColor];
+        } else {
+            self.dateLabel.textColor = [self dayOffLabelTextColor];
+        }
+        if (!self.isToday) {
+            self.dateLabel.font = [self dayLabelFont];
+        } else {
+            self.dateLabel.font = [self todayLabelFont];
+        }
         self.todayImageView.hidden = !self.today;
         self.markImageView.hidden = !self.marked;
-        self.dateLabel.hidden = NO;
         self.dividerImageView.hidden = NO;
     }
 }
@@ -297,6 +307,11 @@
 - (UIColor *)dayOffLabelTextColor
 {
     return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+}
+
+- (UIColor *)notThisMonthLabelTextColor
+{
+    return [UIColor clearColor];
 }
 
 - (UIFont *)todayLabelFont

@@ -113,6 +113,13 @@
 - (UIColor *)dayOffLabelTextColor;
 
 /**
+ The text color for the label of the day that's not this month. Default value is [UIColor clearColor].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)notThisMonthLabelTextColor;
+
+/**
  The font for the label of the current day. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
  
  @discussion Can be overridden in subclasses for customization.
