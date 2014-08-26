@@ -33,40 +33,58 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    RSDFDatePickerViewController *datePickerVC = [[RSDFDatePickerViewController alloc] init];
-    UINavigationController *rootNC = [[UINavigationController alloc] initWithRootViewController:datePickerVC];
-	self.window.rootViewController = rootNC;
+    // ------------------
+    // Gregorian calendar
+    // ------------------
+    
+    RSDFDatePickerViewController *gregorianVC = [[RSDFDatePickerViewController alloc] init];
+    gregorianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    gregorianVC.calendar.locale = [NSLocale currentLocale];
+    UINavigationController *gregorianNC = [[UINavigationController alloc] initWithRootViewController:gregorianVC];
+    
+    // ---------------
+    // Hebrew calendar
+    // ---------------
+    
+    RSDFDatePickerViewController *hebrewVC = [[RSDFDatePickerViewController alloc] init];
+    hebrewVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
+    hebrewVC.calendar.locale = [NSLocale currentLocale];
+    UINavigationController *hebrewNC = [[UINavigationController alloc] initWithRootViewController:hebrewVC];
+    
+    // ----------------
+    // Islamic calendar
+    // ----------------
+    
+    RSDFDatePickerViewController *islamicVC = [[RSDFDatePickerViewController alloc] init];
+    islamicVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIslamicCalendar];
+    islamicVC.calendar.locale = [NSLocale currentLocale];
+    UINavigationController *islamicNC = [[UINavigationController alloc] initWithRootViewController:islamicVC];
+    
+    // ---------------
+    // Indian calendar
+    // ---------------
+    
+    RSDFDatePickerViewController *indianVC = [[RSDFDatePickerViewController alloc] init];
+    indianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIndianCalendar];
+    indianVC.calendar.locale = [NSLocale currentLocale];
+    UINavigationController *indianNC = [[UINavigationController alloc] initWithRootViewController:indianVC];
+    
+    // ----------------
+    // Persian calendar
+    // ----------------
+    
+    RSDFDatePickerViewController *persianVC = [[RSDFDatePickerViewController alloc] init];
+    persianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSPersianCalendar];
+    persianVC.calendar.locale = [NSLocale currentLocale];
+    UINavigationController *persianNC = [[UINavigationController alloc] initWithRootViewController:persianVC];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.viewControllers = @[gregorianNC, hebrewNC, islamicNC, indianNC, persianNC];
+	self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];
     
     return YES;
-}
-
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end

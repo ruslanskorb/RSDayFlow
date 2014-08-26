@@ -95,10 +95,11 @@
     CGFloat y = 0;
     __block CGFloat x = 0;
     
-    NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:@"calendarDaysOfWeekView" withConstructor:^{
+    NSString *dateFormatterName = [NSString stringWithFormat:@"calendarDaysOfWeekView_%@_%@", [self.calendar calendarIdentifier], [[self.calendar locale] localeIdentifier]];
+    NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:dateFormatterName withConstructor:^{
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.calendar = self.calendar;
-        dateFormatter.locale = [self.calendar locale];
+        [dateFormatter setCalendar:self.calendar];
+        [dateFormatter setLocale:[self.calendar locale]];
         return dateFormatter;
     }];
     

@@ -33,6 +33,14 @@
 */
 @interface RSDFDatePickerView : UIView
 
+/**
+ Designated initializer. Initializes and returns a newly allocated view object with the specified frame rectangle and the specified calendar.
+ 
+ @param frame The frame rectangle for the view, measured in points.
+ @param calendar The calendar for the date picker view.
+ */
+- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar;
+
 ///-----------------------------
 /// @name Accessing the Delegate
 ///-----------------------------
