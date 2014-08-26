@@ -89,15 +89,20 @@
     _date = date;
 }
 
-- (void)setEnabled:(BOOL)enabled
+- (void)setNotThisMonth:(BOOL)notThisMonth
 {
-    _enabled = enabled;
-    if (!_enabled) {
+    _notThisMonth = notThisMonth;
+    if (_notThisMonth) {
         self.todayImageView.hidden = YES;
         self.markImageView.hidden = YES;
+        self.dateLabel.hidden = YES;
+        self.dividerImageView.hidden = YES;
+    } else {
+        self.todayImageView.hidden = !self.today;
+        self.markImageView.hidden = !self.marked;
+        self.dateLabel.hidden = NO;
+        self.dividerImageView.hidden = NO;
     }
-    self.dateLabel.hidden = !_enabled;
-    self.dividerImageView.hidden = !_enabled;
 }
 
 - (void)setDayOff:(BOOL)dayOff

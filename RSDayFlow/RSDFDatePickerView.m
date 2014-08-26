@@ -520,8 +520,8 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	cell.date = cellPickerDate;
     cell.dateLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)(cellPickerDate.day)];
     
-	cell.enabled = ((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
-    if (cell.enabled) {
+	cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
+    if (!cell.isNotThisMonth) {
         weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:cellDate].weekday;
         cell.dayOff = (weekday == 1) || (weekday == 7);
         
@@ -589,12 +589,12 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	return ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).enabled;
+	return !((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).isNotThisMonth;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	return ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).enabled;
+	return !((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]).isNotThisMonth;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
