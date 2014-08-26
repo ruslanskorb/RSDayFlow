@@ -62,11 +62,16 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 #pragma mark - Lifecycle
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self configureCalendar];
+        [self commonInitializer];
     }
     return self;
 }
@@ -75,7 +80,7 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 {
 	self = [super initWithFrame:frame];
     if (self) {
-		[self configureCalendar];
+		[self commonInitializer];
 	}
 	return self;
 }
@@ -108,12 +113,6 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		UICollectionView *cv = self.collectionView;
         [cv layoutIfNeeded];
 	}
-    
-    if (newSuperview && !self.superview) {
-        [self registerForNotifications];
-    } else if (!newSuperview) {
-        [self unregisterForNotifications];
-    }
 }
 
 #pragma mark - Custom Accessors
@@ -200,6 +199,16 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
     return [RSDFDatePickerDayCell class];
 }
 
+#pragma mark - Handling Notifications
+
+- (void)significantTimeChange:(NSNotification *)notification
+{
+    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
+    
+    [self.collectionView reloadData];
+}
+
 #pragma mark - Public
 
 - (void)scrollToToday:(BOOL)animated
@@ -249,7 +258,7 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 #pragma mark - Private
 
-- (void)configureCalendar
+- (void)commonInitializer
 {
     NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
     NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
@@ -268,6 +277,11 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
     
     NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
     _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(significantTimeChange:)
+                                                 name:UIApplicationSignificantTimeChangeNotification
+                                               object:nil];
 }
 
 - (void)appendPastDates
@@ -425,31 +439,6 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		components.month,
 		components.day
 	};
-}
-
-#pragma mark - Notifications
-
-- (void)registerForNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(significantTimeChange:)
-                                                 name:UIApplicationSignificantTimeChangeNotification
-                                               object:nil];
-}
-
-- (void)unregisterForNotifications
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationSignificantTimeChangeNotification
-                                                  object:nil];
-}
-
-- (void)significantTimeChange:(NSNotification *)notification
-{
-    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
-    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
-    
-    [self.collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
