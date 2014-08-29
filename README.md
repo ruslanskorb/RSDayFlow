@@ -77,10 +77,19 @@ Then implement the data source function.
 // Returns dates to mark.
 - (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view
 {
-	NSDate *today = [NSDate date];
+    // Create an `NSDate` object without time components.
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSDateComponents *todayComponents = [calendar components:unitFlags fromDate:[NSDate date]];
+    NSDate *today = [calendar dateFromComponents:todayComponents];
+
+    // Create an `NSNumber` object that determines whether the date is marked.
     NSNumber *isCompletedAllTasks = @(NO);
-    NSDictionary *dates = @{today: isCompletedAllTasks};
-    return dates;
+
+    // Create a dictionary with the date to mark.
+    NSDictionary *markedDates = @{today: isCompletedAllTasks};
+
+    return markedDates;
 }
 ```
 
