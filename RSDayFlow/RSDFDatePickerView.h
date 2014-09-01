@@ -65,7 +65,7 @@
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
 ///-----------------------------------
-/// @name Scrolling to the Current Day
+/// @name Scrolling to date
 ///-----------------------------------
 
 /**
@@ -75,6 +75,14 @@
  */
 
 - (void)scrollToToday:(BOOL)animated;
+
+/**
+ Scrolls the date picker view to the given date.
+ 
+ @param animated YES if you want to animate the change in position, NO if it should be immediate.
+ */
+
+- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
 ///-------------------------
 /// @name Reloading the Data
