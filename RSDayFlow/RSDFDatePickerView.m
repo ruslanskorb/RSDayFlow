@@ -233,35 +233,48 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 - (void)scrollToToday:(BOOL)animated
 {
-    RSDFDatePickerCollectionView *cv = self.collectionView;
+	[self scrollToDate:self.today animated:animated];
+}
+
+- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated
+{
+	RSDFDatePickerCollectionView *cv = self.collectionView;
 	RSDFDatePickerCollectionViewLayout *cvLayout = (RSDFDatePickerCollectionViewLayout *)self.collectionView.collectionViewLayout;
 	
 	NSArray *visibleCells = [self.collectionView visibleCells];
 	if (![visibleCells count])
 		return;
-    
-    NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
-    NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
-    
-    _fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
-        NSDateComponents *components = [NSDateComponents new];
-        components.month = -6;
-        return components;
-    })()) toDate:now options:0]];
-    
-    _toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
-        NSDateComponents *components = [NSDateComponents new];
-        components.month = 6;
-        return components;
-    })()) toDate:now options:0]];
-    
-    [cv reloadData];
+	
+	NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
+	NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
+	
+	_fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+		NSDateComponents *components = [NSDateComponents new];
+		components.month = -6;
+		return components;
+	})()) toDate:now options:0]];
+	
+	_toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+		NSDateComponents *components = [NSDateComponents new];
+		components.month = 6;
+		return components;
+	})()) toDate:now options:0]];
+	
+	[cv reloadData];
 	[cvLayout invalidateLayout];
 	[cvLayout prepareLayout];
     
-	NSInteger section = [self sectionForDate:_today];
-	
-	[self _scrollToTopOfSection:section animated:animated];
+    NSInteger section = [self sectionForDate:dateaa];
+    
+    [self _scrollToTopOfSection:section animated:animated];
+
+
+//    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+//    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+//    NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:self.today options:0].day + (weekday - self.calendar.firstWeekday);
+//    
+//    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+//    [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
 - (void)reloadData
