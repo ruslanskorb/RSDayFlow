@@ -259,14 +259,9 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	[cvLayout invalidateLayout];
 	[cvLayout prepareLayout];
     
-    NSInteger section = [self sectionForDate:_today];
-    
-    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
-    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
-    NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:self.today options:0].day + (weekday - self.calendar.firstWeekday);
-    
-    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
-    [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
+	NSInteger section = [self sectionForDate:_today];
+	
+	[self _scrollToTopOfSection:section animated:animated];
 }
 
 - (void)reloadData
@@ -488,6 +483,21 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		components.month,
 		components.day
 	};
+}
+
+- (CGRect)_frameForHeaderForSection:(NSInteger)section {
+	NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:section];
+	UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+	CGRect frameForFirstCell = attributes.frame;
+	CGFloat headerHeight = self.collectionViewLayout.headerReferenceSize.height;
+	
+	return CGRectOffset(frameForFirstCell, 0, -headerHeight);
+}
+
+- (void)_scrollToTopOfSection:(NSInteger)section animated:(BOOL)animated {
+	CGRect headerRect = [self _frameForHeaderForSection:section];
+	CGPoint topOfHeader = CGPointMake(0, headerRect.origin.y - _collectionView.contentInset.top);
+	[_collectionView setContentOffset:topOfHeader animated:animated];
 }
 
 #pragma mark - UICollectionViewDataSource
