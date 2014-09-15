@@ -245,20 +245,20 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	if (![visibleCells count])
 		return;
 	
-	NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];
-	NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
+	NSDateComponents *dateYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];
+	NSDate *month = [self.calendar dateFromComponents:dateYearMonthComponents];
 	
 	_fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
 		NSDateComponents *components = [NSDateComponents new];
 		components.month = -6;
 		return components;
-	})()) toDate:now options:0]];
+	})()) toDate:month options:0]];
 	
 	_toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
 		NSDateComponents *components = [NSDateComponents new];
 		components.month = 6;
 		return components;
-	})()) toDate:now options:0]];
+	})()) toDate:month options:0]];
 	
 	[cv reloadData];
 	[cvLayout invalidateLayout];
