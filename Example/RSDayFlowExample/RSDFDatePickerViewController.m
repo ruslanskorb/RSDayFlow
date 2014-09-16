@@ -29,7 +29,8 @@
 
 @interface RSDFDatePickerViewController() <RSDFDatePickerViewDelegate, RSDFDatePickerViewDataSource>
 
-@property (strong, nonatomic) NSDictionary *markedDates;
+@property (strong, nonatomic) NSArray *datesToMark;
+@property (strong, nonatomic) NSDictionary *statesOfTasks;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) RSDFDatePickerView *datePickerView;
 @property (strong, nonatomic) RSDFCustomDatePickerView *customDatePickerView;
@@ -77,9 +78,9 @@
     }
 }
 
-- (NSDictionary *)markedDates
+- (NSArray *)datesToMark
 {
-    if (!_markedDates) {
+    if (!_datesToMark) {
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSDateComponents *todayComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
         NSDate *today = [calendar dateFromComponents:todayComponents];
@@ -87,20 +88,37 @@
         NSArray *numberOfDaysFromToday = @[@(-8), @(-2), @(-1), @(0), @(2), @(4), @(8), @(13), @(22)];
         
         NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-        NSMutableDictionary *markedDates = [[NSMutableDictionary alloc] initWithCapacity:[numberOfDaysFromToday count]];
+        NSMutableArray *datesToMark = [[NSMutableArray alloc] initWithCapacity:[numberOfDaysFromToday count]];
         [numberOfDaysFromToday enumerateObjectsUsingBlock:^(NSNumber *numberOfDays, NSUInteger idx, BOOL *stop) {
             dateComponents.day = [numberOfDays integerValue];
             NSDate *date = [calendar dateByAddingComponents:dateComponents toDate:today options:0];
-            if ([date compare:today] == NSOrderedAscending) {
-                markedDates[date] = @YES;
-            } else {
-                markedDates[date] = @NO;
-            }
+            [datesToMark addObject:date];
         }];
         
-        _markedDates = [markedDates copy];
+        _datesToMark = [datesToMark copy];
     }
-    return _markedDates;
+    return _datesToMark;
+}
+
+- (NSDictionary *)statesOfTasks
+{
+    if (!_statesOfTasks) {
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *todayComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+        NSDate *today = [calendar dateFromComponents:todayComponents];
+        
+        NSMutableDictionary *statesOfTasks = [[NSMutableDictionary alloc] initWithCapacity:[self.datesToMark count]];
+        [self.datesToMark enumerateObjectsUsingBlock:^(NSDate *date, NSUInteger idx, BOOL *stop) {
+            BOOL isCompletedAllTasks = NO;
+            if ([date compare:today] == NSOrderedAscending) {
+                isCompletedAllTasks = YES;
+            }
+            statesOfTasks[date] = @(isCompletedAllTasks);
+        }];
+        
+        _statesOfTasks = [statesOfTasks copy];
+    }
+    return _statesOfTasks;
 }
 
 - (NSDateFormatter *)dateFormatter
@@ -169,9 +187,14 @@
 
 #pragma mark - RSDFDatePickerViewDataSource
 
-- (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date
 {
-	return self.markedDates;
+    return [self.datesToMark containsObject:date];
+}
+
+- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
+{
+	return [self.statesOfTasks[date] boolValue];
 }
 
 @end

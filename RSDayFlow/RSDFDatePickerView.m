@@ -548,15 +548,11 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:cellDate].weekday;
         cell.dayOff = (weekday == 1) || (weekday == 7);
         
-        if ([self.dataSource respondsToSelector:@selector(datePickerViewMarkedDates:)]) {
-            NSDictionary *markedDates = [self.dataSource datePickerViewMarkedDates:self];
-            NSNumber *markedDateState = [markedDates objectForKey:cellDate];
-            if (markedDateState) {
-                cell.marked = YES;
-                cell.completed = [markedDateState boolValue];
-            } else {
-                cell.marked = NO;
-                cell.completed = NO;
+        if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
+            cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];
+            
+            if (cell.marked && [self.dataSource respondsToSelector:@selector(datePickerView:isCompletedAllTasksOnDate:)]) {
+                cell.completed = [self.dataSource datePickerView:self isCompletedAllTasksOnDate:cellDate];
             }
         }
         
