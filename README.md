@@ -65,31 +65,33 @@ Then implement the delegate function.
 
 ## DataSource (optional)
 
-`RSDFDatePickerView` provides one data source method `datePickerViewMarkedDates`. It uses to mark dates by using markers of different colors like iOS 7 Calendar app. To use it, implement the data source in your view controller.
+`RSDFDatePickerView` provides two data source methods. The method `datePickerView:shouldMarkDate:` asks the data source if the date should be marked. The method `datePickerView:isCompletedAllTasksOnDate:` asks the data source if all tasks on the date are completed. To use them, implement the data source in your view controller.
 
 ```objective-c
 @interface ViewController () <RSDFDatePickerViewDataSource>
 ```
 
-Then implement the data source function.
+Then implement the data source functions.
 
 ```objective-c
-// Returns dates to mark.
-- (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view
+// Returns YES if the date should be marked or NO if it should not.
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date
 {
-    // Create an `NSDate` object without time components.
+    // The date is an `NSDate` object without time components.
+    // So, we need to use dates without time components.
+    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSDateComponents *todayComponents = [calendar components:unitFlags fromDate:[NSDate date]];
     NSDate *today = [calendar dateFromComponents:todayComponents];
+    
+    return [date isEqual:today];
+}
 
-    // Create an `NSNumber` object that determines whether the date is marked.
-    NSNumber *isCompletedAllTasks = @(NO);
-
-    // Create a dictionary with the date to mark.
-    NSDictionary *markedDates = @{today: isCompletedAllTasks};
-
-    return markedDates;
+// Returns YES if all tasks on the date are completed or NO if they are not completed.
+- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
+{
+    return YES;
 }
 ```
 
