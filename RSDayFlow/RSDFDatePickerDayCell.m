@@ -211,6 +211,7 @@
         _markImageView.backgroundColor = [UIColor clearColor];
         _markImageView.center = CGPointMake(self.frame.size.width / 2, 50.0f);
         _markImageView.contentMode = UIViewContentModeCenter;
+        _markImageView.image = [self incompleteMarkImage];
     }
     return _markImageView;
 }
