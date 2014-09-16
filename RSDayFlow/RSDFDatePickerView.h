@@ -65,7 +65,7 @@
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
 ///-----------------------------------
-/// @name Scrolling to the Current Day
+/// @name Scrolling to date
 ///-----------------------------------
 
 /**
@@ -75,6 +75,14 @@
  */
 
 - (void)scrollToToday:(BOOL)animated;
+
+/**
+ Scrolls the date picker view to the given date.
+ 
+ @param animated YES if you want to animate the change in position, NO if it should be immediate.
+ */
+
+- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
 ///-------------------------
 /// @name Reloading the Data
@@ -161,12 +169,21 @@
 @optional
 
 /**
- Provides dates to mark for the data source.
+ Asks the data source if the date should be marked.
  
- @param view The view to whom dates are provided.
+ @param view The date picker view object that is asking whether the date should mark.
  
- @return The dictionary that contains dates (as keys) and completeness of tasks on these days (as objects).
+ @return YES if the date should be marked or NO if it should not.
  */
-- (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view;
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date;
+
+/**
+ Asks the data source if all tasks on the date are completed.
+ 
+ @param view The date picker view object that is asking about the completion of tasks on the date.
+ 
+ @return YES if all tasks on the date are completed or NO if they are not completed.
+ */
+- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date;
 
 @end

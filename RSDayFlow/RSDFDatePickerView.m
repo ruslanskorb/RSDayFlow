@@ -233,40 +233,45 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 
 - (void)scrollToToday:(BOOL)animated
 {
-    RSDFDatePickerCollectionView *cv = self.collectionView;
+	[self scrollToDate:self.today animated:animated];
+}
+
+- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated
+{
+	RSDFDatePickerCollectionView *cv = self.collectionView;
 	RSDFDatePickerCollectionViewLayout *cvLayout = (RSDFDatePickerCollectionViewLayout *)self.collectionView.collectionViewLayout;
 	
 	NSArray *visibleCells = [self.collectionView visibleCells];
 	if (![visibleCells count])
 		return;
-    
-    NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:[NSDate date]];
-    NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
-    
-    _fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
-        NSDateComponents *components = [NSDateComponents new];
-        components.month = -6;
-        return components;
-    })()) toDate:now options:0]];
-    
-    _toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
-        NSDateComponents *components = [NSDateComponents new];
-        components.month = 6;
-        return components;
-    })()) toDate:now options:0]];
-    
-    [cv reloadData];
+	
+	NSDateComponents *dateYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];
+	NSDate *month = [self.calendar dateFromComponents:dateYearMonthComponents];
+	
+	_fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+		NSDateComponents *components = [NSDateComponents new];
+		components.month = -6;
+		return components;
+	})()) toDate:month options:0]];
+	
+	_toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+		NSDateComponents *components = [NSDateComponents new];
+		components.month = 6;
+		return components;
+	})()) toDate:month options:0]];
+	
+	[cv reloadData];
 	[cvLayout invalidateLayout];
 	[cvLayout prepareLayout];
-    
-    NSInteger section = [self sectionForDate:_today];
-    
-    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
-    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
-    NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:self.today options:0].day + (weekday - self.calendar.firstWeekday);
-    
-    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
-    [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
+	
+	NSInteger section = [self sectionForDate:date];
+	
+	NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+	NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+	NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:date options:0].day + (weekday - self.calendar.firstWeekday);
+	
+	NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+	[self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
 - (void)reloadData
@@ -525,15 +530,11 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
         weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:cellDate].weekday;
         cell.dayOff = (weekday == 1) || (weekday == 7);
         
-        if ([self.dataSource respondsToSelector:@selector(datePickerViewMarkedDates:)]) {
-            NSDictionary *markedDates = [self.dataSource datePickerViewMarkedDates:self];
-            NSNumber *markedDateState = [markedDates objectForKey:cellDate];
-            if (markedDateState) {
-                cell.marked = YES;
-                cell.completed = [markedDateState boolValue];
-            } else {
-                cell.marked = NO;
-                cell.completed = NO;
+        if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
+            cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];
+            
+            if (cell.marked && [self.dataSource respondsToSelector:@selector(datePickerView:isCompletedAllTasksOnDate:)]) {
+                cell.completed = [self.dataSource datePickerView:self isCompletedAllTasksOnDate:cellDate];
             }
         }
         
