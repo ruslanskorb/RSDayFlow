@@ -45,8 +45,6 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate fromDate;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate toDate;
 @property (nonatomic, readonly, strong) RSDFDatePickerDaysOfWeekView *daysOfWeekView;
-@property (nonatomic, readonly, strong) RSDFDatePickerCollectionView *collectionView;
-@property (nonatomic, readonly, strong) RSDFDatePickerCollectionViewLayout *collectionViewLayout;
 @property (nonatomic, readonly, strong) NSDate *today;
 @property (nonatomic, readonly, assign) NSUInteger daysInWeek;
 
@@ -100,16 +98,16 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-	
-    self.daysOfWeekView.frame = [self daysOfWeekViewFrame];
-    if (!self.daysOfWeekView.superview) {
-        [self addSubview:self.daysOfWeekView];
-    }
-    
+
     self.collectionView.frame = [self collectionViewFrame];
 	if (!self.collectionView.superview) {
         [self scrollToToday:NO];
 		[self addSubview:self.collectionView];
+	}
+
+	self.daysOfWeekView.frame = [self daysOfWeekViewFrame];
+	if (!self.daysOfWeekView.superview) {
+		[self addSubview:self.daysOfWeekView];
 	}
 }
 
@@ -142,6 +140,7 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 {
     CGRect namesOfDaysViewFrame = self.bounds;
     namesOfDaysViewFrame.origin.x = (CGRectGetWidth(self.bounds) - RSDFDatePickerViewDaysOfWeekViewWidth) / 2;
+	namesOfDaysViewFrame.origin.y = self.collectionView.contentInset.top;
     namesOfDaysViewFrame.size.width = RSDFDatePickerViewDaysOfWeekViewWidth;
     namesOfDaysViewFrame.size.height = RSDFDatePickerViewDaysOfWeekViewHeight;
     return namesOfDaysViewFrame;
@@ -169,9 +168,9 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 {
     CGRect collectionViewFrame = self.bounds;
     collectionViewFrame.origin.x = (CGRectGetWidth(self.bounds) - RSDFDatePickerViewDaysOfWeekViewWidth) / 2;
-    collectionViewFrame.origin.y += RSDFDatePickerViewDaysOfWeekViewHeight;
+//    collectionViewFrame.origin.y += RSDFDatePickerViewDaysOfWeekViewHeight;
     collectionViewFrame.size.width = RSDFDatePickerViewDaysOfWeekViewWidth;
-    collectionViewFrame.size.height -= RSDFDatePickerViewDaysOfWeekViewHeight;
+//    collectionViewFrame.size.height -= RSDFDatePickerViewDaysOfWeekViewHeight;
     return collectionViewFrame;
 }
 
