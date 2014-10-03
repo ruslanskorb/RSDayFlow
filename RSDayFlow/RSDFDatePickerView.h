@@ -28,10 +28,16 @@
 @protocol RSDFDatePickerViewDelegate;
 @protocol RSDFDatePickerViewDataSource;
 
+@class RSDFDatePickerCollectionView;
+@class RSDFDatePickerCollectionViewLayout;
+
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
 */
 @interface RSDFDatePickerView : UIView
+
+@property (nonatomic, readonly, strong) RSDFDatePickerCollectionView *collectionView;
+@property (nonatomic, readonly, strong) RSDFDatePickerCollectionViewLayout *collectionViewLayout;
 
 /**
  Designated initializer. Initializes and returns a newly allocated view object with the specified frame rectangle and the specified calendar.
