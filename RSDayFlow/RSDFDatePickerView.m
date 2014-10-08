@@ -498,6 +498,15 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	};
 }
 
+- (NSUInteger)weekdayOrderForWeekdayNumber:(NSUInteger)weekday {
+    NSInteger ordered = weekday - (self.calendar.firstWeekday - 1);
+    if (ordered < 1) {
+        ordered = 7 - ABS(ordered);
+    }
+    
+    return ordered;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -508,15 +517,6 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 	return self.daysInWeek * [self numberOfWeeksForMonthOfDate:[self dateForFirstDayInSection:section]];
-}
-
-- (NSUInteger)weekdayOrderForWeekdayNumber:(NSUInteger)weekday {
-    NSInteger ordered = weekday - (self.calendar.firstWeekday - 1);
-    if (ordered < 1) {
-        ordered = 7 - ABS(ordered);
-    }
-    
-    return ordered;
 }
 
 - (RSDFDatePickerDayCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
