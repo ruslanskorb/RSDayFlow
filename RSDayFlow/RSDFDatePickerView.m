@@ -454,19 +454,22 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 		return dateComponents;
 	})()) toDate:firstDayInMonth options:0];
     
-	NSDate *fromSunday = [self.calendar dateFromComponents:((^{
+	NSDate *fromFirstWeeday = [self.calendar dateFromComponents:((^{
 		NSDateComponents *dateComponents = [self.calendar components:NSWeekOfYearCalendarUnit|NSYearForWeekOfYearCalendarUnit fromDate:firstDayInMonth];
-		dateComponents.weekday = 1;
+		dateComponents.weekday = self.calendar.firstWeekday;
 		return dateComponents;
 	})())];
 	
-	NSDate *toSunday = [self.calendar dateFromComponents:((^{
+	NSDate *toFirstWeekday = [self.calendar dateFromComponents:((^{
 		NSDateComponents *dateComponents = [self.calendar components:NSWeekOfYearCalendarUnit|NSYearForWeekOfYearCalendarUnit fromDate:lastDayInMonth];
-		dateComponents.weekday = 1;
+		dateComponents.weekday = self.calendar.firstWeekday;
 		return dateComponents;
 	})())];
 	
-	return 1 + [self.calendar components:NSWeekOfYearCalendarUnit fromDate:fromSunday toDate:toSunday options:0].weekOfYear;
+	return 1 + [self.calendar components:NSWeekOfYearCalendarUnit
+                                fromDate:fromFirstWeeday
+                                  toDate:toFirstWeekday 
+                                 options:0].weekOfYear;
     
 #endif
 }
@@ -495,6 +498,15 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	};
 }
 
+- (NSUInteger)weekdayOrderForWeekdayNumber:(NSUInteger)weekday {
+    NSInteger ordered = weekday - (self.calendar.firstWeekday - 1);
+    if (ordered < 1) {
+        ordered = 7 - ABS(ordered);
+    }
+    
+    return ordered;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -513,11 +525,11 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	
 	NSDate *firstDayInMonth = [self dateForFirstDayInSection:indexPath.section];
 	RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
-	NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+	NSUInteger weekday = [self weekdayOrderForWeekdayNumber:[self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday];
 	
 	NSDate *cellDate = [self.calendar dateByAddingComponents:((^{
 		NSDateComponents *dateComponents = [NSDateComponents new];
-		dateComponents.day = indexPath.item - (weekday - self.calendar.firstWeekday);
+		dateComponents.day = indexPath.item - (weekday - 1);
 		return dateComponents;
 	})()) toDate:firstDayInMonth options:0];
 	RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
