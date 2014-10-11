@@ -31,12 +31,12 @@
 
 - (CGSize)selfHeaderReferenceSize
 {
-    return (CGSize){ 320, 54 };
+    return (CGSize){ [super selfHeaderReferenceSize].width, 54 };
 }
 
 - (CGSize)selfItemSize
 {
-    return (CGSize){ 44, 60 };
+    return (CGSize){ [super selfItemSize].width, 60 };
 }
 
 @end

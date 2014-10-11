@@ -64,6 +64,10 @@
     self.navigationItem.leftBarButtonItem = restyle;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
+    
+    self.customDatePickerView.hidden = YES;
+    
+    [self.view addSubview:self.customDatePickerView];
     [self.view addSubview:self.datePickerView];
 }
 
@@ -158,7 +162,7 @@
 
 - (void)onTodayButtonTouch:(UIBarButtonItem *)sender
 {
-    if (self.datePickerView.superview) {
+    if (!self.datePickerView.hidden) {
         [self.datePickerView scrollToToday:YES];
     } else {
         [self.customDatePickerView scrollToToday:YES];
@@ -167,14 +171,14 @@
 
 - (void)onRestyleButtonTouch:(UIBarButtonItem *)sender
 {
-    if (self.datePickerView.superview) {
+    if (!self.datePickerView.hidden) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
-        [self.datePickerView removeFromSuperview];
-        [self.view addSubview:self.customDatePickerView];
+        self.datePickerView.hidden = YES;
+        self.customDatePickerView.hidden = NO;
     } else {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
-        [self.customDatePickerView removeFromSuperview];
-        [self.view addSubview:self.datePickerView];
+        self.customDatePickerView.hidden = YES;
+        self.datePickerView.hidden = NO;
     }
 }
 

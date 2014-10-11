@@ -54,7 +54,7 @@
 ///-----------------------------------------
 
 /**
- The size to use for labels of weekdays. Default value is {44, 22}.
+ The size to use for labels of weekdays. Default size is calculated based on the size of the view.
  
   @discussion Can be overridden in subclasses for customization.
  */
@@ -72,7 +72,10 @@
 ///---------------------------------------
 
 /**
- The font for the label of the weekday. Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0].
+ The font for the label of the weekday.
+ Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0] for user interface idiom 'Phone' with portrait interface orientation.
+ Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0] for user interface idiom 'Phone' with landscape interface orientation.
+ Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0] for user interface idiom 'Pad' with any interface orientation.
  
  @discussion Can be overridden in subclasses for customization.
  */
@@ -86,7 +89,7 @@
 - (UIColor *)dayOfWeekLabelTextColor;
 
 /**
- The text color for the label of the day off of the week. Default value is [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0].å
+ The text color for the label of the day off of the week. Default value is [UIColor colorWithRed:150.0/255 green:150.0/255 blue:150.0/255 alpha:1.0].
  
  @discussion Can be overridden in subclasses for customization.
  */
