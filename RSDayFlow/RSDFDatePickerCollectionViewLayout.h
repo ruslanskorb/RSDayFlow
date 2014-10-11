@@ -35,14 +35,14 @@
 ///-----------------------------------------
 
 /**
- The default sizes to use for section headers. Default value is {320, 64}.
+ The default size to use for section headers. Default height is `64.0f`. Default width is calculated based on the width of the collection view.
  
  @discussion Can be overridden in subclasses for customization.
  */
 - (CGSize)selfHeaderReferenceSize;
 
 /**
- The default size to use for cells. Default value is {44, 70}.
+ The default size to use for cells. Default height is `70.0f`. Default width is calculated based on the width of the collection view.
  
  @discussion Can be overridden in subclasses for customization.
  */

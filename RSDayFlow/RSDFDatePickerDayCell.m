@@ -49,11 +49,11 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-	self = [super initWithFrame:frame];
-	if (self) {
-		[self commonInitializer];
-	}
-	return self;
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self commonInitializer];
+    }
+    return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -80,6 +80,18 @@
     [self addSubview:self.markImageView];
     [self addSubview:self.dividerImageView];
     [self addSubview:self.dateLabel];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.dateLabel.frame = [self todayImageViewFrame];
+    self.todayImageView.frame = [self todayImageViewFrame];
+    self.overlayImageView.frame = [self todayImageViewFrame];
+    self.markImageView.frame = [self markImageViewFrame];
+    self.dividerImageView.frame = [self dividerImageViewFrame];
+    self.dividerImageView.image = [self dividerImage];
 }
 
 #pragma mark - Custom Accessors
@@ -160,93 +172,100 @@
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-	[super setHighlighted:highlighted];
-	self.overlayImageView.hidden = !self.highlighted;
+    [super setHighlighted:highlighted];
+    self.overlayImageView.hidden = !self.highlighted;
 }
 
-- (UILabel *)dateLabel
+- (CGRect)todayImageViewFrame
 {
-    if (!_dateLabel) {
-        CGRect frame = CGRectMake(self.bounds.origin.x, self.todayImageView.frame.origin.y,
-                                  self.bounds.size.width, self.todayImageView.frame.size.height);
-        _dateLabel = [[UILabel alloc] initWithFrame:frame];
-        _dateLabel.backgroundColor = [UIColor clearColor];
-        _dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _dateLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    return _dateLabel;
+    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 17.5f, 5.5f, 35.0f, 35.0f);
 }
 
 - (UIImageView *)todayImageView
 {
     if (!_todayImageView) {
-        CGRect frame = CGRectMake(0.0f, 0.0f, 35.0f, 35.0f);
-        _todayImageView = [[UIImageView alloc] initWithFrame:frame];
+        _todayImageView = [[UIImageView alloc] initWithFrame:[self todayImageViewFrame]];
         _todayImageView.backgroundColor = [UIColor clearColor];
-        _todayImageView.center = CGPointMake(self.frame.size.width / 2, 23.0f);
         _todayImageView.contentMode = UIViewContentModeCenter;
         _todayImageView.image = [self todayImage];
     }
     return _todayImageView;
 }
 
+- (UILabel *)dateLabel
+{
+    if (!_dateLabel) {
+        _dateLabel = [[UILabel alloc] initWithFrame:[self todayImageViewFrame]];
+        _dateLabel.backgroundColor = [UIColor clearColor];
+        _dateLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _dateLabel;
+}
+
 - (UIImageView *)overlayImageView
 {
-	if (!_overlayImageView) {
-        _overlayImageView = [[UIImageView alloc] initWithFrame:self.todayImageView.frame];
+    if (!_overlayImageView) {
+        _overlayImageView = [[UIImageView alloc] initWithFrame:[self todayImageViewFrame]];
         _overlayImageView.backgroundColor = [UIColor clearColor];
         _overlayImageView.opaque = NO;
         _overlayImageView.alpha = 0.5f;
         _overlayImageView.contentMode = UIViewContentModeCenter;
         _overlayImageView.image = [self overlayImage];
-	}
-	return _overlayImageView;
+    }
+    return _overlayImageView;
+}
+
+- (CGRect)markImageViewFrame
+{
+    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 4.5f, 45.5f, 9.0f, 9.0f);
 }
 
 - (UIImageView *)markImageView
 {
     if (!_markImageView) {
-        CGRect frame = CGRectMake(0.0f, 0.0f, 9.0f, 9.0f);
-        _markImageView = [[UIImageView alloc] initWithFrame:frame];
+        _markImageView = [[UIImageView alloc] initWithFrame:[self markImageViewFrame]];
         _markImageView.backgroundColor = [UIColor clearColor];
-        _markImageView.center = CGPointMake(self.frame.size.width / 2, 50.0f);
         _markImageView.contentMode = UIViewContentModeCenter;
         _markImageView.image = [self incompleteMarkImage];
     }
     return _markImageView;
 }
 
+- (CGRect)dividerImageViewFrame
+{
+    return CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame) + 3.0f, 0.5f);
+}
+
 - (UIImageView *)dividerImageView
 {
-	if (!_dividerImageView) {
-        CGRect frame = CGRectMake(0.0f, 0.0f, 50.0f, 0.5f);
-        _dividerImageView = [[UIImageView alloc] initWithFrame:frame];
+    if (!_dividerImageView) {
+        _dividerImageView = [[UIImageView alloc] initWithFrame:[self dividerImageViewFrame]];
         _dividerImageView.contentMode = UIViewContentModeCenter;
         _dividerImageView.image = [self dividerImage];
-	}
-	return _dividerImageView;
+    }
+    return _dividerImageView;
 }
 
 #pragma mark - Private
 
 + (NSCache *)imageCache
 {
-	static NSCache *cache;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		cache = [NSCache new];
-	});
-	return cache;
+    static NSCache *cache;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cache = [NSCache new];
+    });
+    return cache;
 }
 
 + (id)fetchObjectForKey:(id)key withCreator:(id(^)(void))block
 {
-	id answer = [[self imageCache] objectForKey:key];
-	if (!answer) {
-		answer = block();
-		[[self imageCache] setObject:answer forKey:key];
-	}
-	return answer;
+    id answer = [[self imageCache] objectForKey:key];
+    if (!answer) {
+        answer = block();
+        [[self imageCache] setObject:answer forKey:key];
+    }
+    return answer;
 }
 
 - (UIImage *)ellipseImageWithKey:(NSString *)key frame:(CGRect)frame color:(UIColor *)color
@@ -424,7 +443,7 @@
     UIImage *dividerImage = [self customDividerImage];
     if (!dividerImage) {
         UIColor *dividerImageColor = [self dividerImageColor];
-        NSString *dividerImageKey = [NSString stringWithFormat:@"img_divider_%@", [dividerImageColor description]];
+        NSString *dividerImageKey = [NSString stringWithFormat:@"img_divider_%@_%g", [dividerImageColor description], CGRectGetWidth(self.dividerImageView.frame)];
         dividerImage = [self rectImageWithKey:dividerImageKey frame:self.dividerImageView.frame color:dividerImageColor];
     }
     return dividerImage;
