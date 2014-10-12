@@ -290,6 +290,44 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
+-(void)selectDate:(NSDate*)date animated:(BOOL)animated{
+    RSDFDatePickerCollectionView *cv = self.collectionView;
+    RSDFDatePickerCollectionViewLayout *cvLayout = (RSDFDatePickerCollectionViewLayout *)self.collectionView.collectionViewLayout;
+    
+    NSArray *visibleCells = [self.collectionView visibleCells];
+    if (![visibleCells count])
+        return;
+    
+    NSDateComponents *dateYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];
+    NSDate *month = [self.calendar dateFromComponents:dateYearMonthComponents];
+    
+    _fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = -6;
+        return components;
+    })()) toDate:month options:0]];
+    
+    _toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = 6;
+        return components;
+    })()) toDate:month options:0]];
+    
+    [cv reloadData];
+    [cvLayout invalidateLayout];
+    [cvLayout prepareLayout];
+    
+    NSInteger section = [self sectionForDate:date];
+    
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+    NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:date options:0].day + (weekday - self.calendar.firstWeekday);
+    
+    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [self.collectionView selectItemAtIndexPath:cellIndexPath animated:animated scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+}
+
+
 - (void)reloadData
 {
     [self.collectionView reloadData];

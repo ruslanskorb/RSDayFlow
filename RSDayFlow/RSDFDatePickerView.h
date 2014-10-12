@@ -96,6 +96,14 @@
 
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
+/**
+ Scrolls the date picker view to the given date and highlights (if enabled) the appropriate cell.
+ @param date the Date you want the date picker view to select.
+ @param animated YES if you want to animate the change in position, NO if it should be immediate.
+ 
+ */
+-(void)selectDate:(NSDate*)date animated:(BOOL)animated;
+
 ///-------------------------
 /// @name Reloading the Data
 ///-------------------------
