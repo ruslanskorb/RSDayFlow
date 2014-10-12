@@ -179,11 +179,16 @@
     [super setSelected:selected];
     if(_highlightSelection){
         if (!selected) {
-            self.dateLabel.font = [self dayLabelFont];
-            if (!self.dayOff) {
-                self.dateLabel.textColor = [self dayLabelTextColor];
+            if (!_today) {
+                self.dateLabel.font = [self dayLabelFont];
+                if (!self.dayOff) {
+                    self.dateLabel.textColor = [self dayLabelTextColor];
+                } else {
+                    self.dateLabel.textColor = [self dayOffLabelTextColor];
+                }
             } else {
-                self.dateLabel.textColor = [self dayOffLabelTextColor];
+                self.dateLabel.font = [self todayLabelFont];
+                self.dateLabel.textColor = [self todayLabelTextColor];
             }
         } else {
             self.dateLabel.font = [self selectedLabelFont];
