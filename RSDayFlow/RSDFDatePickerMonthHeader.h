@@ -54,6 +54,20 @@
  */
 @property (nonatomic, getter = isCurrentMonth) BOOL currentMonth;
 
+///----------------------------------------
+/// @name Accessing Attributes of the Month
+///----------------------------------------
+
+/**
+ A Boolean value that determines whether the view represent the month with the currently selected day.
+ */
+@property (nonatomic, getter = isSelected) BOOL selected;
+
+/**
+ A Boolean value that determines whether the view shows its current selection state.
+*/
+@property (nonatomic) BOOL highlightSelection;
+
 ///---------------------------------------
 /// @name Accessing Attributes of the View
 ///---------------------------------------
@@ -89,5 +103,12 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)currentMonthLabelTextColor;
+
+/**
+ The text color for the label of the currently selected month. Default value is [UIColor colorWithRed:251/255.0f green:32/255.0f blue:37/255.0f alpha:1.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)selectedMonthLabelTextColor;
 
 @end

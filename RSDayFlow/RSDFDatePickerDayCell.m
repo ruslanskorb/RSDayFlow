@@ -31,6 +31,7 @@
 + (id)fetchObjectForKey:(id)key withCreator:(id(^)(void))block;
 
 @property (nonatomic, readonly, strong) UIImageView *todayImageView;
+@property (nonatomic, readonly, strong) UIImageView *selectedImageView;
 @property (nonatomic, readonly, strong) UIImageView *overlayImageView;
 @property (nonatomic, readonly, strong) UIImageView *markImageView;
 @property (nonatomic, readonly, strong) UIImageView *dividerImageView;
@@ -41,9 +42,11 @@
 
 @synthesize dateLabel = _dateLabel;
 @synthesize todayImageView = _todayImageView;
+@synthesize selectedImageView = _selectedImageView;
 @synthesize overlayImageView = _overlayImageView;
 @synthesize markImageView = _markImageView;
 @synthesize dividerImageView = _dividerImageView;
+
 
 #pragma mark - Lifecycle
 
@@ -70,12 +73,14 @@
     self.backgroundColor = [self selfBackgroundColor];
     
     self.todayImageView.hidden = YES;
+    self.selectedImageView.hidden = YES;
     self.overlayImageView.hidden = YES;
     self.markImageView.hidden = YES;
     self.dividerImageView.hidden = NO;
     self.dateLabel.hidden = NO;
     
     [self addSubview:self.todayImageView];
+    [self addSubview:self.selectedImageView];
     [self addSubview:self.overlayImageView];
     [self addSubview:self.markImageView];
     [self addSubview:self.dividerImageView];
@@ -88,6 +93,7 @@
     
     self.dateLabel.frame = [self todayImageViewFrame];
     self.todayImageView.frame = [self todayImageViewFrame];
+    self.selectedImageView.frame = [self selectedImageViewFrame];
     self.overlayImageView.frame = [self todayImageViewFrame];
     self.markImageView.frame = [self markImageViewFrame];
     self.dividerImageView.frame = [self dividerImageViewFrame];
@@ -169,7 +175,24 @@
     }
     self.todayImageView.hidden = !_today;
 }
-
+-(void)setSelected:(BOOL)selected{
+    [super setSelected:selected];
+    if(_highlightSelection){
+        if (!selected) {
+            self.dateLabel.font = [self dayLabelFont];
+            if (!self.dayOff) {
+                self.dateLabel.textColor = [self dayLabelTextColor];
+            } else {
+                self.dateLabel.textColor = [self dayOffLabelTextColor];
+            }
+        } else {
+            self.dateLabel.font = [self selectedLabelFont];
+            self.dateLabel.textColor = [self selectedLabelTextColor];
+        }
+        self.selectedImageView.hidden = !selected;
+    }
+   
+}
 - (void)setHighlighted:(BOOL)highlighted
 {
     [super setHighlighted:highlighted];
@@ -190,6 +213,20 @@
         _todayImageView.image = [self todayImage];
     }
     return _todayImageView;
+}
+
+-(CGRect)selectedImageViewFrame{
+    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 17.5f, 5.5f, 35.0f, 35.0f);
+}
+
+-(UIImageView *)selectedImageView{
+    if (!_selectedImageView) {
+        _selectedImageView = [[UIImageView alloc] initWithFrame:[self selectedImageViewFrame]];
+        _selectedImageView.backgroundColor = [UIColor clearColor];
+        _selectedImageView.contentMode = UIViewContentModeCenter;
+        _selectedImageView.image = [self selectedImage];
+    }
+    return _selectedImageView;
 }
 
 - (UILabel *)dateLabel
@@ -363,6 +400,37 @@
         todayImage = [self ellipseImageWithKey:todayImageKey frame:self.todayImageView.frame color:todayImageColor];
     }
     return todayImage;
+}
+
+- (UIFont *)selectedLabelFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+}
+
+- (UIColor *)selectedLabelTextColor
+{
+    return [UIColor whiteColor];;
+}
+
+- (UIColor *)selectedImageColor
+{
+    return [UIColor colorWithRed:251/255.0f green:32/255.0f blue:37/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customSelectedImage
+{
+    return nil;
+}
+
+- (UIImage *)selectedImage
+{
+    UIImage *selectedImage = [self customSelectedImage];
+    if (!selectedImage) {
+        UIColor *selectedImageColor = [self selectedImageColor];
+        NSString *selectedImageKey = [NSString stringWithFormat:@"img_selected_%@", [selectedImageColor description]];
+        selectedImage = [self ellipseImageWithKey:selectedImageKey frame:self.selectedImageView.frame color:selectedImageColor];
+    }
+    return selectedImage;
 }
 
 - (UIColor *)overlayImageColor

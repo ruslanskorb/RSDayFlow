@@ -67,6 +67,10 @@
 @property (nonatomic, getter = isToday) BOOL today;
 
 /**
+ A Boolean value that determines whether the cell will show its current selection state.
+ */
+@property (nonatomic) BOOL highlightSelection;
+/**
  A Boolean value that determines whether the cell have a mark.
  */
 @property (nonatomic, getter = isMarked) BOOL marked;
@@ -146,6 +150,34 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIImage *)customTodayImage;
+
+/**
+ The font for the label of the currently selected day. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIFont *)selectedLabelFont;
+
+/**
+ The text color for the label of the currently selected day. Default value is [UIColor whiteColor].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)selectedLabelTextColor;
+
+/**
+ The color of the background image for the cell of the currently selected day. Default value is [UIColor colorWithRed:251/255.0f green:32/255.0f blue:37/255.0f alpha:1.0f].
+ 
+ @discussion Can be overridden in subclasses for customization. Ignored if `customTodayImage` is not equal to `nil`.
+ */
+- (UIColor *)selectedImageColor;
+
+/**
+ The custom background image for the cell of the currently selected day. Default value is `nil`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIImage *)customSelectedImage;
 
 /**
  The color of the overlay image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].

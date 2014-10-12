@@ -64,6 +64,18 @@
 
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
+///--------------------------------
+/// @name Managing Selection Behaviour
+///--------------------------------
+
+/**
+ A Boolean determining whether user selected Cells will show Selection.
+ 
+ @discussion Enabling this will highlight the currently selected cell in a similar way to the today cell.
+ */
+
+@property (nonatomic, readwrite) BOOL highlightSelection;
+
 ///-----------------------------------
 /// @name Scrolling to date
 ///-----------------------------------
