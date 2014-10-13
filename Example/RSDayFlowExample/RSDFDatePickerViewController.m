@@ -85,9 +85,8 @@
 - (NSArray *)datesToMark
 {
     if (!_datesToMark) {
-        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-        NSDateComponents *todayComponents = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-        NSDate *today = [calendar dateFromComponents:todayComponents];
+        NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+        NSDate *today = [self.calendar dateFromComponents:todayComponents];
         
         NSArray *numberOfDaysFromToday = @[@(-8), @(-2), @(-1), @(0), @(2), @(4), @(8), @(13), @(22)];
         
@@ -95,7 +94,7 @@
         NSMutableArray *datesToMark = [[NSMutableArray alloc] initWithCapacity:[numberOfDaysFromToday count]];
         [numberOfDaysFromToday enumerateObjectsUsingBlock:^(NSNumber *numberOfDays, NSUInteger idx, BOOL *stop) {
             dateComponents.day = [numberOfDays integerValue];
-            NSDate *date = [calendar dateByAddingComponents:dateComponents toDate:today options:0];
+            NSDate *date = [self.calendar dateByAddingComponents:dateComponents toDate:today options:0];
             [datesToMark addObject:date];
         }];
         
@@ -107,9 +106,8 @@
 - (NSDictionary *)statesOfTasks
 {
     if (!_statesOfTasks) {
-        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-        NSDateComponents *todayComponents = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-        NSDate *today = [calendar dateFromComponents:todayComponents];
+        NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+        NSDate *today = [self.calendar dateFromComponents:todayComponents];
         
         NSMutableDictionary *statesOfTasks = [[NSMutableDictionary alloc] initWithCapacity:[self.datesToMark count]];
         [self.datesToMark enumerateObjectsUsingBlock:^(NSDate *date, NSUInteger idx, BOOL *stop) {
