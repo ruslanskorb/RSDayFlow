@@ -81,7 +81,7 @@
 - (NSCalendar *)calendar
 {
     if (!_calendar) {
-        _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         _calendar.locale = [NSLocale currentLocale];
     }
     return _calendar;
