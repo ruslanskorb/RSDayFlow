@@ -29,7 +29,8 @@
 
 @interface RSDFDatePickerViewController() <RSDFDatePickerViewDelegate, RSDFDatePickerViewDataSource>
 
-@property (strong, nonatomic) NSDictionary *markedDates;
+@property (strong, nonatomic) NSArray *datesToMark;
+@property (strong, nonatomic) NSDictionary *statesOfTasks;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) RSDFDatePickerView *datePickerView;
 @property (strong, nonatomic) RSDFCustomDatePickerView *customDatePickerView;
@@ -56,13 +57,17 @@
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     
-    UIBarButtonItem *today = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStyleBordered target:self action:@selector(onTodayButtonTouch:)];
+    UIBarButtonItem *today = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(onTodayButtonTouch:)];
     self.navigationItem.rightBarButtonItem = today;
     
-    UIBarButtonItem *restyle = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStyleBordered target:self action:@selector(onRestyleButtonTouch:)];
+    UIBarButtonItem *restyle = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStylePlain target:self action:@selector(onRestyleButtonTouch:)];
     self.navigationItem.leftBarButtonItem = restyle;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
+    
+    self.customDatePickerView.hidden = YES;
+    
+    [self.view addSubview:self.customDatePickerView];
     [self.view addSubview:self.datePickerView];
 }
 
@@ -77,30 +82,45 @@
     }
 }
 
-- (NSDictionary *)markedDates
+- (NSArray *)datesToMark
 {
-    if (!_markedDates) {
-        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSDateComponents *todayComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
-        NSDate *today = [calendar dateFromComponents:todayComponents];
+    if (!_datesToMark) {
+        NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+        NSDate *today = [self.calendar dateFromComponents:todayComponents];
         
         NSArray *numberOfDaysFromToday = @[@(-8), @(-2), @(-1), @(0), @(2), @(4), @(8), @(13), @(22)];
         
         NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-        NSMutableDictionary *markedDates = [[NSMutableDictionary alloc] initWithCapacity:[numberOfDaysFromToday count]];
+        NSMutableArray *datesToMark = [[NSMutableArray alloc] initWithCapacity:[numberOfDaysFromToday count]];
         [numberOfDaysFromToday enumerateObjectsUsingBlock:^(NSNumber *numberOfDays, NSUInteger idx, BOOL *stop) {
             dateComponents.day = [numberOfDays integerValue];
-            NSDate *date = [calendar dateByAddingComponents:dateComponents toDate:today options:0];
-            if ([date compare:today] == NSOrderedAscending) {
-                markedDates[date] = @YES;
-            } else {
-                markedDates[date] = @NO;
-            }
+            NSDate *date = [self.calendar dateByAddingComponents:dateComponents toDate:today options:0];
+            [datesToMark addObject:date];
         }];
         
-        _markedDates = [markedDates copy];
+        _datesToMark = [datesToMark copy];
     }
-    return _markedDates;
+    return _datesToMark;
+}
+
+- (NSDictionary *)statesOfTasks
+{
+    if (!_statesOfTasks) {
+        NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+        NSDate *today = [self.calendar dateFromComponents:todayComponents];
+        
+        NSMutableDictionary *statesOfTasks = [[NSMutableDictionary alloc] initWithCapacity:[self.datesToMark count]];
+        [self.datesToMark enumerateObjectsUsingBlock:^(NSDate *date, NSUInteger idx, BOOL *stop) {
+            BOOL isCompletedAllTasks = NO;
+            if ([date compare:today] == NSOrderedAscending) {
+                isCompletedAllTasks = YES;
+            }
+            statesOfTasks[date] = @(isCompletedAllTasks);
+        }];
+        
+        _statesOfTasks = [statesOfTasks copy];
+    }
+    return _statesOfTasks;
 }
 
 - (NSDateFormatter *)dateFormatter
@@ -140,7 +160,7 @@
 
 - (void)onTodayButtonTouch:(UIBarButtonItem *)sender
 {
-    if (self.datePickerView.superview) {
+    if (!self.datePickerView.hidden) {
         [self.datePickerView scrollToToday:YES];
     } else {
         [self.customDatePickerView scrollToToday:YES];
@@ -149,14 +169,14 @@
 
 - (void)onRestyleButtonTouch:(UIBarButtonItem *)sender
 {
-    if (self.datePickerView.superview) {
+    if (!self.datePickerView.hidden) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
-        [self.datePickerView removeFromSuperview];
-        [self.view addSubview:self.customDatePickerView];
+        self.datePickerView.hidden = YES;
+        self.customDatePickerView.hidden = NO;
     } else {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
-        [self.customDatePickerView removeFromSuperview];
-        [self.view addSubview:self.datePickerView];
+        self.customDatePickerView.hidden = YES;
+        self.datePickerView.hidden = NO;
     }
 }
 
@@ -169,9 +189,14 @@
 
 #pragma mark - RSDFDatePickerViewDataSource
 
-- (NSDictionary *)datePickerViewMarkedDates:(RSDFDatePickerView *)view
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date
 {
-	return self.markedDates;
+    return [self.datesToMark containsObject:date];
+}
+
+- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
+{
+	return [self.statesOfTasks[date] boolValue];
 }
 
 @end

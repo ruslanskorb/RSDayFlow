@@ -38,7 +38,7 @@
     // ------------------
     
     RSDFDatePickerViewController *gregorianVC = [[RSDFDatePickerViewController alloc] init];
-    gregorianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    gregorianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     gregorianVC.calendar.locale = [NSLocale currentLocale];
     UINavigationController *gregorianNC = [[UINavigationController alloc] initWithRootViewController:gregorianVC];
     
@@ -47,7 +47,7 @@
     // ---------------
     
     RSDFDatePickerViewController *hebrewVC = [[RSDFDatePickerViewController alloc] init];
-    hebrewVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
+    hebrewVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierHebrew];
     hebrewVC.calendar.locale = [NSLocale currentLocale];
     UINavigationController *hebrewNC = [[UINavigationController alloc] initWithRootViewController:hebrewVC];
     
@@ -56,7 +56,7 @@
     // ----------------
     
     RSDFDatePickerViewController *islamicVC = [[RSDFDatePickerViewController alloc] init];
-    islamicVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIslamicCalendar];
+    islamicVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierIslamic];
     islamicVC.calendar.locale = [NSLocale currentLocale];
     UINavigationController *islamicNC = [[UINavigationController alloc] initWithRootViewController:islamicVC];
     
@@ -65,7 +65,7 @@
     // ---------------
     
     RSDFDatePickerViewController *indianVC = [[RSDFDatePickerViewController alloc] init];
-    indianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIndianCalendar];
+    indianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierIndian];
     indianVC.calendar.locale = [NSLocale currentLocale];
     UINavigationController *indianNC = [[UINavigationController alloc] initWithRootViewController:indianVC];
     
@@ -74,7 +74,7 @@
     // ----------------
     
     RSDFDatePickerViewController *persianVC = [[RSDFDatePickerViewController alloc] init];
-    persianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSPersianCalendar];
+    persianVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierPersian];
     persianVC.calendar.locale = [NSLocale currentLocale];
     UINavigationController *persianNC = [[UINavigationController alloc] initWithRootViewController:persianVC];
     

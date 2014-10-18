@@ -49,13 +49,6 @@
 
 - (void)commonInitializer
 {
-    //	Hard key these things.
-    //	44 * 7 + 2 * 6 = 320; this is how the Calendar.app works
-    //	and this also avoids the “one pixel” confusion which might or might not work
-    //	If you need to decorate, key decorative views in.
-    
-    self.headerReferenceSize = [self selfHeaderReferenceSize];
-    self.itemSize = [self selfItemSize];
     self.minimumLineSpacing = [self selfMinimumLineSpacing];
     self.minimumInteritemSpacing = [self selfMinimumInteritemSpacing];
 }
@@ -64,12 +57,22 @@
 
 - (CGSize)selfHeaderReferenceSize
 {
-    return (CGSize){ 320, 64 };
+    CGFloat selfHeaderReferenceWidth = CGRectGetWidth(self.collectionView.frame);
+    CGFloat selfHeaderReferenceHeight = 64.0f;
+    
+    return (CGSize){ selfHeaderReferenceWidth, selfHeaderReferenceHeight };
 }
 
 - (CGSize)selfItemSize
 {
-    return (CGSize){ 44, 70 };
+    NSUInteger numberOfItemsInTheSameRow = 7;
+    CGFloat totalInteritemSpacing = [self minimumInteritemSpacing] * (numberOfItemsInTheSameRow - 1);
+    
+    CGFloat selfItemWidth = (CGRectGetWidth(self.collectionView.frame) - totalInteritemSpacing) / numberOfItemsInTheSameRow;
+    selfItemWidth = floor(selfItemWidth * 1000) / 1000;
+    CGFloat selfItemHeight = 70.0f;
+    
+    return (CGSize){ selfItemWidth, selfItemHeight };
 }
 
 - (CGFloat)selfMinimumLineSpacing

@@ -14,6 +14,7 @@
 		B82FFFA819A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFFA019A37EDB000816FF /* RSDFCustomDatePickerDaysOfWeekView.m */; };
 		B82FFFA919A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFFA219A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m */; };
 		B82FFFAA19A37EDB000816FF /* RSDFCustomDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFFA419A37EDB000816FF /* RSDFCustomDatePickerView.m */; };
+		B872EE8319E82DF000E52146 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B872EE8119E82DF000E52146 /* LaunchScreen.xib */; };
 		B8F807C119A34B990047C24B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C019A34B990047C24B /* Foundation.framework */; };
 		B8F807C319A34B9A0047C24B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C219A34B9A0047C24B /* CoreGraphics.framework */; };
 		B8F807C519A34B9A0047C24B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C419A34B9A0047C24B /* UIKit.framework */; };
@@ -60,6 +61,7 @@
 		B82FFFA219A37EDB000816FF /* RSDFCustomDatePickerMonthHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerMonthHeader.m; sourceTree = "<group>"; };
 		B82FFFA319A37EDB000816FF /* RSDFCustomDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerView.h; sourceTree = "<group>"; };
 		B82FFFA419A37EDB000816FF /* RSDFCustomDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerView.m; sourceTree = "<group>"; };
+		B872EE8219E82DF000E52146 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B8F807BD19A34B990047C24B /* RSDayFlowExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSDayFlowExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8F807C019A34B990047C24B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8F807C219A34B9A0047C24B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -175,6 +177,7 @@
 				B8F8080519A34CC00047C24B /* Controllers */,
 				B82FFFAB19A37EDF000816FF /* Views */,
 				B8F807D219A34B9A0047C24B /* Images.xcassets */,
+				B872EE8119E82DF000E52146 /* LaunchScreen.xib */,
 				B8F807C719A34B9A0047C24B /* Supporting Files */,
 			);
 			name = Classes;
@@ -309,6 +312,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = B8F807B419A34B990047C24B;
 			productRefGroup = B8F807BE19A34B990047C24B /* Products */;
@@ -327,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8F807CB19A34B9A0047C24B /* InfoPlist.strings in Resources */,
+				B872EE8319E82DF000E52146 /* LaunchScreen.xib in Resources */,
 				B8F807D319A34B9A0047C24B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,6 +389,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		B872EE8119E82DF000E52146 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B872EE8219E82DF000E52146 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
 		B8F807C919A34B9A0047C24B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -426,6 +439,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
+					"NS_ENABLE_CALENDAR_NEW_API=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -482,6 +496,7 @@
 				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
 				INFOPLIST_FILE = "RSDayFlowExample/RSDayFlowExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -495,6 +510,7 @@
 				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
 				INFOPLIST_FILE = "RSDayFlowExample/RSDayFlowExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
