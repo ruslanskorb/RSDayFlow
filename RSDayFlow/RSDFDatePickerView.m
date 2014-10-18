@@ -277,7 +277,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [cvLayout invalidateLayout];
     [cvLayout prepareLayout];
     
-	NSInteger section = [self sectionForDate:_today];
+	NSInteger section = [self sectionForDate:date];
 	
 	[self scrollToTopOfSection:section animated:animated];
 }
