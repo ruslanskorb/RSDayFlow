@@ -277,9 +277,23 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [cvLayout invalidateLayout];
     [cvLayout prepareLayout];
     
-	NSInteger section = [self sectionForDate:date];
-	
-	[self scrollToTopOfSection:section animated:animated];
+    NSInteger monthSection = [self sectionForDate:date];
+    
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:monthSection];
+    NSUInteger weekday = [self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday;
+    NSInteger dateItem = [self.calendar components:NSCalendarUnitDay fromDate:firstDayInMonth toDate:date options:0].day + (weekday - self.calendar.firstWeekday);
+    
+    CGRect dateItemRect = [self frameForItem:dateItem inSection:monthSection];
+    CGRect monthHeaderRect = [self frameForHeaderForSection:monthSection];
+    
+    CGFloat delta = CGRectGetMaxY(dateItemRect) - CGRectGetMinY(monthHeaderRect);
+    CGFloat actualViewHeight = CGRectGetHeight(self.collectionView.frame) - self.collectionView.contentInset.top - self.collectionView.contentInset.bottom;
+    
+    if (delta <= actualViewHeight) {
+        [self scrollToTopOfSection:monthSection animated:animated];
+    } else {
+        [self scrollToBottomOfItem:dateItem inSection:monthSection animated:animated];
+    }
 }
 
 - (void)reloadData
@@ -521,11 +535,25 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return attributes.frame;
 }
 
+- (CGRect)frameForItem:(NSInteger)item inSection:(NSInteger)section
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    
+    return attributes.frame;
+}
+
 - (void)scrollToTopOfSection:(NSInteger)section animated:(BOOL)animated
 {
 	CGRect headerRect = [self frameForHeaderForSection:section];
 	CGPoint topOfHeader = CGPointMake(0, headerRect.origin.y - _collectionView.contentInset.top);
 	[_collectionView setContentOffset:topOfHeader animated:animated];
+}
+
+- (void)scrollToBottomOfItem:(NSInteger)item inSection:(NSInteger)section animated:(BOOL)animated
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
 }
 
 #pragma mark - UICollectionViewDataSource
