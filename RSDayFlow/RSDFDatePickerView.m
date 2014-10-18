@@ -279,7 +279,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     
 	NSInteger section = [self sectionForDate:_today];
 	
-	[self _scrollToTopOfSection:section animated:animated];
+	[self scrollToTopOfSection:section animated:animated];
 }
 
 - (void)reloadData
@@ -513,7 +513,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return ordered;
 }
 
-- (CGRect)_frameForHeaderForSection:(NSInteger)section {
+- (CGRect)frameForHeaderForSection:(NSInteger)section
+{
 	NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:section];
 	UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
 	CGRect frameForFirstCell = attributes.frame;
@@ -522,8 +523,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	return CGRectOffset(frameForFirstCell, 0, -headerHeight);
 }
 
-- (void)_scrollToTopOfSection:(NSInteger)section animated:(BOOL)animated {
-	CGRect headerRect = [self _frameForHeaderForSection:section];
+- (void)scrollToTopOfSection:(NSInteger)section animated:(BOOL)animated
+{
+	CGRect headerRect = [self frameForHeaderForSection:section];
 	CGPoint topOfHeader = CGPointMake(0, headerRect.origin.y - _collectionView.contentInset.top);
 	[_collectionView setContentOffset:topOfHeader animated:animated];
 }
