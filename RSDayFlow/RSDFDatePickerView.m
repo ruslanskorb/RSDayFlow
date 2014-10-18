@@ -515,12 +515,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (CGRect)frameForHeaderForSection:(NSInteger)section
 {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:section];
-	UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-	CGRect frameForFirstCell = attributes.frame;
-	CGFloat headerHeight = self.collectionViewLayout.headerReferenceSize.height;
-	
-	return CGRectOffset(frameForFirstCell, 0, -headerHeight);
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
+    
+    return attributes.frame;
 }
 
 - (void)scrollToTopOfSection:(NSInteger)section animated:(BOOL)animated
