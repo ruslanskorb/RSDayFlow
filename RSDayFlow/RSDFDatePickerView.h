@@ -64,6 +64,18 @@
 
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
+///--------------------------------
+/// @name Managing Selection Behaviour
+///--------------------------------
+
+/**
+ A Boolean determining whether user selected Cells will show Selection.
+ 
+ @discussion Enabling this will highlight the currently selected cell in a similar way to the today cell.
+ */
+
+@property (nonatomic, readwrite) BOOL highlightSelection;
+
 ///-----------------------------------
 /// @name Scrolling to date
 ///-----------------------------------
@@ -83,6 +95,14 @@
  */
 
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
+
+/**
+ Scrolls the date picker view to the given date and highlights (if enabled) the appropriate cell.
+ @param date the Date you want the date picker view to select.
+ @param animated YES if you want to animate the change in position, NO if it should be immediate.
+ 
+ */
+-(void)selectDate:(NSDate*)date animated:(BOOL)animated;
 
 ///-------------------------
 /// @name Reloading the Data

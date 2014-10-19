@@ -45,6 +45,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) RSDFDatePickerCollectionView *collectionView;
 @property (nonatomic, readonly, strong) RSDFDatePickerCollectionViewLayout *collectionViewLayout;
 @property (nonatomic, readonly, strong) NSDate *today;
+@property (nonatomic, readwrite, strong) NSDate *selectedDate;
+@property (nonatomic, readwrite, strong) NSMapTable *visibleCollectionSupplementaryViews; //Taken from http://stackoverflow.com/a/24709161
 @property (nonatomic, readonly, assign) NSUInteger daysInWeek;
 
 @end
@@ -58,6 +60,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @synthesize collectionView = _collectionView;
 @synthesize collectionViewLayout = _collectionViewLayout;
 @synthesize daysInWeek = _daysInWeek;
+@synthesize visibleCollectionSupplementaryViews = _visibleCollectionSupplementaryViews;
 
 #pragma mark - Lifecycle
 
@@ -287,6 +290,44 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
+-(void)selectDate:(NSDate*)date animated:(BOOL)animated{
+    RSDFDatePickerCollectionView *cv = self.collectionView;
+    RSDFDatePickerCollectionViewLayout *cvLayout = (RSDFDatePickerCollectionViewLayout *)self.collectionView.collectionViewLayout;
+    
+    NSArray *visibleCells = [self.collectionView visibleCells];
+    if (![visibleCells count])
+        return;
+    
+    NSDateComponents *dateYearMonthComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];
+    NSDate *month = [self.calendar dateFromComponents:dateYearMonthComponents];
+    
+    _fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = -6;
+        return components;
+    })()) toDate:month options:0]];
+    
+    _toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:((^{
+        NSDateComponents *components = [NSDateComponents new];
+        components.month = 6;
+        return components;
+    })()) toDate:month options:0]];
+    
+    [cv reloadData];
+    [cvLayout invalidateLayout];
+    [cvLayout prepareLayout];
+    
+    NSInteger section = [self sectionForDate:date];
+    
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+    NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:date options:0].day + (weekday - self.calendar.firstWeekday);
+    
+    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [self.collectionView selectItemAtIndexPath:cellIndexPath animated:animated scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+}
+
+
 - (void)reloadData
 {
     [self.collectionView reloadData];
@@ -318,6 +359,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
                                              selector:@selector(significantTimeChange:)
                                                  name:UIApplicationSignificantTimeChangeNotification
                                                object:nil];
+    _highlightSelection = NO;
+    _visibleCollectionSupplementaryViews = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableWeakMemory];//Keep strong pointer to the keys, but weak to the object. This way the supplementary views saved in the map table will automatically removed when deallocated (moved off the screen).
 }
 
 - (void)appendPastDates
@@ -562,6 +605,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         }
         
         cell.today = ([cellDate compare:_today] == NSOrderedSame) ? YES : NO;
+        
+        cell.highlightSelection = _highlightSelection;
     }
     
     return cell;
@@ -589,13 +634,25 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
         monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %lu", monthString, (unsigned long)(date.year)] uppercaseString];
         
+        monthHeader.highlightSelection = _highlightSelection;
+        
         RSDFDatePickerDate today = [self pickerDateFromDate:_today];
         if ( (today.month == date.month) && (today.year == date.year) ) {
             monthHeader.currentMonth = YES;
         } else {
             monthHeader.currentMonth = NO;
         }
-        
+        //Priotizing Selection over Today Color, im not really sure if this the right decision.
+        if(_selectedDate){//This property can be nil so check before using it.
+            RSDFDatePickerDate selectedDate = [self pickerDateFromDate:_selectedDate];
+            if ( (selectedDate.month == date.month) && (selectedDate.year == date.year) ) {
+                monthHeader.selected = YES;
+            } else {
+                monthHeader.selected = NO;
+            }
+        }
+    
+        [_visibleCollectionSupplementaryViews setObject:monthHeader forKey:indexPath];//Save them by IndexPath
         return monthHeader;
         
     }
@@ -623,10 +680,30 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
+    _selectedDate = cell ? [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:cell.date]] : nil;
+    
+    //Deselect old header view
+    NSEnumerator *headerViewEnumerator = [_visibleCollectionSupplementaryViews objectEnumerator];
+    RSDFDatePickerMonthHeader *enumeratedMonthHeader;
+    while (enumeratedMonthHeader = [headerViewEnumerator nextObject]) {
+        enumeratedMonthHeader.selected = NO;
+    }
+    //Select the new header view
+    NSIndexPath *headerViewIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    RSDFDatePickerMonthHeader * headerView = [_visibleCollectionSupplementaryViews objectForKey:headerViewIndexPath];
+    if(headerView) {
+        headerView.selected = YES;
+    }
+    else{
+        //the header view is not on screen currently, but it will show selection automatically when configured in collectionView:viewForSupplementaryElementOfKind:atIndexPath:
+    }
+    
+    
     if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
-        RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
-        NSDate *selectedDate = cell ? [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:cell.date]] : nil;
-        [self.delegate datePickerView:self didSelectDate:selectedDate];
+        [self.delegate datePickerView:self didSelectDate:[_selectedDate copy]];//Pass a copy here since we dont want the user to be messing with our _selectedDate, due to header Selection etc.
     }
 }
 

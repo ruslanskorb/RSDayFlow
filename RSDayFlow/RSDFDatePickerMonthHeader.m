@@ -84,7 +84,22 @@
         self.dateLabel.textColor = [self currentMonthLabelTextColor];
     }
 }
-
+-(void)setSelected:(BOOL)selected{
+    _selected = selected;
+    if(_highlightSelection){
+        if (!selected) {
+            if (!_currentMonth) {
+                self.dateLabel.textColor = [self monthLabelTextColor];
+            }
+            else{
+                self.dateLabel.textColor = [self currentMonthLabelTextColor];
+            }
+        }
+        else{
+            self.dateLabel.textColor = [self selectedMonthLabelTextColor];
+        }
+    }
+}
 #pragma mark - Attributes of the View
 
 - (UIColor *)selfBackgroundColor
@@ -107,6 +122,9 @@
 - (UIColor *)currentMonthLabelTextColor
 {
     return [UIColor colorWithRed:32/255.0f green:135/255.0f blue:252/255.0f alpha:1.0f];
+}
+-(UIColor *)selectedMonthLabelTextColor{
+    return [UIColor colorWithRed:251/255.0f green:32/255.0f blue:37/255.0f alpha:1.0f];
 }
 
 @end
