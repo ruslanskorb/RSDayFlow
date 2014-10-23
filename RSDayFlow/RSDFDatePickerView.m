@@ -109,6 +109,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     self.collectionView.frame = [self collectionViewFrame];
     if (!self.collectionView.superview) {
         [self addSubview:self.collectionView];
+        [self scrollToToday:NO];
     } else {
         [self.collectionViewLayout invalidateLayout];
         [self.collectionViewLayout prepareLayout];
@@ -185,8 +186,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         [_collectionView registerClass:[self dayCellClass] forCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier];
         [_collectionView reloadData];
         [_collectionView layoutIfNeeded];
-        
-        [self scrollToToday:YES];
     }
     return _collectionView;
 }
@@ -282,7 +281,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     if (delta <= actualViewHeight) {
         [self scrollToTopOfSection:monthSection animated:animated];
     } else {
-        [self scrollToBottomOfItemAtIndexPath:dateItemIndexPath animated:animated];
+        [cv scrollToItemAtIndexPath:dateItemIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
     }
 }
 
@@ -575,11 +574,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
     
     return attributes.frame;
-}
-
-- (void)scrollToBottomOfItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated
-{
-    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
 }
 
 - (void)restoreSelection
