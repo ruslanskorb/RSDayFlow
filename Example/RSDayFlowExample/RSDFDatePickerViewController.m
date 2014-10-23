@@ -57,13 +57,17 @@
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     
-    UIBarButtonItem *today = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(onTodayButtonTouch:)];
-    self.navigationItem.rightBarButtonItem = today;
+    UIBarButtonItem *todayBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(onTodayButtonTouch:)];
+    self.navigationItem.rightBarButtonItem = todayBarButtonItem;
     
-    UIBarButtonItem *restyle = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStylePlain target:self action:@selector(onRestyleButtonTouch:)];
-    self.navigationItem.leftBarButtonItem = restyle;
+    UIBarButtonItem *restyleBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStylePlain target:self action:@selector(onRestyleButtonTouch:)];
+    self.navigationItem.leftBarButtonItem = restyleBarButtonItem;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
+    
+    NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+    NSDate *today = [self.calendar dateFromComponents:todayComponents];
+    [self.datePickerView selectDate:today];
     
     self.customDatePickerView.hidden = YES;
     
