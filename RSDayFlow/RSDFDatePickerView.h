@@ -64,9 +64,9 @@
 
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
-///-----------------------------------
-/// @name Scrolling to date
-///-----------------------------------
+///----------------------------
+/// @name Scrolling to the Date
+///----------------------------
 
 /**
  Scrolls the date picker view to the current day.
@@ -83,6 +83,22 @@
  */
 
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
+
+/// ------------------------
+/// @name Selecting the Date
+/// ------------------------
+
+/**
+ Selects the specified date.
+ 
+ If there is an existing selection of a different date, calling this method replaces the previous selection.
+ 
+ This method does not cause any selection-related delegate methods to be called.
+ 
+ @param date The date to select. Specifying nil for this parameter clears the current selection.
+ */
+
+- (void)selectDate:(NSDate *)date;
 
 ///-------------------------
 /// @name Reloading the Data
@@ -148,7 +164,38 @@
 @optional
 
 /**
+ Asks the delegate if the date should be highlighted during tracking.
+ 
+ As touch events arrive, the date picker view highlights dates in anticipation of the user selecting them.
+ As it processes those touch events, the date picker view calls this method to ask your delegate if a given cell should be highlighted.
+ 
+ If you do not implement this method, the default return value is YES.
+ 
+ @param view The date picker view object that is asking about the highlight change.
+ 
+ @return YES if the date should be highlighted or NO if it should not.
+ */
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date;
+
+/**
+ Asks the delegate if the specified date should be selected.
+ 
+ The date picker view calls this method when the user tries to select a date in the date picker view.
+ It does not call this method when you programmatically set the selection.
+ 
+ If you do not implement this method, the default return value is YES.
+ 
+ @param view The date picker view object that is asking whether the date should select.
+ 
+ @return YES if the date should be selected or NO if it should not.
+ */
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldSelectDate:(NSDate *)date;
+
+/**
  Tells the delegate that the user did select a date.
+ 
+ The date picker view calls this method when the user successfully selects a date in the date picker view.
+ It does not call this method when you programmatically set the selection.
  
  @param view The view whose date was selected.
  @param date The selected date.

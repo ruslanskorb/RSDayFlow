@@ -30,7 +30,7 @@
 + (NSCache *)imageCache;
 + (id)fetchObjectForKey:(id)key withCreator:(id(^)(void))block;
 
-@property (nonatomic, readonly, strong) UIImageView *todayImageView;
+@property (nonatomic, readonly, strong) UIImageView *selectedDayImageView;
 @property (nonatomic, readonly, strong) UIImageView *overlayImageView;
 @property (nonatomic, readonly, strong) UIImageView *markImageView;
 @property (nonatomic, readonly, strong) UIImageView *dividerImageView;
@@ -40,7 +40,7 @@
 @implementation RSDFDatePickerDayCell
 
 @synthesize dateLabel = _dateLabel;
-@synthesize todayImageView = _todayImageView;
+@synthesize selectedDayImageView = _selectedDayImageView;
 @synthesize overlayImageView = _overlayImageView;
 @synthesize markImageView = _markImageView;
 @synthesize dividerImageView = _dividerImageView;
@@ -69,133 +69,54 @@
 {
     self.backgroundColor = [self selfBackgroundColor];
     
-    self.todayImageView.hidden = YES;
-    self.overlayImageView.hidden = YES;
-    self.markImageView.hidden = YES;
-    self.dividerImageView.hidden = NO;
-    self.dateLabel.hidden = NO;
-    
-    [self addSubview:self.todayImageView];
+    [self addSubview:self.selectedDayImageView];
     [self addSubview:self.overlayImageView];
     [self addSubview:self.markImageView];
     [self addSubview:self.dividerImageView];
     [self addSubview:self.dateLabel];
+    
+    [self updateSubviews];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
-    self.dateLabel.frame = [self todayImageViewFrame];
-    self.todayImageView.frame = [self todayImageViewFrame];
-    self.overlayImageView.frame = [self todayImageViewFrame];
+    self.dateLabel.frame = [self selectedImageViewFrame];
+    self.selectedDayImageView.frame = [self selectedImageViewFrame];
+    self.overlayImageView.frame = [self selectedImageViewFrame];
     self.markImageView.frame = [self markImageViewFrame];
     self.dividerImageView.frame = [self dividerImageViewFrame];
     self.dividerImageView.image = [self dividerImage];
 }
 
+- (void)drawRect:(CGRect)rect
+{
+    [self updateSubviews];
+}
+
 #pragma mark - Custom Accessors
 
-- (void)setDate:(RSDFDatePickerDate)date
-{
-    _date = date;
-}
-
-- (void)setNotThisMonth:(BOOL)notThisMonth
-{
-    _notThisMonth = notThisMonth;
-    if (_notThisMonth) {
-        self.dateLabel.textColor = [self notThisMonthLabelTextColor];
-        self.dateLabel.font = [self dayLabelFont];
-        self.todayImageView.hidden = YES;
-        self.markImageView.hidden = YES;
-        self.dividerImageView.hidden = YES;
-    } else {
-        if (!self.isDayOff) {
-            self.dateLabel.textColor = [self dayLabelTextColor];
-        } else {
-            self.dateLabel.textColor = [self dayOffLabelTextColor];
-        }
-        if (!self.isToday) {
-            self.dateLabel.font = [self dayLabelFont];
-        } else {
-            self.dateLabel.font = [self todayLabelFont];
-        }
-        self.todayImageView.hidden = !self.today;
-        self.markImageView.hidden = !self.marked;
-        self.dividerImageView.hidden = NO;
-    }
-}
-
-- (void)setDayOff:(BOOL)dayOff
-{
-    _dayOff = dayOff;
-    if (!_dayOff) {
-        self.dateLabel.textColor = [self dayLabelTextColor];
-    } else {
-        self.dateLabel.textColor = [self dayOffLabelTextColor];
-    }
-}
-
-- (void)setMarked:(BOOL)marked
-{
-    _marked = marked;
-    self.markImageView.hidden = !_marked;
-}
-
-- (void)setCompleted:(BOOL)completed
-{
-    _completed = completed;
-    if (!_completed) {
-        self.markImageView.image = [self incompleteMarkImage];
-    } else {
-        self.markImageView.image = [self completeMarkImage];
-    }
-}
-
-- (void)setToday:(BOOL)today
-{
-    _today = today;
-    if (!_today) {
-        self.dateLabel.font = [self dayLabelFont];
-        if (!self.dayOff) {
-            self.dateLabel.textColor = [self dayLabelTextColor];
-        } else {
-            self.dateLabel.textColor = [self dayOffLabelTextColor];
-        }
-    } else {
-        self.dateLabel.font = [self todayLabelFont];
-        self.dateLabel.textColor = [self todayLabelTextColor];
-    }
-    self.todayImageView.hidden = !_today;
-}
-
-- (void)setHighlighted:(BOOL)highlighted
-{
-    [super setHighlighted:highlighted];
-    self.overlayImageView.hidden = !self.highlighted;
-}
-
-- (CGRect)todayImageViewFrame
+- (CGRect)selectedImageViewFrame
 {
     return CGRectMake(CGRectGetWidth(self.frame) / 2 - 17.5f, 5.5f, 35.0f, 35.0f);
 }
 
-- (UIImageView *)todayImageView
+- (UIImageView *)selectedDayImageView
 {
-    if (!_todayImageView) {
-        _todayImageView = [[UIImageView alloc] initWithFrame:[self todayImageViewFrame]];
-        _todayImageView.backgroundColor = [UIColor clearColor];
-        _todayImageView.contentMode = UIViewContentModeCenter;
-        _todayImageView.image = [self todayImage];
+    if (!_selectedDayImageView) {
+        _selectedDayImageView = [[UIImageView alloc] initWithFrame:[self selectedImageViewFrame]];
+        _selectedDayImageView.backgroundColor = [UIColor clearColor];
+        _selectedDayImageView.contentMode = UIViewContentModeCenter;
+        _selectedDayImageView.image = [self selectedDayImage];
     }
-    return _todayImageView;
+    return _selectedDayImageView;
 }
 
 - (UILabel *)dateLabel
 {
     if (!_dateLabel) {
-        _dateLabel = [[UILabel alloc] initWithFrame:[self todayImageViewFrame]];
+        _dateLabel = [[UILabel alloc] initWithFrame:[self selectedImageViewFrame]];
         _dateLabel.backgroundColor = [UIColor clearColor];
         _dateLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -205,7 +126,7 @@
 - (UIImageView *)overlayImageView
 {
     if (!_overlayImageView) {
-        _overlayImageView = [[UIImageView alloc] initWithFrame:[self todayImageViewFrame]];
+        _overlayImageView = [[UIImageView alloc] initWithFrame:[self selectedImageViewFrame]];
         _overlayImageView.backgroundColor = [UIColor clearColor];
         _overlayImageView.opaque = NO;
         _overlayImageView.alpha = 0.5f;
@@ -247,6 +168,49 @@
 }
 
 #pragma mark - Private
+
+- (void)updateSubviews
+{
+    self.selectedDayImageView.hidden = !self.isSelected || self.isNotThisMonth;
+    self.overlayImageView.hidden = !self.isHighlighted || self.isNotThisMonth;
+    self.markImageView.hidden = !self.isMarked || self.isNotThisMonth;
+    self.dividerImageView.hidden = self.isNotThisMonth;
+    
+    if (self.isNotThisMonth) {
+        self.dateLabel.textColor = [self notThisMonthLabelTextColor];
+        self.dateLabel.font = [self dayLabelFont];
+    } else {
+        if (!self.isSelected) {
+            if (!self.isToday) {
+                self.dateLabel.font = [self dayLabelFont];
+                if (!self.dayOff) {
+                    self.dateLabel.textColor = [self dayLabelTextColor];
+                } else {
+                    self.dateLabel.textColor = [self dayOffLabelTextColor];
+                }
+            } else {
+                self.dateLabel.font = [self todayLabelFont];
+                self.dateLabel.textColor = [self todayLabelTextColor];
+            }
+        } else {
+            if (!self.isToday) {
+                self.dateLabel.font = [self selectedDayLabelFont];
+                self.dateLabel.textColor = [self selectedDayLabelTextColor];
+                self.selectedDayImageView.image = [self selectedDayImage];
+            } else {
+                self.dateLabel.font = [self selectedTodayLabelFont];
+                self.dateLabel.textColor = [self selectedTodayLabelTextColor];
+                self.selectedDayImageView.image = [self selectedTodayImage];
+            }
+        }
+        
+        if (!self.isCompleted) {
+            self.markImageView.image = [self incompleteMarkImage];
+        } else {
+            self.markImageView.image = [self completeMarkImage];
+        }
+    }
+}
 
 + (NSCache *)imageCache
 {
@@ -336,33 +300,74 @@
 
 - (UIFont *)todayLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+    return [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
 }
 
 - (UIColor *)todayLabelTextColor
 {
-    return [UIColor whiteColor];;
+    return [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f];
 }
 
-- (UIColor *)todayImageColor
+- (UIFont *)selectedTodayLabelFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+}
+
+- (UIColor *)selectedTodayLabelTextColor
+{
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)selectedTodayImageColor
 {
     return [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f];
 }
 
-- (UIImage *)customTodayImage
+- (UIImage *)customSelectedTodayImage
 {
     return nil;
 }
 
-- (UIImage *)todayImage
+- (UIImage *)selectedTodayImage
 {
-    UIImage *todayImage = [self customTodayImage];
-    if (!todayImage) {
-        UIColor *todayImageColor = [self todayImageColor];
-        NSString *todayImageKey = [NSString stringWithFormat:@"img_today_%@", [todayImageColor description]];
-        todayImage = [self ellipseImageWithKey:todayImageKey frame:self.todayImageView.frame color:todayImageColor];
+    UIImage *selectedTodayImage = [self customSelectedTodayImage];
+    if (!selectedTodayImage) {
+        UIColor *selectedTodayImageColor = [self selectedTodayImageColor];
+        NSString *selectedTodayImageKey = [NSString stringWithFormat:@"img_selected_today_%@", [selectedTodayImageColor description]];
+        selectedTodayImage = [self ellipseImageWithKey:selectedTodayImageKey frame:self.selectedDayImageView.frame color:selectedTodayImageColor];
     }
-    return todayImage;
+    return selectedTodayImage;
+}
+
+- (UIFont *)selectedDayLabelFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+}
+
+- (UIColor *)selectedDayLabelTextColor
+{
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)selectedDayImageColor
+{
+    return [UIColor colorWithRed:255/255.0f green:59/255.0f blue:48/255.0f alpha:1.0f];
+}
+
+- (UIImage *)customSelectedDayImage
+{
+    return nil;
+}
+
+- (UIImage *)selectedDayImage
+{
+    UIImage *selectedDayImage = [self customSelectedDayImage];
+    if (!selectedDayImage) {
+        UIColor *selectedDayImageColor = [self selectedDayImageColor];
+        NSString *selectedDayImageKey = [NSString stringWithFormat:@"img_selected_day_%@", [selectedDayImageColor description]];
+        selectedDayImage = [self ellipseImageWithKey:selectedDayImageKey frame:self.selectedDayImageView.frame color:selectedDayImageColor];
+    }
+    return selectedDayImage;
 }
 
 - (UIColor *)overlayImageColor

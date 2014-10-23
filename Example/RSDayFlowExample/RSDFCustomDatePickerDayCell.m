@@ -37,6 +37,21 @@
     return [UIColor colorWithRed:51/255.0f green:37/255.0f blue:36/255.0f alpha:1.0f];
 }
 
+- (UIColor *)selectedDayImageColor
+{
+    return [UIColor clearColor];
+}
+
+- (UIFont *)selectedDayLabelFont
+{
+    return [self dayLabelFont];
+}
+
+- (UIColor *)selectedDayLabelTextColor
+{
+    return [self dayLabelTextColor];
+}
+
 - (UIColor *)dayOffLabelTextColor
 {
     return [UIColor colorWithRed:51/255.0f green:37/255.0f blue:36/255.0f alpha:1.0f];
@@ -52,9 +67,19 @@
     return [UIColor colorWithRed:3/255.0f green:117/255.0f blue:214/255.0f alpha:1.0f];
 }
 
-- (UIColor *)todayImageColor
+- (UIColor *)selectedTodayImageColor
 {
     return [UIColor clearColor];
+}
+
+- (UIFont *)selectedTodayLabelFont
+{
+    return [self todayLabelFont];
+}
+
+- (UIColor *)selectedTodayLabelTextColor
+{
+    return [self todayLabelTextColor];
 }
 
 - (UIColor *)overlayImageColor

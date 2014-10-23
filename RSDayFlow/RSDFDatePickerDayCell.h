@@ -120,32 +120,74 @@
 - (UIColor *)notThisMonthLabelTextColor;
 
 /**
- The font for the label of the current day. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
+ The font for the label of the current day. Default value is [UIFont fontWithName:@"HelveticaNeue" size:18.0f].
  
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIFont *)todayLabelFont;
 
 /**
- The text color for the label of the current day. Default value is [UIColor whiteColor].
+ The text color for the label of the current day. Default value is [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f].
  
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)todayLabelTextColor;
 
 /**
+ The font for the label of the current day when it is selected. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIFont *)selectedTodayLabelFont;
+
+/**
+ The text color for the label of the current day when it is selected. Default value is [UIColor whiteColor].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)selectedTodayLabelTextColor;
+
+/**
  The color of the background image for the cell of the current day. Default value is [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f].
  
- @discussion Can be overridden in subclasses for customization. Ignored if `customTodayImage` is not equal to `nil`.
+ @discussion Can be overridden in subclasses for customization. Ignored if `customSelectedTodayImage` is not equal to `nil`.
  */
-- (UIColor *)todayImageColor;
+- (UIColor *)selectedTodayImageColor;
 
 /**
  The custom background image for the cell of the current day. Default value is `nil`.
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customTodayImage;
+- (UIImage *)customSelectedTodayImage;
+
+/**
+ The font for the label of the day when it is selected. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIFont *)selectedDayLabelFont;
+
+/**
+ The text color for the label of the day when it is selected. Default value is [UIColor whiteColor].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)selectedDayLabelTextColor;
+
+/**
+ The color of the background image for the cell of the day when it is selected. Default value is [UIColor colorWithRed:255/255.0f green:59/255.0f blue:48/255.0f alpha:1.0f].
+ 
+ @discussion Can be overridden in subclasses for customization. Ignored if `customSelectedDayImage` is not equal to `nil`.
+ */
+- (UIColor *)selectedDayImageColor;
+
+/**
+ The custom background image for the cell of the day when it is selected. Default value is `nil`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIImage *)customSelectedDayImage;
 
 /**
  The color of the overlay image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
