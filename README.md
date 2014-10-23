@@ -8,7 +8,8 @@ iOS 7 Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 
 > [RSDayFlow](https://github.com/ruslanskorb/RSDayFlow) is a slim fork of [DayFlow](https://github.com/evadne/DayFlow) with updates and extensions:
 
-> * Possibility to mark the date
+> * Visual feedback of the currently selected cell
+* Possibility to mark the date
 * 2 colors of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
 * Design like iOS 7
 * Some other updates
@@ -47,19 +48,31 @@ Just create your date picker view and set a delegate / a data source if needed.
 
 ## Delegate (optional)
 
-`RSDFDatePickerView` provides one delegate method `didSelectDate`. It gets called when a user click on a specific date. To use it, implement the delegate in your view controller.
+`RSDFDatePickerView` provides three delegate methods. The method `datePickerView:shouldHighlightDate:` asks the delegate if the date should be highlighted during tracking. The method `datePickerView:shouldSelectDate:` asks the delegate if the specified date should be selected. The method `datePickerView:didSelectDate:` called when a user click on a specific date. To use them, implement the delegate in your view controller.
 
 ```objective-c
 @interface ViewController () <RSDFDatePickerViewDelegate>
 ```
 
-Then implement the delegate function.
+Then implement the delegate functions.
 
 ```objective-c
+// Returns YES if the date should be highlighted or NO if it should not.
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date
+{
+    return YES;
+}
+
+// Returns YES if the date should be selected or NO if it should not.
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldSelectDate:(NSDate *)date
+{
+    return YES;
+}
+
 // Prints out the selected date.
 - (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date
 {
-	NSLog(@"%@", [date description]);
+    NSLog(@"%@", [date description]);
 }
 ```
 
