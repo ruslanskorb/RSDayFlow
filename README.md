@@ -8,7 +8,7 @@ iOS 7 Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 
 > [RSDayFlow](https://github.com/ruslanskorb/RSDayFlow) is a slim fork of [DayFlow](https://github.com/evadne/DayFlow) with updates and extensions:
 
->  * Visual feedback of the currently selected cell
+> * Visual feedback of the currently selected cell
 * Possibility to mark the date
 * 2 colors of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
 * Design like iOS 7
