@@ -264,17 +264,27 @@ static const CGFloat RSDFDatePickerViewDaysOfWeekViewHeight = 22.0f;
 	[cvLayout invalidateLayout];
 	[cvLayout prepareLayout];
     
-    NSInteger section = [self sectionForDate:dateaa];
-    
-    [self _scrollToTopOfSection:section animated:animated];
-
-
-//    NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
-//    NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
-//    NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:self.today options:0].day + (weekday - self.calendar.firstWeekday);
-//    
-//    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
-//    [self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
+    NSInteger section = [self sectionForDate:date];
+	
+	CGRect header1Rect = [self _frameForHeaderForSection:section];
+	CGRect header2Rect = [self _frameForHeaderForSection:section + 1];
+	
+	CGFloat sectionHeight = header2Rect.origin.y - header1Rect.origin.y;
+	CGFloat actualViewHeight = (self.bounds.size.height - _collectionView.contentInset.top - _collectionView.contentInset.bottom);
+	
+	if(sectionHeight <= actualViewHeight)
+	{
+		[self _scrollToTopOfSection:section animated:animated];
+	}
+	else
+	{
+		NSDate *firstDayInMonth = [self dateForFirstDayInSection:section];
+		NSUInteger weekday = [self.calendar components:NSWeekdayCalendarUnit fromDate:firstDayInMonth].weekday;
+		NSInteger item = [self.calendar components:NSDayCalendarUnit fromDate:firstDayInMonth toDate:self.today options:0].day + (weekday - self.calendar.firstWeekday);
+		
+		NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+		[self.collectionView scrollToItemAtIndexPath:cellIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
+	}
 }
 
 - (void)reloadData
