@@ -26,9 +26,24 @@
 #import <UIKit/UIKit.h>
 
 /**
+ Types of supported directions of the layout of the collection view.
+ */
+typedef NS_ENUM(NSUInteger, RSDFDatePickerCollectionViewLayoutDirection) {
+    RSDFDatePickerCollectionViewLayoutDirectionLeftToRight,
+    RSDFDatePickerCollectionViewLayoutDirectionRightToLeft
+};
+
+/**
  The `RSDFDatePickerCollectionViewLayout` is a layout of the collection view which used the date picker.
  */
 @interface RSDFDatePickerCollectionViewLayout : UICollectionViewFlowLayout
+
+/**
+ Designated initializer. Initializes and returns a newly allocated layout object with the specified direction.
+ 
+ @param frame The direction of the layout.
+ */
+- (instancetype)initWithDirection:(RSDFDatePickerCollectionViewLayoutDirection)direction;
 
 ///-----------------------------------------
 /// @name Accessing Attributes of the Layout

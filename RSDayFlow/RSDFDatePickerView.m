@@ -198,7 +198,14 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (RSDFDatePickerCollectionViewLayout *)collectionViewLayout
 {
     if (!_collectionViewLayout) {
-        _collectionViewLayout = [[[self collectionViewLayoutClass] alloc] init];
+        NSLocaleLanguageDirection characterDirection = [NSLocale characterDirectionForLanguage:self.calendar.locale.localeIdentifier];
+        RSDFDatePickerCollectionViewLayoutDirection layoutDirection;
+        if (characterDirection == NSLocaleLanguageDirectionRightToLeft) {
+            layoutDirection = RSDFDatePickerCollectionViewLayoutDirectionRightToLeft;
+        } else {
+            layoutDirection = RSDFDatePickerCollectionViewLayoutDirectionLeftToRight;
+        }
+        _collectionViewLayout = [[[self collectionViewLayoutClass] alloc] initWithDirection:layoutDirection];
     }
     return _collectionViewLayout;
 }
