@@ -189,13 +189,24 @@
     CGFloat interitemSpacing = [self selfInteritemSpacing];
     
     CGFloat y = 0;
-    __block CGFloat x = 0;
+    __block CGFloat x;
     
-    [self.weekdayLabels enumerateObjectsUsingBlock:^(UILabel *weekdayLabel, NSUInteger idx, BOOL *stop) {
-        CGRect weekdayLabelFrame = CGRectMake(x, y, itemSize.width, itemSize.height);
-        weekdayLabel.frame = weekdayLabelFrame;
-        x += (itemSize.width + interitemSpacing);
-    }];
+    NSLocaleLanguageDirection characterDirection = [NSLocale characterDirectionForLanguage:self.calendar.locale.localeIdentifier];
+    if (characterDirection == NSLocaleLanguageDirectionRightToLeft) {
+        x = CGRectGetWidth(self.frame) - itemSize.width;
+        [self.weekdayLabels enumerateObjectsUsingBlock:^(UILabel *weekdayLabel, NSUInteger idx, BOOL *stop) {
+            CGRect weekdayLabelFrame = CGRectMake(x, y, itemSize.width, itemSize.height);
+            weekdayLabel.frame = weekdayLabelFrame;
+            x -= (itemSize.width + interitemSpacing);
+        }];
+    } else {
+        x = 0;
+        [self.weekdayLabels enumerateObjectsUsingBlock:^(UILabel *weekdayLabel, NSUInteger idx, BOOL *stop) {
+            CGRect weekdayLabelFrame = CGRectMake(x, y, itemSize.width, itemSize.height);
+            weekdayLabel.frame = weekdayLabelFrame;
+            x += (itemSize.width + interitemSpacing);
+        }];
+    }
 }
 
 - (void)updateWeekdayLabels

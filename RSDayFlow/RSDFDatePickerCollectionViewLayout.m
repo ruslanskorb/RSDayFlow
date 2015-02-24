@@ -25,6 +25,12 @@
 
 #import "RSDFDatePickerCollectionViewLayout.h"
 
+@interface RSDFDatePickerCollectionViewLayout ()
+
+@property (assign, nonatomic) RSDFDatePickerCollectionViewLayoutDirection direction;
+
+@end
+
 @implementation RSDFDatePickerCollectionViewLayout
 
 #pragma mark - Lifecycle
@@ -34,6 +40,7 @@
     self = [super init];
     if (self) {
         [self commonInitializer];
+        _direction = RSDFDatePickerCollectionViewLayoutDirectionLeftToRight;
     }
     return self;
 }
@@ -43,6 +50,17 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self commonInitializer];
+        _direction = RSDFDatePickerCollectionViewLayoutDirectionLeftToRight;
+    }
+    return self;
+}
+
+- (instancetype)initWithDirection:(RSDFDatePickerCollectionViewLayoutDirection)direction
+{
+    self = [super init];
+    if (self) {
+        [self commonInitializer];
+        _direction = direction;
     }
     return self;
 }
@@ -54,6 +72,21 @@
 }
 
 #pragma mark - Atrributes of the Layout
+
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+{
+    NSArray *supersAttributes = [super layoutAttributesForElementsInRect:rect];
+    
+    if (self.direction == RSDFDatePickerCollectionViewLayoutDirectionRightToLeft) {
+        for (UICollectionViewLayoutAttributes *attributes in supersAttributes) {
+            CGRect frame = attributes.frame;
+            frame.origin.x = CGRectGetWidth(rect) - CGRectGetWidth(attributes.frame) - CGRectGetMinX(attributes.frame);
+            attributes.frame = frame;
+        }
+    }
+    
+    return supersAttributes;
+}
 
 - (CGSize)selfHeaderReferenceSize
 {
