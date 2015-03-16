@@ -109,7 +109,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     self.collectionView.frame = [self collectionViewFrame];
     if (!self.collectionView.superview) {
         [self addSubview:self.collectionView];
-        [self scrollToToday:NO];
+        if (self.selectedDate == nil) {
+            [self scrollToToday:NO];
+        }
+        else {
+            [self scrollToDate:self.selectedDate animated:NO];
+        }
     } else {
         [self.collectionViewLayout invalidateLayout];
         [self.collectionViewLayout prepareLayout];
