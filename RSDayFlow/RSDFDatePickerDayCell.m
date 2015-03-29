@@ -29,6 +29,7 @@
 
 + (NSCache *)imageCache;
 + (id)fetchObjectForKey:(id)key withCreator:(id(^)(void))block;
++ (UIImage *)newImageFromMaskImage:(UIImage *)mask inColor:(UIColor *)color;
 
 @property (nonatomic, readonly, strong) UIImageView *selectedDayImageView;
 @property (nonatomic, readonly, strong) UIImageView *overlayImageView;
@@ -204,11 +205,7 @@
             }
         }
         
-        if (!self.isCompleted) {
-            self.markImageView.image = [self incompleteMarkImage];
-        } else {
-            self.markImageView.image = [self completeMarkImage];
-        }
+        self.markImageView.image = [self completeMarkImage];
     }
 }
 
@@ -230,6 +227,27 @@
         [[self imageCache] setObject:answer forKey:key];
     }
     return answer;
+}
+
+#pragma mark: Color Image
+
++(UIImage *)newImageFromMaskImage:(UIImage *)mask inColor:(UIColor *)color {
+    
+    CGImageRef maskImage = mask.CGImage;
+    CGFloat width = mask.scale * mask.size.width;
+    CGFloat height = mask.scale * mask.size.height;
+    CGRect bounds = CGRectMake(0,0,width,height);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, width, height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+    CGContextClipToMask(bitmapContext, bounds, maskImage);
+    CGContextSetFillColorWithColor(bitmapContext, color.CGColor);
+    CGContextFillRect(bitmapContext, bounds);
+    
+    CGImageRef mainViewContentBitmapContext = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
+    
+    return [UIImage imageWithCGImage:mainViewContentBitmapContext scale:mask.scale orientation:UIImageOrientationUp];
 }
 
 - (UIImage *)ellipseImageWithKey:(NSString *)key frame:(CGRect)frame color:(UIColor *)color
@@ -426,11 +444,18 @@
 {
     UIImage *completeMarkImage = [self customCompleteMarkImage];
     if (!completeMarkImage) {
-        UIColor *completeMarkImageColor = [self completeMarkImageColor];
-        NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
-        completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
+        completeMarkImage = self.customImage;
+            if (!completeMarkImage) {
+                UIColor *completeMarkImageColor = self.customColor;
+                if (!self.customColor) {
+                    self.customColor = [self completeMarkImageColor];
+                }
+                NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
+                completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
+            }
     }
-    return completeMarkImage;
+    
+    return [[self class] newImageFromMaskImage:completeMarkImage inColor:self.customColor];
 }
 
 - (UIColor *)dividerImageColor
