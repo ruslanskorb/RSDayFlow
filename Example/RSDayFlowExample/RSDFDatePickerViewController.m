@@ -31,6 +31,7 @@
 
 @property (strong, nonatomic) NSArray *datesToMark;
 @property (strong, nonatomic) NSDictionary *statesOfTasks;
+@property (strong, nonatomic) NSMutableSet *squareDates;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) RSDFDatePickerView *datePickerView;
 @property (strong, nonatomic) RSDFCustomDatePickerView *customDatePickerView;
@@ -44,6 +45,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+    
+    self.squareDates = [[NSMutableSet alloc] init];
 	
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -120,6 +123,7 @@
             // Add custom color
             color = [UIColor yellowColor];
             if ([date compare:today] == NSOrderedAscending) {
+                [self.squareDates addObject:date];
                 color = [UIColor greenColor];
             }
             statesOfTasks[date] = color;
@@ -203,11 +207,55 @@
 
 
 - (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date{
+    
+    if ([[self class] dateIsWeekend:date]) {
+        return [UIColor blackColor];
+    }
+    
     return self.statesOfTasks[date];
 }
 
 -(UIImage *)datePickerView:(RSDFDatePickerView *)view markImageFoDate:(NSDate *)date{
-    return nil;
+    
+    if ([self.squareDates containsObject:date]) {
+        NSLog(@"Entered Square");
+        CGRect frame = CGRectMake(0, 0, 12.0f, 12.0f);
+        UIGraphicsBeginImageContextWithOptions(frame.size, NO, 0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+        CGContextFillRect(context, frame);
+        CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+        CGContextSetLineWidth(context, 2.0);
+        CGContextStrokeRect(context, frame);
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return image;
+    } else{
+        CGRect frame = CGRectMake(0, 0, 12.0f, 12.0f);
+        UIGraphicsBeginImageContextWithOptions(frame.size, NO, 0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+        CGContextFillEllipseInRect(context, frame);
+        CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+        CGContextSetLineWidth(context, 2.0);
+        CGContextStrokeEllipseInRect(context, CGRectInset(frame, 1, 1));
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return image;
+    }
+}
+
++(BOOL)dateIsWeekend:(NSDate *)date{
+    NSCalendar *calender = [NSCalendar currentCalendar];
+    NSRange weekdayRange = [calender maximumRangeOfUnit:NSWeekdayCalendarUnit];
+    NSDateComponents *components = [calender components:NSWeekdayCalendarUnit fromDate:date];
+    NSUInteger weekdayDate = [components weekday];
+    
+    if (weekdayDate == weekdayRange.location || weekdayDate == weekdayRange.length) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

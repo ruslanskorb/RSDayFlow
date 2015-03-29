@@ -642,6 +642,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
             if (cell.marked && [self.dataSource respondsToSelector:@selector(datePickerView:markImageColorForDate:)]) {
                 cell.customColor = [self.dataSource datePickerView:self markImageColorForDate:cellDate];
             }
+            
+            if (cell.marked && [self.dataSource respondsToSelector:@selector(datePickerView:markImageFoDate:)]) {
+                cell.customImage = [self.dataSource datePickerView:self markImageFoDate:cellDate];
+            }
         }
         
         cell.today = ([cellDate compare:_today] == NSOrderedSame) ? YES : NO;

@@ -443,14 +443,17 @@
 - (UIImage *)completeMarkImage
 {
     UIImage *completeMarkImage = [self customCompleteMarkImage];
-        if (!completeMarkImage) {
-            UIColor *completeMarkImageColor = self.customColor;
-            if (!self.customColor) {
-                self.customColor = [self completeMarkImageColor];
+    if (!completeMarkImage) {
+        completeMarkImage = self.customImage;
+            if (!completeMarkImage) {
+                UIColor *completeMarkImageColor = self.customColor;
+                if (!self.customColor) {
+                    self.customColor = [self completeMarkImageColor];
+                }
+                NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
+                completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
             }
-            NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
-            completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
-        }
+    }
     
     return [[self class] newImageFromMaskImage:completeMarkImage inColor:self.customColor];
 }

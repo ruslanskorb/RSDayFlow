@@ -81,6 +81,11 @@
  */
 @property (nonatomic) UIColor *customColor;
 
+/**
+ An Image to be used assigned by datasource
+ */
+@property (nonatomic) UIImage *customImage;
+
 ///---------------------------------------
 /// @name Accessing Attributes of the View
 ///---------------------------------------
