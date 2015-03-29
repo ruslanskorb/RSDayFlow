@@ -201,13 +201,13 @@
     return [self.datesToMark containsObject:date];
 }
 
-- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
-{
-	return [self.statesOfTasks[date] boolValue];
-}
 
 - (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date{
     return self.statesOfTasks[date];
+}
+
+-(UIImage *)datePickerView:(RSDFDatePickerView *)view markImageFoDate:(NSDate *)date{
+    return nil;
 }
 
 @end
