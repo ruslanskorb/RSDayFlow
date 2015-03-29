@@ -204,11 +204,7 @@
             }
         }
         
-        if (!self.isCompleted) {
-            self.markImageView.image = [self incompleteMarkImage];
-        } else {
-            self.markImageView.image = [self completeMarkImage];
-        }
+        self.markImageView.image = [self completeMarkImage];
     }
 }
 
@@ -426,10 +422,15 @@
 {
     UIImage *completeMarkImage = [self customCompleteMarkImage];
     if (!completeMarkImage) {
-        UIColor *completeMarkImageColor = [self completeMarkImageColor];
+        UIColor *completeMarkImageColor = self.customColor;
+        if (!self.customColor) {
+            self.customColor = [self completeMarkImageColor];
+        }
         NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
         completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
     }
+    
+    
     return completeMarkImage;
 }
 

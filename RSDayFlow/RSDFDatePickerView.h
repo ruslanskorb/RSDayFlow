@@ -233,4 +233,21 @@
  */
 - (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date;
 
+/**
+ Asks the data source for the image to show for marked date
+ 
+ @param view The date picker view object that is asking about the completion of tasks on the date.
+ 
+ @return UIImage for marked date
+ */
+-(UIImage *)datePickerView:(RSDFDatePickerView *)view markImageFoDate:(NSDate *)date;
+
+/**
+ 
+ @param view The date picker view object that is asking about the completion of tasks on the date.
+ 
+ @return UIColor for marked date
+*/
+-(UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date;
+
 @end

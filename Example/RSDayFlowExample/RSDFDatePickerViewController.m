@@ -109,17 +109,20 @@
 
 - (NSDictionary *)statesOfTasks
 {
+    __block UIColor *color;
+    
     if (!_statesOfTasks) {
         NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
         NSDate *today = [self.calendar dateFromComponents:todayComponents];
         
         NSMutableDictionary *statesOfTasks = [[NSMutableDictionary alloc] initWithCapacity:[self.datesToMark count]];
         [self.datesToMark enumerateObjectsUsingBlock:^(NSDate *date, NSUInteger idx, BOOL *stop) {
-            BOOL isCompletedAllTasks = NO;
+            // Add custom color
+            color = [UIColor yellowColor];
             if ([date compare:today] == NSOrderedAscending) {
-                isCompletedAllTasks = YES;
+                color = [UIColor greenColor];
             }
-            statesOfTasks[date] = @(isCompletedAllTasks);
+            statesOfTasks[date] = color;
         }];
         
         _statesOfTasks = [statesOfTasks copy];
@@ -201,6 +204,10 @@
 - (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
 {
 	return [self.statesOfTasks[date] boolValue];
+}
+
+- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date{
+    return self.statesOfTasks[date];
 }
 
 @end

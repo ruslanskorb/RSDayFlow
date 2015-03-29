@@ -76,6 +76,11 @@
  */
 @property (nonatomic, getter = isCompleted) BOOL completed;
 
+/**
+ A color denoting a custom color for date
+ */
+@property (nonatomic) UIColor *customColor;
+
 ///---------------------------------------
 /// @name Accessing Attributes of the View
 ///---------------------------------------
