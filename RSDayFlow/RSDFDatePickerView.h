@@ -225,12 +225,23 @@
 - (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date;
 
 /**
- Asks the data source if all tasks on the date are completed.
+ Asks the data source about the color of the default mark image for the specified date.
  
- @param view The date picker view object that is asking about the completion of tasks on the date.
+ @param view The date picker view object that is asking about the color of the default mark image for the specified date.
  
- @return YES if all tasks on the date are completed or NO if they are not completed.
+ @return The color of the default mark image for the specified date.
+ 
+ @discussion Will be ignored if the method `datePickerView:markImageForDate:` is implemented.
  */
-- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date;
+- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date;
+
+/**
+ Asks the data source about the mark image for the specified date.
+ 
+ @param view The date picker view object that is asking about the mark image for the specified date.
+ 
+ @return The mark image for the specified date.
+ */
+- (UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
 
 @end

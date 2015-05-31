@@ -72,9 +72,16 @@
 @property (nonatomic, getter = isMarked) BOOL marked;
 
 /**
- A Boolean value that determines whether all tasks for the cell's day are completed.
+ The color of the default mark image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
+ 
+ @discussion Will be used to create the mark image if `markImage` is equal to `nil`.
  */
-@property (nonatomic, getter = isCompleted) BOOL completed;
+@property (nonatomic, copy) UIColor *markImageColor;
+
+/**
+ The mark image for the cell of the day. The default mark image is a small round mark.
+ */
+@property (nonatomic, strong) UIImage *markImage;
 
 ///---------------------------------------
 /// @name Accessing Attributes of the View
@@ -202,34 +209,6 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIImage *)customOverlayImage;
-
-/**
- The color of the incomplete mark image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
- 
- @discussion Can be overridden in subclasses for customization. Ignored if `customIncompleteMarkImage` is not equal to `nil`.
- */
-- (UIColor *)incompleteMarkImageColor;
-
-/**
- The custom incomplete mark image for the cell of the day. Default value is `nil`.
- 
- @discussion Can be overridden in subclasses for customization.
- */
-- (UIImage *)customIncompleteMarkImage;
-
-/**
- The color of the complete mark image for the cell of the day. Default value is [UIColor colorWithRed:83/255.0f green:215/255.0f blue:105/255.0f alpha:1.0f].
- 
- @discussion Can be overridden in subclasses for customization. Ignored if `customCompleteMarkImage` is not equal to `nil`.
- */
-- (UIColor *)completeMarkImageColor;
-
-/**
- The custom complete mark image for the cell of the day. Default value is `nil`.
- 
- @discussion Can be overridden in subclasses for customization.
- */
-- (UIImage *)customCompleteMarkImage;
 
 /**
  The color of the divider image for the cell of the day. Default value is [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f].

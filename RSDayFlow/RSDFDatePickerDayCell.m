@@ -42,6 +42,8 @@
 @synthesize dateLabel = _dateLabel;
 @synthesize selectedDayImageView = _selectedDayImageView;
 @synthesize overlayImageView = _overlayImageView;
+@synthesize markImage = _markImage;
+@synthesize markImageColor = _markImageColor;
 @synthesize markImageView = _markImageView;
 @synthesize dividerImageView = _dividerImageView;
 
@@ -97,22 +99,6 @@
 
 #pragma mark - Custom Accessors
 
-- (CGRect)selectedImageViewFrame
-{
-    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 17.5f, 5.5f, 35.0f, 35.0f);
-}
-
-- (UIImageView *)selectedDayImageView
-{
-    if (!_selectedDayImageView) {
-        _selectedDayImageView = [[UIImageView alloc] initWithFrame:[self selectedImageViewFrame]];
-        _selectedDayImageView.backgroundColor = [UIColor clearColor];
-        _selectedDayImageView.contentMode = UIViewContentModeCenter;
-        _selectedDayImageView.image = [self selectedDayImage];
-    }
-    return _selectedDayImageView;
-}
-
 - (UILabel *)dateLabel
 {
     if (!_dateLabel) {
@@ -121,6 +107,54 @@
         _dateLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _dateLabel;
+}
+
+- (UIImageView *)dividerImageView
+{
+    if (!_dividerImageView) {
+        _dividerImageView = [[UIImageView alloc] initWithFrame:[self dividerImageViewFrame]];
+        _dividerImageView.contentMode = UIViewContentModeCenter;
+        _dividerImageView.image = [self dividerImage];
+    }
+    return _dividerImageView;
+}
+
+- (CGRect)dividerImageViewFrame
+{
+    return CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame) + 3.0f, 0.5f);
+}
+
+- (CGRect)markImageViewFrame
+{
+    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 4.5f, 45.5f, 9.0f, 9.0f);
+}
+
+- (UIImage *)markImage
+{
+    if (!_markImage) {
+        NSString *markImageKey = [NSString stringWithFormat:@"img_mark_%@", [self.markImageColor description]];
+        _markImage = [self ellipseImageWithKey:markImageKey frame:self.markImageView.frame color:self.markImageColor];
+    }
+    return _markImage;
+}
+
+- (UIColor *)markImageColor
+{
+    if (!_markImageColor) {
+        _markImageColor = [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+    }
+    return _markImageColor;
+}
+
+- (UIImageView *)markImageView
+{
+    if (!_markImageView) {
+        _markImageView = [[UIImageView alloc] initWithFrame:[self markImageViewFrame]];
+        _markImageView.backgroundColor = [UIColor clearColor];
+        _markImageView.contentMode = UIViewContentModeCenter;
+        _markImageView.image = self.markImage;
+    }
+    return _markImageView;
 }
 
 - (UIImageView *)overlayImageView
@@ -136,35 +170,39 @@
     return _overlayImageView;
 }
 
-- (CGRect)markImageViewFrame
+- (UIImageView *)selectedDayImageView
 {
-    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 4.5f, 45.5f, 9.0f, 9.0f);
-}
-
-- (UIImageView *)markImageView
-{
-    if (!_markImageView) {
-        _markImageView = [[UIImageView alloc] initWithFrame:[self markImageViewFrame]];
-        _markImageView.backgroundColor = [UIColor clearColor];
-        _markImageView.contentMode = UIViewContentModeCenter;
-        _markImageView.image = [self incompleteMarkImage];
+    if (!_selectedDayImageView) {
+        _selectedDayImageView = [[UIImageView alloc] initWithFrame:[self selectedImageViewFrame]];
+        _selectedDayImageView.backgroundColor = [UIColor clearColor];
+        _selectedDayImageView.contentMode = UIViewContentModeCenter;
+        _selectedDayImageView.image = [self selectedDayImage];
     }
-    return _markImageView;
+    return _selectedDayImageView;
 }
 
-- (CGRect)dividerImageViewFrame
+- (CGRect)selectedImageViewFrame
 {
-    return CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame) + 3.0f, 0.5f);
+    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 17.5f, 5.5f, 35.0f, 35.0f);
 }
 
-- (UIImageView *)dividerImageView
+- (void)setMarkImage:(UIImage *)markImage
 {
-    if (!_dividerImageView) {
-        _dividerImageView = [[UIImageView alloc] initWithFrame:[self dividerImageViewFrame]];
-        _dividerImageView.contentMode = UIViewContentModeCenter;
-        _dividerImageView.image = [self dividerImage];
+    if (![_markImage isEqual:markImage]) {
+        _markImage = markImage;
+        
+        [self setNeedsDisplay];
     }
-    return _dividerImageView;
+}
+
+- (void)setMarkImageColor:(UIColor *)markImageColor
+{
+    if (![_markImageColor isEqual:markImageColor]) {
+        _markImageColor = markImageColor;
+        _markImage = nil;
+        
+        [self setNeedsDisplay];
+    }
 }
 
 #pragma mark - Private
@@ -204,10 +242,10 @@
             }
         }
         
-        if (!self.isCompleted) {
-            self.markImageView.image = [self incompleteMarkImage];
+        if (self.marked) {
+            self.markImageView.image = self.markImage;
         } else {
-            self.markImageView.image = [self completeMarkImage];
+            self.markImageView.image = nil;
         }
     }
 }
@@ -389,48 +427,6 @@
         overlayImage = [self ellipseImageWithKey:overlayImageKey frame:self.overlayImageView.frame color:overlayImageColor];
     }
     return overlayImage;
-}
-
-- (UIColor *)incompleteMarkImageColor
-{
-    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
-}
-
-- (UIImage *)customIncompleteMarkImage
-{
-    return nil;
-}
-
-- (UIImage *)incompleteMarkImage
-{
-    UIImage *incompleteMarkImage = [self customIncompleteMarkImage];
-    if (!incompleteMarkImage) {
-        UIColor *incompleteMarkImageColor = [self incompleteMarkImageColor];
-        NSString *incompleteMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [incompleteMarkImageColor description]];
-        incompleteMarkImage = [self ellipseImageWithKey:incompleteMarkImageKey frame:self.markImageView.frame color:incompleteMarkImageColor];
-    }
-    return incompleteMarkImage;
-}
-
-- (UIColor *)completeMarkImageColor
-{
-    return [UIColor colorWithRed:83/255.0f green:215/255.0f blue:105/255.0f alpha:1.0f];
-}
-
-- (UIImage *)customCompleteMarkImage
-{
-    return nil;
-}
-
-- (UIImage *)completeMarkImage
-{
-    UIImage *completeMarkImage = [self customCompleteMarkImage];
-    if (!completeMarkImage) {
-        UIColor *completeMarkImageColor = [self completeMarkImageColor];
-        NSString *completeMarkImageKey = [NSString stringWithFormat:@"img_mark_%@", [completeMarkImageColor description]];
-        completeMarkImage = [self ellipseImageWithKey:completeMarkImageKey frame:self.markImageView.frame color:completeMarkImageColor];
-    }
-    return completeMarkImage;
 }
 
 - (UIColor *)dividerImageColor
