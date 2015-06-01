@@ -36,7 +36,7 @@
 static NSString * const RSDFDatePickerViewMonthHeaderIdentifier = @"RSDFDatePickerViewMonthHeaderIdentifier";
 static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerViewDayCellIdentifier";
 
-@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate>
 
 @property (nonatomic, readonly, strong) NSCalendar *calendar;
 @property (nonatomic, readonly, assign) RSDFDatePickerDate fromDate;

@@ -31,7 +31,7 @@
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
 */
-@interface RSDFDatePickerView : UIView
+@interface RSDFDatePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 /**
  Designated initializer. Initializes and returns a newly allocated view object with the specified frame rectangle and the specified calendar.
