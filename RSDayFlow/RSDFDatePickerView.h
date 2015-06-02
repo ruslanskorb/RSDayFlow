@@ -64,6 +64,17 @@
 
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
 
+///------------------
+/// @name Paging Mode
+/// -----------------
+
+/**
+ A Boolean value that determines whether paging is enabled for the date picker view. Default value is `NO`.
+ 
+ @discussion If `YES`, stop on the top of the month.
+ */
+@property (nonatomic, getter = isPagingEnabled) BOOL pagingEnabled;
+
 ///----------------------------
 /// @name Scrolling to the Date
 ///----------------------------

@@ -794,4 +794,48 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
 }
 
+#pragma mark - UIScrollView
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if (self.isPagingEnabled) {
+        if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds)) {
+            [self appendPastDates];
+        }
+        
+        if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
+            [self appendFutureDates];
+        }
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (self.isPagingEnabled) {
+        NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems] sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
+            return obj1.section > obj2.section;
+        }];
+        
+        NSUInteger visibleSection;
+        NSUInteger nextSection;
+        if (velocity.y > 0.0) {
+            visibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
+            nextSection = visibleSection + 1;
+        } else if (velocity.y < 0.0) {
+            visibleSection = [[sortedIndexPathsForVisibleItems lastObject] section];
+            nextSection = visibleSection - 1;
+        } else {
+            visibleSection = [sortedIndexPathsForVisibleItems[sortedIndexPathsForVisibleItems.count / 2] section];
+            nextSection = visibleSection;
+        }
+        
+        CGRect headerRect = [self frameForHeaderForSection:nextSection];
+        CGPoint topOfHeader = CGPointMake(0, headerRect.origin.y - self.collectionView.contentInset.top);
+        
+        *targetContentOffset = topOfHeader;
+        
+        scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+    }
+}
+
 @end
