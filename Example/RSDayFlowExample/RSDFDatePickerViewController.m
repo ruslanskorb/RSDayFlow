@@ -174,6 +174,7 @@
         _customDatePickerView.delegate = self;
         _customDatePickerView.dataSource = self;
 		_customDatePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _customDatePickerView.pagingEnabled = YES;
     }
     return _customDatePickerView;
 }
