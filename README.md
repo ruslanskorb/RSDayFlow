@@ -10,9 +10,8 @@ iOS 7 Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 
 > * Visual feedback of the currently selected cell
 * Possibility to mark the date
-* 2 colors of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
 * Design like iOS 7
-* Some other updates
+* Much more updates
 
 ## Installation
 
