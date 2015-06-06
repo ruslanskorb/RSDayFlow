@@ -2,7 +2,7 @@
 // RSDFDatePickerView.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
+// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
 */
-@interface RSDFDatePickerView : UIView
+@interface RSDFDatePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 /**
  Designated initializer. Initializes and returns a newly allocated view object with the specified frame rectangle and the specified calendar.
@@ -63,6 +63,17 @@
  */
 
 @property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
+
+///------------------
+/// @name Paging Mode
+/// -----------------
+
+/**
+ A Boolean value that determines whether paging is enabled for the date picker view. Default value is `NO`.
+ 
+ @discussion If `YES`, stop on the top of the month.
+ */
+@property (nonatomic, getter = isPagingEnabled) BOOL pagingEnabled;
 
 ///----------------------------
 /// @name Scrolling to the Date
@@ -225,12 +236,23 @@
 - (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date;
 
 /**
- Asks the data source if all tasks on the date are completed.
+ Asks the data source about the color of the default mark image for the specified date.
  
- @param view The date picker view object that is asking about the completion of tasks on the date.
+ @param view The date picker view object that is asking about the color of the default mark image for the specified date.
  
- @return YES if all tasks on the date are completed or NO if they are not completed.
+ @return The color of the default mark image for the specified date.
+ 
+ @discussion Will be ignored if the method `datePickerView:markImageForDate:` is implemented.
  */
-- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date;
+- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date;
+
+/**
+ Asks the data source about the mark image for the specified date.
+ 
+ @param view The date picker view object that is asking about the mark image for the specified date.
+ 
+ @return The mark image for the specified date.
+ */
+- (UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
 
 @end

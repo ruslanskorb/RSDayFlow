@@ -2,7 +2,7 @@
 // RSDFDatePickerViewController.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2014 Ruslan Skorb, http://lnkd.in/gsBbvb
+// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,8 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) RSDFDatePickerView *datePickerView;
 @property (strong, nonatomic) RSDFCustomDatePickerView *customDatePickerView;
+@property (copy, nonatomic) UIColor *completedTasksColor;
+@property (copy, nonatomic) UIColor *uncompletedTasksColor;
 
 @end
 
@@ -127,6 +129,22 @@
     return _statesOfTasks;
 }
 
+- (UIColor *)completedTasksColor
+{
+    if (!_completedTasksColor) {
+        _completedTasksColor = [UIColor colorWithRed:83/255.0f green:215/255.0f blue:105/255.0f alpha:1.0f];
+    }
+    return _completedTasksColor;
+}
+
+- (UIColor *)uncompletedTasksColor
+{
+    if (!_uncompletedTasksColor) {
+        _uncompletedTasksColor = [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+    }
+    return _uncompletedTasksColor;
+}
+
 - (NSDateFormatter *)dateFormatter
 {
     if (!_dateFormatter) {
@@ -156,6 +174,7 @@
         _customDatePickerView.delegate = self;
         _customDatePickerView.dataSource = self;
 		_customDatePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _customDatePickerView.pagingEnabled = YES;
     }
     return _customDatePickerView;
 }
@@ -198,9 +217,13 @@
     return [self.datesToMark containsObject:date];
 }
 
-- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
+- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date
 {
-	return [self.statesOfTasks[date] boolValue];
+    if (![self.statesOfTasks[date] boolValue]) {
+        return self.uncompletedTasksColor;
+    } else {
+        return self.completedTasksColor;
+    }
 }
 
 @end

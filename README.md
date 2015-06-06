@@ -10,9 +10,8 @@ iOS 7 Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 
 > * Visual feedback of the currently selected cell
 * Possibility to mark the date
-* 2 colors of marks that can be used in the Task Manager (gray color - days with uncompleted tasks, green color - days with completed tasks)
 * Design like iOS 7
-* Some other updates
+* Much more updates
 
 ## Installation
 
@@ -78,7 +77,7 @@ Then implement the delegate functions.
 
 ## DataSource (optional)
 
-`RSDFDatePickerView` provides two data source methods. The method `datePickerView:shouldMarkDate:` asks the data source if the date should be marked. The method `datePickerView:isCompletedAllTasksOnDate:` asks the data source if all tasks on the date are completed. To use them, implement the data source in your view controller.
+`RSDFDatePickerView` provides three data source methods. The method `datePickerView:shouldMarkDate:` asks the data source if the date should be marked. The method `datePickerView:markImageColorForDate:` asks the data source about the color of the default mark image for the specified date. The method `datePickerView:markImageForDate:` asks the data source about the mark image for the specified date. The method `datePickerView:markImageColorForDate:` will be ignored if the method `datePickerView:markImageForDate:` is implemented. To use these methods, implement the data source in your view controller.
 
 ```objective-c
 @interface ViewController () <RSDFDatePickerViewDataSource>
@@ -101,10 +100,24 @@ Then implement the data source functions.
     return [date isEqual:today];
 }
 
-// Returns YES if all tasks on the date are completed or NO if they are not completed.
-- (BOOL)datePickerView:(RSDFDatePickerView *)view isCompletedAllTasksOnDate:(NSDate *)date
+// Returns the color of the default mark image for the specified date.
+- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date
 {
-    return YES;
+    if (arc4random() % 2 == 0) {
+        return [UIColor grayColor];
+    } else {
+        return [UIColor greenColor];
+    }
+}
+
+// Returns the mark image for the specified date.
+- (UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date
+{
+    if (arc4random() % 2 == 0) {
+        return [UIImage imageNamed:@"img_gray_mark"];
+    } else {
+        return [UIImage imageNamed:@"img_green_mark"];
+    }
 }
 ```
 
@@ -115,7 +128,6 @@ Create a subclass of the desired view and override the default values.
 
 ## Coming Soon
 
-- Add more customization points.
 - If you would like to request a new feature, feel free to raise as an issue.
 
 ## Demo
