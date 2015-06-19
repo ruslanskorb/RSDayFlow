@@ -220,11 +220,19 @@
     } else {
         if (!self.isSelected) {
             if (!self.isToday) {
-                self.dateLabel.font = [self dayLabelFont];
                 if (!self.dayOff) {
-                    self.dateLabel.textColor = [self dayLabelTextColor];
+                    self.dateLabel.font = [self dayLabelFont];
+                    if (self.isPastDate) {
+                        self.dateLabel.textColor = [self pastDayLabelTextColor];
+                    } else {
+                        self.dateLabel.textColor = [self dayLabelTextColor];
+                    }
                 } else {
-                    self.dateLabel.textColor = [self dayOffLabelTextColor];
+                    if (self.isPastDate) {
+                        self.dateLabel.textColor = [self pastDayOffLabelTextColor];
+                    } else {
+                        self.dateLabel.textColor = [self dayOffLabelTextColor];
+                    }
                 }
             } else {
                 self.dateLabel.font = [self todayLabelFont];
@@ -334,6 +342,16 @@
 - (UIColor *)notThisMonthLabelTextColor
 {
     return [UIColor clearColor];
+}
+
+- (UIColor *)pastDayLabelTextColor
+{
+    return [self dayLabelTextColor];
+}
+
+- (UIColor *)pastDayOffLabelTextColor
+{
+    return [self dayOffLabelTextColor];
 }
 
 - (UIFont *)todayLabelFont

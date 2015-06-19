@@ -92,4 +92,14 @@
     return [UIColor clearColor];
 }
 
+- (UIColor *)pastDayLabelTextColor
+{
+    return [UIColor lightGrayColor];
+}
+
+- (UIColor *)pastDayOffLabelTextColor
+{
+    return [UIColor lightGrayColor];
+}
+
 @end

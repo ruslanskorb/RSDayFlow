@@ -67,6 +67,11 @@
 @property (nonatomic, getter = isToday) BOOL today;
 
 /**
+ A Boolean value that determines whether the cell represents a past day.
+ */
+@property (nonatomic, getter = isPastDate) BOOL pastDate;
+
+/**
  A Boolean value that determines whether the cell have a mark.
  */
 @property (nonatomic, getter = isMarked) BOOL marked;
@@ -125,6 +130,20 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)notThisMonthLabelTextColor;
+
+/**
+ The text color for the label of the past day when it is selected. Default value is [UIColor black].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)pastDayLabelTextColor;
+
+/**
+ The text color for the label of the past day off when it is selected. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)pastDayOffLabelTextColor;
 
 /**
  The font for the label of the current day. Default value is [UIFont fontWithName:@"HelveticaNeue" size:18.0f].
