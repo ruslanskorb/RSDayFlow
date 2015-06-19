@@ -346,12 +346,12 @@
 
 - (UIColor *)pastDayLabelTextColor
 {
-    return [UIColor blackColor];;
+    return [self dayLabelTextColor];
 }
 
 - (UIColor *)pastDayOffLabelTextColor
 {
-    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+    return [self dayOffLabelTextColor];
 }
 
 - (UIFont *)todayLabelFont
