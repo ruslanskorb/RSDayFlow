@@ -132,7 +132,7 @@
 - (UIColor *)notThisMonthLabelTextColor;
 
 /**
- The text color for the label of the past day when it is selected. Default value is [UIColor black].
+ The text color for the label of the past day when it is selected. Default value is [UIColor blackColor].
  
  @discussion Can be overridden in subclasses for customization.
  */
