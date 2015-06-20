@@ -220,8 +220,8 @@
     } else {
         if (!self.isSelected) {
             if (!self.isToday) {
+                self.dateLabel.font = [self dayLabelFont];
                 if (!self.dayOff) {
-                    self.dateLabel.font = [self dayLabelFont];
                     if (self.isPastDate) {
                         self.dateLabel.textColor = [self pastDayLabelTextColor];
                     } else {
