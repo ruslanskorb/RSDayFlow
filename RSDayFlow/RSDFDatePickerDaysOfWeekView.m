@@ -210,13 +210,16 @@
     }
     if (![symbolsToUse isEqualToArray:self.lastSymbolsUsed]){
         // there is now a different set of symbols so we need to reinit/retext the labels
-        if (self.weekdayLabels) { // the were already created so just change the text
+        
+        UIFont *dayOfWeekLabelFont = [self dayOfWeekLabelFont];
+        
+        if (self.weekdayLabels) { // the were already created so just change the text and update the font
             [self.weekdayLabels enumerateObjectsUsingBlock:^(UILabel *weekdayLabel, NSUInteger idx, BOOL *stop) {
                 weekdayLabel.text = [symbolsToUse objectAtIndex:idx];
+                weekdayLabel.font = dayOfWeekLabelFont;
             }];
         } else { // the labels have not been created yet
             UIColor *dayOfWeekLabelBackgroundColor = [UIColor clearColor];
-            UIFont *dayOfWeekLabelFont = [self dayOfWeekLabelFont];
             UIColor *dayOfWeekLabelTextColor = [self dayOfWeekLabelTextColor];
             UIColor *dayOffOfWeekLabelTextColor = [self dayOffOfWeekLabelTextColor];
             
@@ -240,6 +243,16 @@
         // update the lastUsedSymbols
         self.lastSymbolsUsed = symbolsToUse;
     }
+}
+
+- (BOOL)isPhone
+{
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
+}
+
+- (BOOL)isPortraitInterfaceOrientation
+{
+    return UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
 }
 
 #pragma mark - Attributes of the View
@@ -282,7 +295,15 @@
 
 - (UIFont *)dayOfWeekLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
+    if ([self isPhone]) {
+        if ([self isPortraitInterfaceOrientation]) {
+            return [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
+        } else {
+            return [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0];
+        }
+    } else {
+        return [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
+    }
 }
 
 - (UIColor *)dayOfWeekLabelTextColor
