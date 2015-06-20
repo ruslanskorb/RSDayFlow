@@ -170,7 +170,8 @@
     RSDFDaysOfWeekDisplayStyle style = [self displayStyle];
     if (style == RSDFDaysOfWeekDisplayStyleAuto) {
         
-        CGFloat maxAvailableItemWidth = [self selfItemSize].width;
+        UIEdgeInsets selfItemInsets = [self selfItemInsets];
+        CGFloat maxAvailableItemWidth = [self selfItemSize].width - selfItemInsets.left - selfItemInsets.right;
         
         // first check if the largest one fits
         CGFloat maxWidthOfSymbols = [self maxWidthOfSymbols:self.standaloneWeekdaySymbols];
@@ -260,6 +261,11 @@
     CGFloat selfItemHeight = CGRectGetHeight(self.frame);
     
     return (CGSize){ selfItemWidth, selfItemHeight };
+}
+
+- (UIEdgeInsets)selfItemInsets
+{
+    return UIEdgeInsetsMake(0.0, 16.0, 0.0, 16.0);
 }
 
 - (CGFloat)selfInteritemSpacing

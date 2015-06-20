@@ -72,6 +72,13 @@ typedef NS_ENUM (NSUInteger, RSDFDaysOfWeekDisplayStyle) {
 - (CGSize)selfItemSize;
 
 /**
+ The insets to use for labels of weekday. Default value is `UIEdgeInsetsMake(0.0, 16.0, 0.0, 16.0)`.
+ 
+ @discussion Can be overriden in sublclasses for customization.
+ */
+- (UIEdgeInsets)selfItemInsets;
+
+/**
  The spacing to use between labels. Default value is `2.0f`.
  
  @discussion Can be overridden in subclasses for customization.
