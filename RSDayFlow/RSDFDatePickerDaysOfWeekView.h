@@ -25,6 +25,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, RSDFDaysOfWeekDisplayStyle){
+    ///Short Displaystyle: M T W T F S S
+    RSDFDaysOfWeekDisplayStyleShort,
+    ///Medium Display Style: Mon Tue Wed Thu Fri Sat Sun
+    RSDFDaysOfWeekDisplayStyleMedium,
+    ///Long Display Style: Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+    RSDFDaysOfWeekDisplayStyleLong,
+    ///Automatically determines which Style to use (based on view's frame)
+    RSDFDaysOfWeekDisplayStyleAuto
+};
+
 /**
  The `RSDFDatePickerDaysOfWeekView` is a view with labels for each day of the week.
  */
@@ -56,16 +67,23 @@
 /**
  The size to use for labels of weekdays. Default size is calculated based on the size of the view.
  
-  @discussion Can be overridden in subclasses for customization.
+ @discussion Can be overridden in subclasses for customization.
  */
 - (CGSize)selfItemSize;
 
 /**
  The spacing to use between labels. Default value is `2.0f`.
  
-  @discussion Can be overridden in subclasses for customization.
+ @discussion Can be overridden in subclasses for customization.
  */
 - (CGFloat)selfInteritemSpacing;
+
+/**
+ The Display Style to use. Default value is `RSDFDaysOfWeekDisplayStyleAuto`
+ 
+ @discussion Can be overriden in subclasses for customization.
+ */
+-(RSDFDaysOfWeekDisplayStyle) displayStyle;
 
 ///---------------------------------------
 /// @name Accessing Attributes of Subviews
@@ -73,8 +91,6 @@
 
 /**
  The font for the label of the weekday.
- Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0] for user interface idiom 'Phone' with portrait interface orientation.
- Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0] for user interface idiom 'Phone' with landscape interface orientation.
  Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0] for user interface idiom 'Pad' with any interface orientation.
  
  @discussion Can be overridden in subclasses for customization.
