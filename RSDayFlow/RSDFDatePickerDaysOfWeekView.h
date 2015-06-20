@@ -25,14 +25,14 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, RSDFDaysOfWeekDisplayStyle){
-    ///Short Displaystyle: M T W T F S S
+typedef NS_ENUM (NSUInteger, RSDFDaysOfWeekDisplayStyle) {
+    /// Short Display style: M T W T F S S
     RSDFDaysOfWeekDisplayStyleShort,
-    ///Medium Display Style: Mon Tue Wed Thu Fri Sat Sun
+    /// Medium Display Style: Mon Tue Wed Thu Fri Sat Sun
     RSDFDaysOfWeekDisplayStyleMedium,
-    ///Long Display Style: Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+    /// Long Display Style: Monday Tuesday Wednesday Thursday Friday Saturday Sunday
     RSDFDaysOfWeekDisplayStyleLong,
-    ///Automatically determines which Style to use (based on view's frame)
+    /// Automatically determines which Style to use (based on view's frame)
     RSDFDaysOfWeekDisplayStyleAuto
 };
 
@@ -78,20 +78,23 @@ typedef NS_ENUM(NSInteger, RSDFDaysOfWeekDisplayStyle){
  */
 - (CGFloat)selfInteritemSpacing;
 
+///--------------------
+/// @name Display Style
+///--------------------
+
 /**
- The Display Style to use. Default value is `RSDFDaysOfWeekDisplayStyleAuto`
+ The Display Style to use. Default value is `RSDFDaysOfWeekDisplayStyleAuto`.
  
  @discussion Can be overriden in subclasses for customization.
  */
--(RSDFDaysOfWeekDisplayStyle) displayStyle;
+- (RSDFDaysOfWeekDisplayStyle)displayStyle;
 
 ///---------------------------------------
 /// @name Accessing Attributes of Subviews
 ///---------------------------------------
 
 /**
- The font for the label of the weekday.
- Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0] for user interface idiom 'Pad' with any interface orientation.
+ The font for the label of the weekday. Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0].
  
  @discussion Can be overridden in subclasses for customization.
  */
