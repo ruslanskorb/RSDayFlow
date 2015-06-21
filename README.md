@@ -1,4 +1,4 @@
-# RSDayFlow
+# RSDayFlow [![Build Status](https://travis-ci.org/ruslanskorb/RSDayFlow.svg)](https://travis-ci.org/ruslanskorb/RSDayFlow)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
