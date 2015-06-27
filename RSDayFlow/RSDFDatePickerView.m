@@ -24,9 +24,9 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "RSDayFlow.h"
 #import "RSDFDatePickerCollectionView.h"
 #import "RSDFDatePickerCollectionViewLayout.h"
+#import "RSDFDatePickerDate.h"
 #import "RSDFDatePickerDayCell.h"
 #import "RSDFDatePickerMonthHeader.h"
 #import "RSDFDatePickerView.h"
@@ -644,7 +644,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
             }
         }
         
-        cell.today = ([cellDate compare:_today] == NSOrderedSame) ? YES : NO;
+        NSComparisonResult result = [_today compare:cellDate];
+        cell.today = (result == NSOrderedSame);
+        cell.pastDate = (result == NSOrderedDescending);
     }
     
     [cell setNeedsDisplay];
@@ -790,19 +792,21 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
 }
 
-#pragma mark - UIScrollView
+#pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if (self.isPagingEnabled) {
-        if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds)) {
-            [self appendPastDates];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.isPagingEnabled) {
+            if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
+                [self appendPastDates];
+            }
+            
+            if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
+                [self appendFutureDates];
+            }
         }
-        
-        if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
-            [self appendFutureDates];
-        }
-    }
+    });
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
