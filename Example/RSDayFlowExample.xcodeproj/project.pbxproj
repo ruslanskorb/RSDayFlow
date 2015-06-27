@@ -50,6 +50,7 @@
 /* Begin PBXFileReference section */
 		26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B80E4FB31B3EF77400B1341A /* RSDFDatePickerDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerDate.h; sourceTree = "<group>"; };
 		B82FFF9619A35722000816FF /* RSDFDatePickerCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerCollectionViewLayout.h; sourceTree = "<group>"; };
 		B82FFF9719A35722000816FF /* RSDFDatePickerCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerCollectionViewLayout.m; sourceTree = "<group>"; };
 		B82FFF9919A37EDB000816FF /* RSDFCustomDatePickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerCollectionView.h; sourceTree = "<group>"; };
@@ -264,6 +265,7 @@
 				B8F8081119A3502D0047C24B /* RSDFDatePickerDayCell.m */,
 				B8F8080A19A3502D0047C24B /* NSCalendar+RSDFAdditions.h */,
 				B8F8080B19A3502D0047C24B /* NSCalendar+RSDFAdditions.m */,
+				B80E4FB31B3EF77400B1341A /* RSDFDatePickerDate.h */,
 			);
 			name = RSDayFlow;
 			path = ../RSDayFlow;
