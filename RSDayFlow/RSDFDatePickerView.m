@@ -796,15 +796,17 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if (self.isPagingEnabled) {
-        if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
-            [self appendPastDates];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.isPagingEnabled) {
+            if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
+                [self appendPastDates];
+            }
+            
+            if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
+                [self appendFutureDates];
+            }
         }
-        
-        if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
-            [self appendFutureDates];
-        }
-    }
+    });
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
