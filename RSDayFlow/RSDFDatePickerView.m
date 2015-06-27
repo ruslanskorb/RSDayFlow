@@ -797,7 +797,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     if (self.isPagingEnabled) {
-        if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds)) {
+        if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
             [self appendPastDates];
         }
         
