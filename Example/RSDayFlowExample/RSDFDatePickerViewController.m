@@ -69,8 +69,6 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
     NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-    NSDate *today = [self.calendar dateFromComponents:todayComponents];
-    [self.datePickerView selectDate:today];
     
     self.customDatePickerView.hidden = YES;
     
@@ -163,9 +161,10 @@
 - (RSDFDatePickerView *)datePickerView
 {
 	if (!_datePickerView) {
-		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar];
+		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar startDate:[NSDate date] endDate:[[NSDate date] dateByAddingTimeInterval:60*60*24*30]];
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
+		_datePickerView.selectionMode = RSDFSelectionModeRange;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;
@@ -212,6 +211,11 @@
 - (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date
 {
     [[[UIAlertView alloc] initWithTitle:@"Picked Date" message:[self.dateFormatter stringFromDate:date] delegate:nil cancelButtonTitle:@":D" otherButtonTitles:nil] show];
+}
+
+- (void)datePickerView:(RSDFDatePickerView *)view didSelectStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
+	
+	NSLog(@"Picked Date Range (%@ - %@)", startDate, endDate);
 }
 
 #pragma mark - RSDFDatePickerViewDataSource
