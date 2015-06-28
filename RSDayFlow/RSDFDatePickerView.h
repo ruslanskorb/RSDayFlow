@@ -41,6 +41,17 @@
  */
 - (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar;
 
+
+/**
+ Designated initializer. Initializes and returns a newly allocated view object with the specified frame rectangle and the specified calendar.
+ 
+ @param frame The frame rectangle for the view, measured in points.
+ @param calendar The calendar for the date picker view.
+ @param startDate First selectable date
+ @param endDate Last selectable date
+ */
+- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar startDate:(NSDate *)startDate endDate:(NSDate *)endDate;
+
 ///-----------------------------
 /// @name Accessing the Delegate
 ///-----------------------------
