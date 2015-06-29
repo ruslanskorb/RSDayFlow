@@ -768,16 +768,46 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)restoreSelection
 {
-    if (self.selectedDate &&
-        [self.selectedDate compare:[self dateFromPickerDate:self.fromDate]] != NSOrderedAscending &&
-        [self.selectedDate compare:[self dateFromPickerDate:self.toDate]] != NSOrderedDescending) {
-        NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:self.selectedDate];
-        [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-        UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
-        if (selectedCell) {
-            [selectedCell setNeedsDisplay];
-        }
-    }
+	if (self.selectionMode == RSDFSelectionModeSingle) {
+		if (self.selectedDate &&
+			[self.selectedDate compare:[self dateFromPickerDate:self.fromDate]] != NSOrderedAscending &&
+			[self.selectedDate compare:[self dateFromPickerDate:self.toDate]] != NSOrderedDescending) {
+			NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:self.selectedDate];
+			[self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+			UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
+			if (selectedCell) {
+				[selectedCell setNeedsDisplay];
+			}
+		}
+	}
+	else {
+		// If both exist select all items in range
+		if (self.selectedRangeStart && self.selectedRangeEnd) {
+			NSIndexPath *firstIndexPath = [self indexPathForDate:self.selectedRangeStart];
+			NSIndexPath *lastIndexPath = [self indexPathForDate:self.selectedRangeEnd];
+			
+			if (firstIndexPath && lastIndexPath) {
+				[self enumeratThroughCellsBetweenIndexPath:firstIndexPath lastIndexPath:lastIndexPath withBlock:^(NSIndexPath *indexPath) {
+					
+					[self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+					
+					UICollectionViewCell *previousSelectedCell = [self.collectionView cellForItemAtIndexPath:indexPath];
+					[previousSelectedCell setNeedsDisplay];
+				}];
+			}
+		}
+		// If only one exists only select that one
+		else {
+			if (self.selectedRangeStart || self.selectedRangeEnd) {
+				NSIndexPath *indexPath =  [self indexPathForDate:self.selectedRangeStart ? self.selectedRangeStart : self.selectedRangeEnd];
+				
+				[self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+				
+				UICollectionViewCell *previousSelectedCell = [self.collectionView cellForItemAtIndexPath:indexPath];
+				[previousSelectedCell setNeedsDisplay];
+			}
+		}
+	}
 }
 
 #pragma mark - UICollectionViewDataSource
