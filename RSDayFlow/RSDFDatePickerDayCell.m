@@ -214,55 +214,57 @@
     self.markImageView.hidden = !self.isMarked || self.isNotThisMonth;
     self.dividerImageView.hidden = self.isNotThisMonth;
 	self.userInteractionEnabled = YES;
-	
-    if (self.isNotThisMonth) {
-        self.dateLabel.textColor = [self notThisMonthLabelTextColor];
-        self.dateLabel.font = [self dayLabelFont];
-    } else {
-        if (!self.isSelected) {
+
+		if (self.isNotThisMonth) {
+			self.dateLabel.textColor = [self notThisMonthLabelTextColor];
+			self.dateLabel.font = [self dayLabelFont];
+		} else {
 			if (self.disabled) {
 				self.userInteractionEnabled = NO;
 				self.dateLabel.textColor = [self disabledDayLabelTextColor];
 			}
 			else {
-				if (!self.isToday) {
-					self.dateLabel.font = [self dayLabelFont];
-					if (!self.dayOff) {
-						if (self.isPastDate) {
-							self.dateLabel.textColor = [self pastDayLabelTextColor];
+				if (!self.isSelected) {
+					if (!self.isToday) {
+						self.dateLabel.font = [self dayLabelFont];
+						if (!self.dayOff) {
+							if (self.isPastDate) {
+								self.dateLabel.textColor = [self pastDayLabelTextColor];
+							} else {
+								self.dateLabel.textColor = [self dayLabelTextColor];
+							}
 						} else {
-							self.dateLabel.textColor = [self dayLabelTextColor];
+							if (self.isPastDate) {
+								self.dateLabel.textColor = [self pastDayOffLabelTextColor];
+							} else {
+								self.dateLabel.textColor = [self dayOffLabelTextColor];
+							}
 						}
 					} else {
-						if (self.isPastDate) {
-							self.dateLabel.textColor = [self pastDayOffLabelTextColor];
-						} else {
-							self.dateLabel.textColor = [self dayOffLabelTextColor];
-						}
+						self.dateLabel.font = [self todayLabelFont];
+						self.dateLabel.textColor = [self todayLabelTextColor];
 					}
+					
 				} else {
-					self.dateLabel.font = [self todayLabelFont];
-					self.dateLabel.textColor = [self todayLabelTextColor];
+					if (!self.isToday) {
+						self.dateLabel.font = [self selectedDayLabelFont];
+						self.dateLabel.textColor = [self selectedDayLabelTextColor];
+						self.selectedDayImageView.image = [self selectedDayImage];
+					} else {
+						self.dateLabel.font = [self selectedTodayLabelFont];
+						self.dateLabel.textColor = [self selectedTodayLabelTextColor];
+						self.selectedDayImageView.image = [self selectedTodayImage];
+					}
+				}
+				
+				if (self.marked) {
+					self.markImageView.image = self.markImage;
+				} else {
+					self.markImageView.image = nil;
 				}
 			}
-        } else {
-            if (!self.isToday) {
-                self.dateLabel.font = [self selectedDayLabelFont];
-                self.dateLabel.textColor = [self selectedDayLabelTextColor];
-                self.selectedDayImageView.image = [self selectedDayImage];
-            } else {
-                self.dateLabel.font = [self selectedTodayLabelFont];
-                self.dateLabel.textColor = [self selectedTodayLabelTextColor];
-                self.selectedDayImageView.image = [self selectedTodayImage];
-            }
-        }
-        
-        if (self.marked) {
-            self.markImageView.image = self.markImage;
-        } else {
-            self.markImageView.image = nil;
-        }
-    }
+		}
+
 }
 
 + (NSCache *)imageCache

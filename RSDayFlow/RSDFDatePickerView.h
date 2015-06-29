@@ -68,7 +68,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  
  @discussion A `RSDFDatePickerView` delegate responds to message sent by tapping on date in the date picker view.
  */
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDelegate> delegate;
+@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDelegate> __nullable delegate;
 
 ///--------------------------------
 /// @name Accessing the Data Source
@@ -80,7 +80,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @discussion A `RSDFDatePickerView` data source provides dates to mark in the date picker view.
  */
 
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
+@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> __nullable dataSource;
 
 
 ///------------------
@@ -265,7 +265,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @param startDate The selected start date for range.
  @param endDate The selected end date for range.
  */
-- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectStartDate:(NSDate * __nonnull)startDate endDate:(NSDate * __nonnull)endDate;
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectStartDate:(NSDate * __nullable)startDate endDate:(NSDate * __nullable)endDate;
 
 @end
 
