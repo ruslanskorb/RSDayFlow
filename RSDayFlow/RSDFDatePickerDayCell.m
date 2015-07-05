@@ -209,61 +209,60 @@
 
 - (void)updateSubviews
 {
-    self.selectedDayImageView.hidden = !self.isSelected || self.isNotThisMonth;
-    self.overlayImageView.hidden = !self.isHighlighted || self.isNotThisMonth;
-    self.markImageView.hidden = !self.isMarked || self.isNotThisMonth;
+    self.selectedDayImageView.hidden = !self.isSelected || self.isNotThisMonth || self.isOutOfRange;
+    self.overlayImageView.hidden = !self.isHighlighted || self.isNotThisMonth || self.isOutOfRange;
+    self.markImageView.hidden = !self.isMarked || self.isNotThisMonth || self.isOutOfRange;
     self.dividerImageView.hidden = self.isNotThisMonth;
-	self.userInteractionEnabled = YES;
 
-		if (self.isNotThisMonth) {
-			self.dateLabel.textColor = [self notThisMonthLabelTextColor];
-			self.dateLabel.font = [self dayLabelFont];
-		} else {
-			if (self.disabled) {
-				self.userInteractionEnabled = NO;
-				self.dateLabel.textColor = [self disabledDayLabelTextColor];
-			}
-			else {
-				if (!self.isSelected) {
-					if (!self.isToday) {
-						self.dateLabel.font = [self dayLabelFont];
-						if (!self.dayOff) {
-							if (self.isPastDate) {
-								self.dateLabel.textColor = [self pastDayLabelTextColor];
-							} else {
-								self.dateLabel.textColor = [self dayLabelTextColor];
-							}
-						} else {
-							if (self.isPastDate) {
-								self.dateLabel.textColor = [self pastDayOffLabelTextColor];
-							} else {
-								self.dateLabel.textColor = [self dayOffLabelTextColor];
-							}
-						}
-					} else {
-						self.dateLabel.font = [self todayLabelFont];
-						self.dateLabel.textColor = [self todayLabelTextColor];
-					}
-					
-				} else {
-					if (!self.isToday) {
-						self.dateLabel.font = [self selectedDayLabelFont];
-						self.dateLabel.textColor = [self selectedDayLabelTextColor];
-						self.selectedDayImageView.image = [self selectedDayImage];
-					} else {
-						self.dateLabel.font = [self selectedTodayLabelFont];
-						self.dateLabel.textColor = [self selectedTodayLabelTextColor];
-						self.selectedDayImageView.image = [self selectedTodayImage];
-					}
-				}
-				
-				if (self.marked) {
-					self.markImageView.image = self.markImage;
-				} else {
-					self.markImageView.image = nil;
-				}
-			}
-		}
+    if (self.isNotThisMonth) {
+        self.dateLabel.textColor = [self notThisMonthLabelTextColor];
+        self.dateLabel.font = [self dayLabelFont];
+    } else {
+        if (self.isOutOfRange) {
+            self.dateLabel.textColor = [self outOfRangeDayLabelTextColor];
+            self.dateLabel.font = [self outOfRangeDayLabelTextFont];
+        }
+        else {
+            if (!self.isSelected) {
+                if (!self.isToday) {
+                    self.dateLabel.font = [self dayLabelFont];
+                    if (!self.dayOff) {
+                        if (self.isPastDate) {
+                            self.dateLabel.textColor = [self pastDayLabelTextColor];
+                        } else {
+                            self.dateLabel.textColor = [self dayLabelTextColor];
+                        }
+                    } else {
+                        if (self.isPastDate) {
+                            self.dateLabel.textColor = [self pastDayOffLabelTextColor];
+                        } else {
+                            self.dateLabel.textColor = [self dayOffLabelTextColor];
+                        }
+                    }
+                } else {
+                    self.dateLabel.font = [self todayLabelFont];
+                    self.dateLabel.textColor = [self todayLabelTextColor];
+                }
+                
+            } else {
+                if (!self.isToday) {
+                    self.dateLabel.font = [self selectedDayLabelFont];
+                    self.dateLabel.textColor = [self selectedDayLabelTextColor];
+                    self.selectedDayImageView.image = [self selectedDayImage];
+                } else {
+                    self.dateLabel.font = [self selectedTodayLabelFont];
+                    self.dateLabel.textColor = [self selectedTodayLabelTextColor];
+                    self.selectedDayImageView.image = [self selectedTodayImage];
+                }
+            }
+            
+            if (self.marked) {
+                self.markImageView.image = self.markImage;
+            } else {
+                self.markImageView.image = nil;
+            }
+        }
+    }
 
 }
 
@@ -348,9 +347,14 @@
     return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
 }
 
-- (UIColor *)disabledDayLabelTextColor
+- (UIColor *)outOfRangeDayLabelTextColor
 {
-	return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+}
+
+- (UIFont *)outOfRangeDayLabelTextFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
 }
 
 - (UIColor *)notThisMonthLabelTextColor
