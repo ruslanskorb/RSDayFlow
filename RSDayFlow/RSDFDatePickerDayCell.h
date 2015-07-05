@@ -77,6 +77,11 @@
 @property (nonatomic, getter = isMarked) BOOL marked;
 
 /**
+ A Boolean value that determines whether the cell is out of range or not (startDate, endDate)
+ */
+@property (nonatomic, getter = isOutOfRange) BOOL outOfRange;
+
+/**
  The color of the default mark image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
  
  @discussion Will be used to create the mark image if `markImage` is equal to `nil`.
@@ -123,6 +128,20 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)dayOffLabelTextColor;
+
+/**
+ The text color for the label of the disabled day (not in range of start/end date set on calendar). Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIColor *)outOfRangeDayLabelTextColor;
+
+/**
+ The font for the label of the disabled day (not in range of start/end date set on calendar). Default value is [UIFont fontWithName:@"HelveticaNeue" size:18.0f].
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIFont *)outOfRangeDayLabelFont;
 
 /**
  The text color for the label of the day that's not this month. Default value is [UIColor clearColor].
