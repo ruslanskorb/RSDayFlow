@@ -124,7 +124,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     self.collectionView.frame = [self collectionViewFrame];
     if (!self.collectionView.superview) {
         [self addSubview:self.collectionView];
-        [self scrollToToday:NO];
     } else {
         [self.collectionViewLayout invalidateLayout];
         [self.collectionViewLayout prepareLayout];
@@ -201,6 +200,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         [_collectionView registerClass:[self dayCellClass] forCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier];
         [_collectionView reloadData];
         [_collectionView layoutIfNeeded];
+        [self scrollToToday:NO];
     }
     return _collectionView;
 }
@@ -355,7 +355,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (NSDate *)dateWithoutTimeComponents:(NSDate *)date
 {
-    NSDateComponents *dateComponents = [self.calendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:date];
+    NSDateComponents *dateComponents = [self.calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
     return [self.calendar dateFromComponents:dateComponents];
 }
 
