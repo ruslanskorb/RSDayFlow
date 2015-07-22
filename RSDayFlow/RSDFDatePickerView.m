@@ -695,29 +695,23 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         weekday = [self.calendar components:NSCalendarUnitWeekday fromDate:cellDate].weekday;
         cell.dayOff = (weekday == 1) || (weekday == 7);
         
-        if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
-            cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];
-            
-            if (cell.marked) {
-                if ([self.dataSource respondsToSelector:@selector(datePickerView:markImageForDate:)]) {
-                    cell.markImage = [self.dataSource datePickerView:self markImageForDate:cellDate];
-                } else if ([self.dataSource respondsToSelector:@selector(datePickerView:markImageColorForDate:)]) {
-                    cell.markImageColor = [self.dataSource datePickerView:self markImageColorForDate:cellDate];
-                }
+        cell.today = ([cellDate compare:_today] == NSOrderedSame) ? YES : NO;
+    }
+    
+    
+    if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
+        cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];
+        
+        if (cell.marked) {
+            if ([self.dataSource respondsToSelector:@selector(datePickerView:markImageForDate:)]) {
+                cell.markImage = [self.dataSource datePickerView:self markImageForDate:cellDate];
+            } else if ([self.dataSource respondsToSelector:@selector(datePickerView:markImageColorForDate:)]) {
+                cell.markImageColor = [self.dataSource datePickerView:self markImageColorForDate:cellDate];
             }
         }
-        
-        NSComparisonResult result = [_today compare:cellDate];
-        cell.today = (result == NSOrderedSame);
-        cell.pastDate = (result == NSOrderedDescending);
-		
-        if ((self.startDate && [cellDate compare:self.startDate] == NSOrderedAscending) ||
-            (self.endDate && [cellDate compare:self.endDate] == NSOrderedDescending)) {
-            cell.outOfRange = YES;
-        } else {
-            cell.outOfRange = NO;
-        }
     }
+    
+    cell.backgroundColor = cell.selfBackgroundColor;
     
     [cell setNeedsDisplay];
     
