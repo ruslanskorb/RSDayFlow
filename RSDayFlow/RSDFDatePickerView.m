@@ -675,7 +675,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     })()) toDate:firstDayInMonth options:0];
     RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
     
-    cell.dateLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)(cellPickerDate.day)];
+    cell.dateLabel.text = [NSString stringWithFormat:@"%tu", cellPickerDate.day];
     
     cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
     if (!cell.isNotThisMonth) {
@@ -746,7 +746,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         monthHeader.date = date;
         
         NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
-        monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %lu", monthString, (unsigned long)(date.year)] uppercaseString];
+        monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %tu", monthString, date.year] uppercaseString];
         
         RSDFDatePickerDate today = [self pickerDateFromDate:_today];
         if ( (today.month == date.month) && (today.year == date.year) ) {
