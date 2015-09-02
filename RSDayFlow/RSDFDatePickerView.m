@@ -529,30 +529,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (NSUInteger)numberOfWeeksForMonthOfDate:(NSDate *)date
 {
-#if 0
-    
-    NSRange weekRange = [self.calendar rangeOfUnit:NSWeekCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
-    
-    // Unknown Apple's bug with `NSRange.length` in NSIslamicCalendar
-    // Tested on iOS 7.0 (Simulator) / iOS 7.1.2 (Device) / iOS 8.0 (Simulator)
-    // Xcode Version 5.1.1 (5B1008), XCode Version 6.0 (6A267n)
-    // Monday, Shawwal 29, 1435 AH, 11:59:40 PM
-    
-    // Example: Friday, Muharram 29, 1436 AH at 12:00:00 AM GMT+03:00
-    NSUInteger incorrectNSRangeLength1 = NSUIntegerMax - 44; // must be 5
-    
-    // Example: Wednesday, Muharram 29, 1434 AH at 12:00:00 AM GMT+03:00
-    NSUInteger incorrectNSRangeLength2 = NSUIntegerMax - 45; // must be 5
-    
-    if ((weekRange.length == incorrectNSRangeLength1) || (weekRange.length == incorrectNSRangeLength2)) {
-        NSLog(@"%lu", (unsigned long)(weekRange.length));
-        return 5;
-    } else {
-        return weekRange.length;
-    }
-    
-#else
-    
     NSDate *firstDayInMonth = [self.calendar dateFromComponents:[self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:date]];
     
     NSDate *lastDayInMonth = [self.calendar dateByAddingComponents:((^{
@@ -575,8 +551,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     })())];
     
     return 1 + [self.calendar components:NSCalendarUnitWeekOfYear fromDate:fromFirstWeekday toDate:toFirstWeekday options:0].weekOfYear;
-    
-#endif
 }
 
 - (NSDate *)dateFromPickerDate:(RSDFDatePickerDate)dateStruct
