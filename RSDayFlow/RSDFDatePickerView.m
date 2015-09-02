@@ -593,6 +593,20 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return components;
 }
 
+- (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:indexPath.section];
+    NSUInteger weekday = [self reorderedWeekday:[self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday];
+    
+    NSDate *cellDate = [self.calendar dateByAddingComponents:((^{
+        NSDateComponents *dateComponents = [NSDateComponents new];
+        dateComponents.day = indexPath.item - weekday;
+        return dateComponents;
+    })()) toDate:firstDayInMonth options:0];
+    
+    return cellDate;
+}
+
 - (RSDFDatePickerDate)pickerDateFromDate:(NSDate *)date
 {
     NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
@@ -687,7 +701,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     })()) toDate:firstDayInMonth options:0];
     RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
     
-    cell.date = cellPickerDate;
     cell.dateLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)(cellPickerDate.day)];
     
     cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
@@ -777,7 +790,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
     
     if ([self.delegate respondsToSelector:@selector(datePickerView:shouldHighlightDate:)]) {
-        NSDate *date = cell ? [self dateFromPickerDate:cell.date] : nil;
+        NSDate *date = [self dateForCellAtIndexPath:indexPath];
         return [self.delegate datePickerView:self shouldHighlightDate:date];
     }
     
@@ -805,7 +818,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
 	
     if ([self.delegate respondsToSelector:@selector(datePickerView:shouldSelectDate:)]) {
-        NSDate *date = cell ? [self dateFromPickerDate:cell.date] : nil;
+        NSDate *date = [self dateForCellAtIndexPath:indexPath];
         return [self.delegate datePickerView:self shouldSelectDate:date];
     }
     
@@ -814,9 +827,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[collectionView cellForItemAtIndexPath:indexPath]);
-    NSDate *date = cell ? [self dateFromPickerDate:cell.date] : nil;
-    
+    NSDate *date = [self dateForCellAtIndexPath:indexPath];
     [self selectDate:date];
     
     if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
