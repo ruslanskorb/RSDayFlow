@@ -281,20 +281,20 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	
     // If startDate exists don't try to update toDate because it was done on init, and date limit should remain
     if (!self.startDate) {
-        _fromDate = [self.calendar dateByAddingComponents:((^{
+        _fromDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
             components.month = -6;
             return components;
-        })()) toDate:month options:0];
+        })()) toDate:month options:0]];
     }
     
     // If endDate exists don't try to update toDate because it was done on init, and date limit should remain
     if (!self.endDate) {
-        _toDate = [self.calendar dateByAddingComponents:((^{
+        _toDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
             components.month = 6;
             return components;
-        })()) toDate:month options:0];
+        })()) toDate:month options:0]];
     }
 	
     [cv reloadData];
@@ -379,23 +379,23 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
     
     if (self.startDate) {
-        _fromDate = [self dateWithFirstDayOfMonth:self.startDate];
+        _fromDate = [self dateWithFirstDayOfMonth:[self dateWithFirstDayOfMonth:self.startDate]];
     } else {
-        _fromDate = [self.calendar dateByAddingComponents:((^{
+        _fromDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
             components.month = -6;
             return components;
-        })()) toDate:now options:0];
+        })()) toDate:now options:0]];
     }
     
     if (self.endDate) {
-        _toDate = [self dateByMovingToEndOfMonth:self.endDate];
+        _toDate = [self dateWithFirstDayOfMonth:[self dateByMovingToEndOfMonth:self.endDate]];
     } else {
-        _toDate = [self.calendar dateByAddingComponents:((^{
+        _toDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
             components.month = 6;
             return components;
-        })()) toDate:now options:0];
+        })()) toDate:now options:0]];
     }
     
     NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
@@ -565,11 +565,11 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     CGPoint fromSectionOrigin = [self convertPoint:fromAttrs.frame.origin fromView:cv];
 	
     if (!self.startDate) {
-        _fromDate = [self.calendar dateByAddingComponents:components toDate:self.fromDate options:0];
+        _fromDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:components toDate:self.fromDate options:0]];
     }
 	
     if (!self.endDate) {
-        _toDate = [self.calendar dateByAddingComponents:components toDate:self.toDate options:0];
+        _toDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:components toDate:self.toDate options:0]];
     }
     
 #if 0
