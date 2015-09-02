@@ -721,8 +721,23 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         }
         
         NSComparisonResult result = [_today compare:cellDate];
-        cell.today = (result == NSOrderedSame);
-        cell.pastDate = (result == NSOrderedDescending);
+        switch (result) {
+            case NSOrderedSame: {
+                cell.today = YES;
+                cell.pastDate = NO;
+                break;
+            }
+            case NSOrderedDescending: {
+                cell.today = NO;
+                cell.pastDate = YES;
+                break;
+            }
+            case NSOrderedAscending: {
+                cell.today = NO;
+                cell.pastDate = NO;
+                break;
+            }
+        }
 		
         if ((self.startDate && [cellDate compare:self.startDate] == NSOrderedAscending) ||
             (self.endDate && [cellDate compare:self.endDate] == NSOrderedDescending)) {
