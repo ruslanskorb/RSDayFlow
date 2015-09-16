@@ -651,6 +651,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         return dateComponents;
     })()) toDate:firstDayInMonth options:0];
     RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
+    
+    cell.date = cellPickerDate;
     cell.dateLabel.text = [NSString stringWithFormat:@"%tu", cellPickerDate.day];
     
     RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];

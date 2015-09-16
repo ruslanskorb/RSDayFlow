@@ -45,6 +45,11 @@
 ///--------------------------------------
 
 /**
+ A date which corresponds to the current cell.
+ */
+@property (nonatomic, readwrite, assign) RSDFDatePickerDate date;
+
+/**
  A Boolean value that determines whether the cell's day that's not this month.
  
  @discussion Cells with these days do not display the today image, the overlay image, the marks and the divider image.
