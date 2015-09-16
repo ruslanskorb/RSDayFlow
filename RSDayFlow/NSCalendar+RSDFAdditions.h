@@ -27,6 +27,10 @@
 
 @interface NSCalendar (RSDFAdditions)
 
+@property (readonly, nonatomic) NSUInteger rsdf_daysInWeek;
+@property (readonly, nonatomic) NSUInteger rsdf_saturdayIndex;
+@property (readonly, nonatomic) NSUInteger rsdf_sundayIndex;
+
 - (NSDateFormatter *)df_dateFormatterNamed:(NSString *)name withConstructor:(NSDateFormatter *(^)(void))block;
 
 @end
