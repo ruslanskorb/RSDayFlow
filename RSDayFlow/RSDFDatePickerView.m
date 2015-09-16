@@ -727,12 +727,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         
         NSDate *formattedDate = [self dateForFirstDayInSection:indexPath.section];
         RSDFDatePickerDate date = [self pickerDateFromDate:formattedDate];
-        
-        monthHeader.date = date;
-        
+
         NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
         monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %tu", monthString, date.year] uppercaseString];
         
+        monthHeader.date = date;
+
         RSDFDatePickerDate today = [self pickerDateFromDate:_today];
         if ( (today.month == date.month) && (today.year == date.year) ) {
             monthHeader.currentMonth = YES;
