@@ -1,5 +1,5 @@
 //
-// RSDayFlow.h
+// RSDFDatePickerView+Protected.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
@@ -23,20 +23,31 @@
 // THE SOFTWARE.
 //
 
-/**
- `RSDayFlow` is an iOS 7 Calendar with Infinite Scrolling.
- */
-
-#ifndef RSDayFlow_RSDayFlow_h
-#define RSDayFlow_RSDayFlow_h
-
 #import "RSDFDatePickerView.h"
-#import "RSDFDatePickerView+Protected.h"
-#import "RSDFDatePickerDate.h"
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "RSDFDatePickerCollectionView.h"
-#import "RSDFDatePickerCollectionViewLayout.h"
-#import "RSDFDatePickerMonthHeader.h"
-#import "RSDFDatePickerDayCell.h"
 
-#endif
+/**
+ The methods in the RSDFDatePickerViewProtectedMethods category
+ typically should only be called by subclasses which are implementing new
+ date picker views. If you override one you must call super.
+ */
+@interface RSDFDatePickerView (RSDFDatePickerViewProtectedMethods)
+
+/**
+ Returns the date that corresponds to the specified cell in the date picker view.
+ 
+ @param indexPath The index path that specifies the location of the cell.
+ 
+ @return The date that corresponds to the specified cell in the date picker view.
+ */
+- (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ Returns the date of the first day of the month that corresponds to the specified section in the date picker view.
+ 
+ @param section The section that specifies the location of the month.
+ 
+ @return The date of the first day of the month that corresponds to the specified section in the date picker view.
+ */
+- (NSDate *)dateForFirstDayInSection:(NSInteger)section;
+
+@end

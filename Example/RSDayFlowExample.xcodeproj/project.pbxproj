@@ -66,6 +66,7 @@
 		B82FFFA319A37EDB000816FF /* RSDFCustomDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerView.h; sourceTree = "<group>"; };
 		B82FFFA419A37EDB000816FF /* RSDFCustomDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerView.m; sourceTree = "<group>"; };
 		B872EE8219E82DF000E52146 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		B8EE33BB1BA92173000672EC /* RSDFDatePickerView+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RSDFDatePickerView+Protected.h"; sourceTree = "<group>"; };
 		B8F807BD19A34B990047C24B /* RSDayFlowExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSDayFlowExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8F807C019A34B990047C24B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8F807C219A34B9A0047C24B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -253,6 +254,7 @@
 				B8F8080D19A3502D0047C24B /* RSDayFlow.h */,
 				B8F8081619A3502D0047C24B /* RSDFDatePickerView.h */,
 				B8F8081719A3502D0047C24B /* RSDFDatePickerView.m */,
+				B8EE33BB1BA92173000672EC /* RSDFDatePickerView+Protected.h */,
 				B8F8081219A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.h */,
 				B8F8081319A3502D0047C24B /* RSDFDatePickerDaysOfWeekView.m */,
 				B8F8080E19A3502D0047C24B /* RSDFDatePickerCollectionView.h */,
