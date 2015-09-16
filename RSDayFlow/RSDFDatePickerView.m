@@ -202,7 +202,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (NSUInteger)daysInWeek
 {
     if (_daysInWeek == 0) {
-        _daysInWeek = [self.calendar maximumRangeOfUnit:NSCalendarUnitWeekday].length;
+        _daysInWeek = self.calendar.rsdf_daysInWeek;
     }
     return _daysInWeek;
 }
@@ -643,22 +643,22 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     RSDFDatePickerDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier forIndexPath:indexPath];
     
     NSDate *firstDayInMonth = [self dateForFirstDayInSection:indexPath.section];
-    RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
-    NSUInteger weekday = [self reorderedWeekday:[self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday];
+    NSUInteger firstDayInMonthWeekday = [self reorderedWeekday:[self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday];
     
     NSDate *cellDate = [self.calendar dateByAddingComponents:((^{
         NSDateComponents *dateComponents = [NSDateComponents new];
-        dateComponents.day = indexPath.item - weekday;
+        dateComponents.day = indexPath.item - firstDayInMonthWeekday;
         return dateComponents;
     })()) toDate:firstDayInMonth options:0];
     RSDFDatePickerDate cellPickerDate = [self pickerDateFromDate:cellDate];
-    
     cell.dateLabel.text = [NSString stringWithFormat:@"%tu", cellPickerDate.day];
     
+    RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
     cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
+    
     if (!cell.isNotThisMonth) {
-        weekday = [self.calendar components:NSCalendarUnitWeekday fromDate:cellDate].weekday;
-        cell.dayOff = (weekday == 1) || (weekday == 7);
+        NSUInteger cellDateWeekday = [self.calendar components:NSCalendarUnitWeekday fromDate:cellDate].weekday;
+        cell.dayOff = (cellDateWeekday == self.calendar.rsdf_saturdayIndex) || (cellDateWeekday == self.calendar.rsdf_sundayIndex);
         
         if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
             cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];
