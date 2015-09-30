@@ -24,7 +24,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RSDFDatePickerDate.h"
+#import <RSDayFlow/RSDFDatePickerDate.h>
 
 /**
  The `RSDFDatePickerMonthHeader` is a reusable view which used to display a month and year in the date picker view.
