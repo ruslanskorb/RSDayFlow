@@ -27,16 +27,20 @@
  `RSDayFlow` is an iOS 7 Calendar with Infinite Scrolling.
  */
 
-#ifndef RSDayFlow_RSDayFlow_h
-#define RSDayFlow_RSDayFlow_h
+#import <UIKit/UIKit.h>
 
-#import "RSDFDatePickerView.h"
-#import "RSDFDatePickerView+Protected.h"
-#import "RSDFDatePickerDate.h"
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "RSDFDatePickerCollectionView.h"
-#import "RSDFDatePickerCollectionViewLayout.h"
-#import "RSDFDatePickerMonthHeader.h"
-#import "RSDFDatePickerDayCell.h"
+//! Project version number for Test.
+FOUNDATION_EXPORT double TestVersionNumber;
 
-#endif
+//! Project version string for Test.
+FOUNDATION_EXPORT const unsigned char TestVersionString[];
+
+#import <RSDayFlow/RSDFDatePickerView.h>
+#import <RSDayFlow/RSDFDatePickerView+Protected.h>
+#import <RSDayFlow/RSDFDatePickerDate.h>
+#import <RSDayFlow/RSDFDatePickerDaysOfWeekView.h>
+#import <RSDayFlow/RSDFDatePickerCollectionView.h>
+#import <RSDayFlow/RSDFDatePickerCollectionViewLayout.h>
+#import <RSDayFlow/RSDFDatePickerMonthHeader.h>
+#import <RSDayFlow/RSDFDatePickerDayCell.h>
+

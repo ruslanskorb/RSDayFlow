@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSDFDatePickerView.h"
+#import <RSDayFlow/RSDFDatePickerView.h>
 
 /**
  The methods in the RSDFDatePickerViewProtectedMethods category
