@@ -166,7 +166,7 @@
         _datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar startDate:[NSDate date] endDate:nil];
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
-        _datePickerView.selectionMode = RSDFSelectionModeRange;
+        _datePickerView.selectionMode = RSDFSelectionModeMultiple;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;

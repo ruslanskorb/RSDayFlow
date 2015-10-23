@@ -32,6 +32,9 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
     
     /// Allows selecting a single date
     RSDFSelectionModeSingle,
+
+    /// Allows selecting multiple dates
+    RSDFSelectionModeMultiple,
     
     /// Allows selecting a date range (start range & end range)
     RSDFSelectionModeRange
@@ -269,6 +272,18 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @param endDate The selected end date for range.
  */
 - (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectStartDate:(NSDate * __nullable)startDate endDate:(NSDate * __nullable)endDate;
+
+/**
+ Tells the delegate that the user did select a date in RSDFSelectionModeRange.
+ 
+ The date picker view calls this method when the user successfully selects a date in the date picker view.
+ It does not call this method when you programmatically set the selection.
+ 
+ @param view The view whose date was selected.
+ @param startDate The selected start date for range.
+ @param endDate The selected end date for range.
+ */
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectDates:(NSArray<NSDate *> * __nonnull)dates;
 
 @end
 
