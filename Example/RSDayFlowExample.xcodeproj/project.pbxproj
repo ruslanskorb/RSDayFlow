@@ -302,6 +302,7 @@
 				B8F807D519A34B9A0047C24B /* Frameworks */,
 				B8F807D619A34B9A0047C24B /* Resources */,
 				A975138353EEFDA6491BC047 /* Copy Pods Resources */,
+				EB65EF3CA94B0C0B9748C379 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -320,7 +321,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RSDF;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Ruslan Skorb";
 				TargetAttributes = {
 					B8F807D719A34B9A0047C24B = {
@@ -397,6 +398,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB65EF3CA94B0C0B9748C379 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -489,6 +505,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -550,6 +567,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
 				INFOPLIST_FILE = "RSDayFlowExample/RSDayFlowExample-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -564,6 +582,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
 				INFOPLIST_FILE = "RSDayFlowExample/RSDayFlowExample-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -576,7 +595,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
@@ -587,6 +605,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "RSDayFlowExampleTests/RSDayFlowExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -599,13 +618,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
 				INFOPLIST_FILE = "RSDayFlowExampleTests/RSDayFlowExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
