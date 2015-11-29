@@ -5,12 +5,14 @@ PODS:
     - FBSnapshotTestCase/Core (~> 2.0.3)
   - FBSnapshotTestCase/Core (2.0.7)
   - OCMock (2.2.4)
+  - RSDayFlow (1.2.0)
   - Specta (1.0.5)
 
 DEPENDENCIES:
   - Expecta (= 1.0.3)
   - Expecta+Snapshots (= 2.0.0)
   - OCMock (= 2.2.4)
+  - RSDayFlow
   - Specta (= 1.0.5)
 
 SPEC CHECKSUMS:
@@ -18,6 +20,7 @@ SPEC CHECKSUMS:
   Expecta+Snapshots: 29b38dd695bc72a0ed2bea833937d78df41943ba
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
   OCMock: a6a7dc0e3997fb9f35d99f72528698ebf60d64f2
+  RSDayFlow: 5eeed1aac1ef4c47efc69bdbc8664afb64f74c60
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
 
 COCOAPODS: 0.39.0
