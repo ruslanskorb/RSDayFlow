@@ -24,7 +24,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RSDFDatePickerDate.h"
+#import <RSDayFlow/RSDFDatePickerDate.h>
 
 /**
  The `RSDFDatePickerDayCell` is a cell which used to display a day in the date picker view.
