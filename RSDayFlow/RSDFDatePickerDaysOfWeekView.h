@@ -2,7 +2,7 @@
 // RSDFDatePickerDaysOfWeekView.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -101,7 +101,13 @@ typedef NS_ENUM (NSUInteger, RSDFDaysOfWeekDisplayStyle) {
 ///---------------------------------------
 
 /**
- The font for the label of the weekday. Default value is [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0].
+ The font for the label of the weekday. Default value depends on the interface idiom and the interface orientation.
+ 
+ `UIUserInterfaceIdiomPhone`:
+    - `UIInterfaceOrientationPortrait` or `UIInterfaceOrientationPortraitUpsideDown`: `[UIFont fontWithName:@"HelveticaNeue-Light" size:10.0]`
+    - Other: `[UIFont fontWithName:@"HelveticaNeue-Light" size:12.0]`
+ Other:
+    - Any: `[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0]`
  
  @discussion Can be overridden in subclasses for customization.
  */
