@@ -46,12 +46,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, assign) NSUInteger daysInWeek;
 @property (nonatomic, readonly, strong) NSDate *selectedDate;
 
-// From and to date are the currently displayed dates in the calendar
-// These values change in infinite scrolling mode
+// From and to date are the currently displayed dates in the calendar.
+// These values change in infinite scrolling mode.
 @property (nonatomic, readonly, strong) NSDate *fromDate;
 @property (nonatomic, readonly, strong) NSDate *toDate;
 
-// start and end date are date limits displayed in the calendar (No infinite scrolling)
+// Start and end date are date limits displayed in the calendar (no infinite scrolling).
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
@@ -278,8 +278,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     
     NSDateComponents *dateYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth) fromDate:date];
     NSDate *month = [self.calendar dateFromComponents:dateYearMonthComponents];
-	
-    // If startDate exists don't try to update toDate because it was done on init, and date limit should remain
+    
+    // If startDate exists don't try to update toDate because it was done on init, and date limit should remain.
     if (!self.startDate) {
         _fromDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
@@ -288,7 +288,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         })()) toDate:month options:0]];
     }
     
-    // If endDate exists don't try to update toDate because it was done on init, and date limit should remain
+    // If endDate exists don't try to update toDate because it was done on init, and date limit should remain.
     if (!self.endDate) {
         _toDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
@@ -296,7 +296,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
             return components;
         })()) toDate:month options:0]];
     }
-	
+    
     [cv reloadData];
     [cvLayout invalidateLayout];
     [cvLayout prepareLayout];
@@ -563,11 +563,11 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     NSDate *fromSectionOfDate = [self dateForFirstDayInSection:fromSection];
     UICollectionViewLayoutAttributes *fromAttrs = [cvLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:fromSection]];
     CGPoint fromSectionOrigin = [self convertPoint:fromAttrs.frame.origin fromView:cv];
-	
+    
     if (!self.startDate) {
         _fromDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:components toDate:self.fromDate options:0]];
     }
-	
+    
     if (!self.endDate) {
         _toDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:components toDate:self.toDate options:0]];
     }
@@ -577,7 +577,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     //	This solution trips up the collection view a bit
     //	because our reload is reactionary, and happens before a relayout
     //	since we must do it to avoid flickering and to heckle the CA transaction (?)
-    //	that could be a small red flag too
+    //	that could be a small red flag too.
     
     [cv performBatchUpdates:^{
         
@@ -657,7 +657,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     
     RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
     cell.notThisMonth = !((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
-
+    
     cell.dateLabel.isAccessibilityElement = NO;
     cell.isAccessibilityElement = !cell.notThisMonth;
     
@@ -695,14 +695,14 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
                 break;
             }
         }
-		
+        
         if ((self.startDate && [cellDate compare:self.startDate] == NSOrderedAscending) ||
             (self.endDate && [cellDate compare:self.endDate] == NSOrderedDescending)) {
             cell.outOfRange = YES;
         } else {
             cell.outOfRange = NO;
         }
-
+        
         cell.accessibilityLabel = [NSDateFormatter localizedStringFromDate:cellDate dateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterNoStyle];
     }
     
@@ -763,7 +763,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 //	in -collectionView:shouldHighlightItemAtIndexPath:
 //	and -collectionView:shouldSelectItemAtIndexPath:.
 
-//	A native refactoring process might introduce duplicate state which is bad too.
+//	A naive refactoring process might introduce duplicate state which is bad too.
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -810,7 +810,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     if (cell.isNotThisMonth || cell.isOutOfRange) {
         return NO;
     }
-	
+    
     if ([self.delegate respondsToSelector:@selector(datePickerView:shouldSelectDate:)]) {
         NSDate *date = [self dateForCellAtIndexPath:indexPath];
         return [self.delegate datePickerView:self shouldSelectDate:date];

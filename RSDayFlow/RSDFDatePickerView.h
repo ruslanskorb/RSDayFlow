@@ -30,7 +30,7 @@
 
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
-*/
+ */
 @interface RSDFDatePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 /**
@@ -47,8 +47,8 @@
  
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for the date picker view.
- @param startDate First selectable date
- @param endDate Last selectable date
+ @param startDate The first selectable date.
+ @param endDate The last selectable date.
  */
 - (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar startDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 
