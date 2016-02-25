@@ -172,6 +172,23 @@
  */
 - (Class)dayCellClass;
 
+///-----------------------------------------
+/// @name Accessing Attributes of the Layout
+///-----------------------------------------
+
+/**
+ The height of the days of week view. Default value depends on the interface idiom and the interface orientation.
+ 
+ `UIUserInterfaceIdiomPhone`:
+ - `UIInterfaceOrientationPortrait` or `UIInterfaceOrientationPortraitUpsideDown`: `22.0f`
+ - Other: `26.0f`
+ Other:
+ - Any: `36.0f`
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGFloat)daysOfWeekViewHeight;
+
 @end
 
 /**

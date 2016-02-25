@@ -223,21 +223,30 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (CGRect)daysOfWeekViewFrame
 {
+    CGRect daysOfWeekViewFrame = self.bounds;
+    daysOfWeekViewFrame.size.height = [self daysOfWeekViewHeight];
+    
+    return daysOfWeekViewFrame;
+}
+
+- (CGFloat)daysOfWeekViewHeight
+{
+    CGFloat daysOfWeekViewHeight = 0.0f;
+    
     BOOL isPhone = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
     BOOL isPortraitInterfaceOrientation = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
     
-    CGRect namesOfDaysViewFrame = self.bounds;
     if (isPhone) {
         if (isPortraitInterfaceOrientation) {
-            namesOfDaysViewFrame.size.height = 22.0f;
+            daysOfWeekViewHeight = 22.0f;
         } else {
-            namesOfDaysViewFrame.size.height = 26.0f;
+            daysOfWeekViewHeight = 26.0f;
         }
     } else {
-        namesOfDaysViewFrame.size.height = 36.0f;
+        daysOfWeekViewHeight = 36.0f;
     }
     
-    return namesOfDaysViewFrame;
+    return daysOfWeekViewHeight;
 }
 
 - (Class)monthHeaderClass
