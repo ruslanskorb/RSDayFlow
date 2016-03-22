@@ -388,7 +388,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
     
     if (self.startDate) {
-        _fromDate = [self dateWithFirstDayOfMonth:[self dateWithFirstDayOfMonth:self.startDate]];
+        _fromDate = [self dateWithFirstDayOfMonth:self.startDate];
     } else {
         _fromDate = [self dateWithFirstDayOfMonth:[self.calendar dateByAddingComponents:((^{
             NSDateComponents *components = [NSDateComponents new];
