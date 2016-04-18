@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/ruslanskorb/RSDayFlow.git', :tag => s.version.to_s }
   s.platform     = :ios, '7.0'
   s.source_files = 'RSDayFlow'
+  s.private_header_files = 'RSDayFlow/RSDayFlow.h', 'RSDayFlow/*+Protected.h'
   s.frameworks = 'QuartzCore', 'UIKit'
   s.requires_arc = true
 end
