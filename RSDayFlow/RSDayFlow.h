@@ -38,5 +38,6 @@
 #import <RSDayFlow/RSDFDatePickerCollectionViewLayout.h>
 #import <RSDayFlow/RSDFDatePickerMonthHeader.h>
 #import <RSDayFlow/RSDFDatePickerDayCell.h>
+#import <RSDayFlow/NSCalendar+RSDFAdditions.h>
 
 #endif
