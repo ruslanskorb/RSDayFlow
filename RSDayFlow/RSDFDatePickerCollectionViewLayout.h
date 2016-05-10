@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Types of supported directions of the layout of the collection view.
  */
@@ -78,3 +80,5 @@ typedef NS_ENUM(NSUInteger, RSDFDatePickerCollectionViewLayoutDirection) {
 - (CGFloat)selfMinimumInteritemSpacing;
 
 @end
+
+NS_ASSUME_NONNULL_END
