@@ -26,6 +26,8 @@
 #import <UIKit/UIKit.h>
 #import <RSDayFlow/RSDFDatePickerDate.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  The `RSDFDatePickerDayCell` is a cell which used to display a day in the date picker view.
  */
@@ -91,7 +93,7 @@
 /**
  The mark image for the cell of the day. The default mark image is a small round mark.
  */
-@property (nonatomic, strong) UIImage *markImage;
+@property (nonatomic, strong, nullable) UIImage *markImage;
 
 ///---------------------------------------
 /// @name Accessing Attributes of the View
@@ -204,7 +206,7 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customSelectedTodayImage;
+- (nullable UIImage *)customSelectedTodayImage;
 
 /**
  The font for the label of the day when it is selected. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
@@ -232,7 +234,7 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customSelectedDayImage;
+- (nullable UIImage *)customSelectedDayImage;
 
 /**
  The color of the overlay image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
@@ -246,7 +248,7 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customOverlayImage;
+- (nullable UIImage *)customOverlayImage;
 
 /**
  The color of the divider image for the cell of the day. Default value is [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f].
@@ -260,6 +262,8 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customDividerImage;
+- (nullable UIImage *)customDividerImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

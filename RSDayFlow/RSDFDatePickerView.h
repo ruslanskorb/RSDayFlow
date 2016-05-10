@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol RSDFDatePickerViewDelegate;
 @protocol RSDFDatePickerViewDataSource;
 
@@ -39,7 +41,7 @@
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for the date picker view.
  */
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar;
 
 
 /**
@@ -50,7 +52,7 @@
  @param startDate The first selectable date.
  @param endDate The last selectable date.
  */
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar startDate:(NSDate *)startDate endDate:(NSDate *)endDate;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar startDate:(nullable NSDate *)startDate endDate:(nullable NSDate *)endDate;
 
 ///-----------------------------
 /// @name Accessing the Delegate
@@ -61,7 +63,7 @@
  
  @discussion A `RSDFDatePickerView` delegate responds to message sent by tapping on date in the date picker view.
  */
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDelegate> delegate;
+@property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDelegate> delegate;
 
 ///--------------------------------
 /// @name Accessing the Data Source
@@ -73,7 +75,7 @@
  @discussion A `RSDFDatePickerView` data source provides dates to mark in the date picker view.
  */
 
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
+@property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDataSource> dataSource;
 
 ///------------------
 /// @name Paging Mode
@@ -281,6 +283,8 @@
  
  @return The mark image for the specified date.
  */
-- (UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
+- (nullable UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
 
 @end
+
+NS_ASSUME_NONNULL_END

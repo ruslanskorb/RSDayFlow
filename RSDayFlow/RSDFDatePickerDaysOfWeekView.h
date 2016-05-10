@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM (NSUInteger, RSDFDaysOfWeekDisplayStyle) {
     /// Short Display style: M T W T F S S
     RSDFDaysOfWeekDisplayStyleShort,
@@ -47,7 +49,7 @@ typedef NS_ENUM (NSUInteger, RSDFDaysOfWeekDisplayStyle) {
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for days of the week.
  */
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar;
 
 ///---------------------------------------
 /// @name Accessing Attributes of the View
@@ -141,3 +143,5 @@ typedef NS_ENUM (NSUInteger, RSDFDaysOfWeekDisplayStyle) {
 - (UIColor *)dayOffOfWeekLabelTextColor;
 
 @end
+
+NS_ASSUME_NONNULL_END

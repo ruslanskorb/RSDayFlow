@@ -26,6 +26,8 @@
 #import <UIKit/UIKit.h>
 #import <RSDayFlow/RSDFDatePickerDate.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  The `RSDFDatePickerMonthHeader` is a reusable view which used to display a month and year in the date picker view.
  */
@@ -91,3 +93,5 @@
 - (UIColor *)currentMonthLabelTextColor;
 
 @end
+
+NS_ASSUME_NONNULL_END
