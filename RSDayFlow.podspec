@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source        = { :git => 'https://github.com/ruslanskorb/RSDayFlow.git', :tag => s.version.to_s }
   s.platform      = :ios, '7.0'
   s.module_map    = 'RSDayFlow/module.modulemap'
-  s.source_files  = 'RSDayFlow'
+  s.source_files  = 'RSDayFlow/*.{h,m}'
   s.frameworks    = 'QuartzCore', 'UIKit'
   s.requires_arc  = true
 end
