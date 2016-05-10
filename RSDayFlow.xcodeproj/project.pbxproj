@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B851C6741C0AF698007A22DA /* NSCalendar+RSDFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6631C0AF698007A22DA /* NSCalendar+RSDFAdditions.h */; settings = {ASSET_TAGS = (); }; };
-		B851C6751C0AF698007A22DA /* NSCalendar+RSDFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6641C0AF698007A22DA /* NSCalendar+RSDFAdditions.m */; settings = {ASSET_TAGS = (); }; };
+		B851C6741C0AF698007A22DA /* NSCalendar+RSDFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6631C0AF698007A22DA /* NSCalendar+RSDFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B851C6751C0AF698007A22DA /* NSCalendar+RSDFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6641C0AF698007A22DA /* NSCalendar+RSDFAdditions.m */; };
 		B851C6761C0AF698007A22DA /* RSDayFlow.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6651C0AF698007A22DA /* RSDayFlow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B851C6771C0AF698007A22DA /* RSDFDatePickerCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6661C0AF698007A22DA /* RSDFDatePickerCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B851C6781C0AF698007A22DA /* RSDFDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6671C0AF698007A22DA /* RSDFDatePickerCollectionView.m */; settings = {ASSET_TAGS = (); }; };
+		B851C6781C0AF698007A22DA /* RSDFDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6671C0AF698007A22DA /* RSDFDatePickerCollectionView.m */; };
 		B851C6791C0AF698007A22DA /* RSDFDatePickerCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6681C0AF698007A22DA /* RSDFDatePickerCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B851C67A1C0AF698007A22DA /* RSDFDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6691C0AF698007A22DA /* RSDFDatePickerCollectionViewLayout.m */; settings = {ASSET_TAGS = (); }; };
+		B851C67A1C0AF698007A22DA /* RSDFDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6691C0AF698007A22DA /* RSDFDatePickerCollectionViewLayout.m */; };
 		B851C67B1C0AF698007A22DA /* RSDFDatePickerDate.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C66A1C0AF698007A22DA /* RSDFDatePickerDate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B851C67C1C0AF698007A22DA /* RSDFDatePickerDayCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C66B1C0AF698007A22DA /* RSDFDatePickerDayCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B851C67D1C0AF698007A22DA /* RSDFDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C66C1C0AF698007A22DA /* RSDFDatePickerDayCell.m */; settings = {ASSET_TAGS = (); }; };
+		B851C67D1C0AF698007A22DA /* RSDFDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C66C1C0AF698007A22DA /* RSDFDatePickerDayCell.m */; };
 		B851C67E1C0AF698007A22DA /* RSDFDatePickerDaysOfWeekView.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C66D1C0AF698007A22DA /* RSDFDatePickerDaysOfWeekView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B851C67F1C0AF698007A22DA /* RSDFDatePickerDaysOfWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C66E1C0AF698007A22DA /* RSDFDatePickerDaysOfWeekView.m */; settings = {ASSET_TAGS = (); }; };
+		B851C67F1C0AF698007A22DA /* RSDFDatePickerDaysOfWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C66E1C0AF698007A22DA /* RSDFDatePickerDaysOfWeekView.m */; };
 		B851C6801C0AF698007A22DA /* RSDFDatePickerMonthHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C66F1C0AF698007A22DA /* RSDFDatePickerMonthHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B851C6811C0AF698007A22DA /* RSDFDatePickerMonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6701C0AF698007A22DA /* RSDFDatePickerMonthHeader.m */; settings = {ASSET_TAGS = (); }; };
+		B851C6811C0AF698007A22DA /* RSDFDatePickerMonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6701C0AF698007A22DA /* RSDFDatePickerMonthHeader.m */; };
 		B851C6821C0AF698007A22DA /* RSDFDatePickerView+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6711C0AF698007A22DA /* RSDFDatePickerView+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B851C6831C0AF698007A22DA /* RSDFDatePickerView.h in Headers */ = {isa = PBXBuildFile; fileRef = B851C6721C0AF698007A22DA /* RSDFDatePickerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B851C6841C0AF698007A22DA /* RSDFDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6731C0AF698007A22DA /* RSDFDatePickerView.m */; settings = {ASSET_TAGS = (); }; };
+		B851C6841C0AF698007A22DA /* RSDFDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B851C6731C0AF698007A22DA /* RSDFDatePickerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
