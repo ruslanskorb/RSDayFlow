@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param date The date to select. Specifying nil for this parameter clears the current selection.
  */
 
-- (void)selectDate:(NSDate *)date;
+- (void)selectDate:(nullable NSDate *)date;
 
 ///-------------------------
 /// @name Reloading the Data
