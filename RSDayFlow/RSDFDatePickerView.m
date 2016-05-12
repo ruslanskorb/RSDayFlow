@@ -744,10 +744,14 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         RSDFDatePickerDate date = [self pickerDateFromDate:formattedDate];
         
         monthHeader.date = date;
-        
-        NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
-        monthHeader.dateLabel.text = [[NSString stringWithFormat:@"%@ %tu", monthString, date.year] uppercaseString];
-        
+
+        NSString *monthLabelText = [monthHeader monthLabelText];
+        if (!monthLabelText) {
+            NSString *monthString = [dateFormatter shortStandaloneMonthSymbols][date.month - 1];
+            monthLabelText = [[NSString stringWithFormat:@"%@ %tu", monthString, date.year] uppercaseString];
+        }
+        monthHeader.dateLabel.text = monthLabelText;
+
         RSDFDatePickerDate today = [self pickerDateFromDate:_today];
         if ( (today.month == date.month) && (today.year == date.year) ) {
             monthHeader.currentMonth = YES;

@@ -85,6 +85,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (UIColor *)monthLabelTextColor;
 
+
+/**
+ The text for the label of the month. Default value is nil.
+ If the value is nil, RSDFDatePickerView sets dateLabel.text in default format.
+
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (NSString *)monthLabelText;
+
 /**
  The text color for the label of the current month. Default value is [UIColor colorWithRed:32/255.0f green:135/255.0f blue:252/255.0f alpha:1.0f].
  
