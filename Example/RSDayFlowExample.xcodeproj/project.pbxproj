@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		177BCF87956EC64D6267CBA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14CBECB66E1ABB82F3BC30B /* libPods.a */; };
-		83DD4F68056ED27DD5F0A05C /* libPods-RSDayFlowExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */; };
+		26C6174F9B8B7EF7021A3EAE /* libPods-RSDayFlowExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8368FB342F9349F8D7C5FE3C /* libPods-RSDayFlowExample.a */; };
 		B82FFFA519A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9A19A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m */; };
 		B82FFFA619A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9C19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m */; };
 		B82FFFA719A37EDB000816FF /* RSDFCustomDatePickerDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9E19A37EDB000816FF /* RSDFCustomDatePickerDayCell.m */; };
@@ -42,11 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		434ABF2D56A43FF2FA5817BD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		6F434A31CFBFFC0E79A0A541 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		A14CBECB66E1ABB82F3BC30B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4C53D902E48EA751AE6E1C15 /* Pods-RSDayFlowExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExample/Pods-RSDayFlowExample.release.xcconfig"; sourceTree = "<group>"; };
+		51F89F985060E37EB33750EF /* libPods-RSDayFlowExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E6CFEE0DB45FD233F562BAD /* Pods-RSDayFlowExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExample/Pods-RSDayFlowExample.debug.xcconfig"; sourceTree = "<group>"; };
+		8368FB342F9349F8D7C5FE3C /* libPods-RSDayFlowExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B82FFF9919A37EDB000816FF /* RSDFCustomDatePickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerCollectionView.h; sourceTree = "<group>"; };
 		B82FFF9A19A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFCustomDatePickerCollectionView.m; sourceTree = "<group>"; };
 		B82FFF9B19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerCollectionViewLayout.h; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 		B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSDayFlowExampleTests.m; sourceTree = "<group>"; };
 		B8F8080619A34CDC0047C24B /* RSDFDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerViewController.h; sourceTree = "<group>"; };
 		B8F8080719A34CDC0047C24B /* RSDFDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerViewController.m; sourceTree = "<group>"; };
-		C13884567013AD95F8B2B770 /* Pods-RSDayFlowExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +86,7 @@
 				B8F807C319A34B9A0047C24B /* CoreGraphics.framework in Frameworks */,
 				B8F807C519A34B9A0047C24B /* UIKit.framework in Frameworks */,
 				B8F807C119A34B990047C24B /* Foundation.framework in Frameworks */,
-				177BCF87956EC64D6267CBA2 /* libPods.a in Frameworks */,
+				26C6174F9B8B7EF7021A3EAE /* libPods-RSDayFlowExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,20 +97,17 @@
 				B8F807DA19A34B9A0047C24B /* XCTest.framework in Frameworks */,
 				B8F807DC19A34B9A0047C24B /* UIKit.framework in Frameworks */,
 				B8F807DB19A34B9A0047C24B /* Foundation.framework in Frameworks */,
-				83DD4F68056ED27DD5F0A05C /* libPods-RSDayFlowExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A2759054D64B3C864AA16E23 /* Pods */ = {
+		95F8F49285E6115137CA4747 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */,
-				C13884567013AD95F8B2B770 /* Pods-RSDayFlowExampleTests.release.xcconfig */,
-				6F434A31CFBFFC0E79A0A541 /* Pods.debug.xcconfig */,
-				434ABF2D56A43FF2FA5817BD /* Pods.release.xcconfig */,
+				7E6CFEE0DB45FD233F562BAD /* Pods-RSDayFlowExample.debug.xcconfig */,
+				4C53D902E48EA751AE6E1C15 /* Pods-RSDayFlowExample.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -144,7 +138,7 @@
 				B8F807DF19A34B9A0047C24B /* RSDayFlowExampleTests */,
 				B8F807BF19A34B990047C24B /* Frameworks */,
 				B8F807BE19A34B990047C24B /* Products */,
-				A2759054D64B3C864AA16E23 /* Pods */,
+				95F8F49285E6115137CA4747 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,8 +158,8 @@
 				B8F807C219A34B9A0047C24B /* CoreGraphics.framework */,
 				B8F807C419A34B9A0047C24B /* UIKit.framework */,
 				B8F807D919A34B9A0047C24B /* XCTest.framework */,
-				26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */,
-				A14CBECB66E1ABB82F3BC30B /* libPods.a */,
+				8368FB342F9349F8D7C5FE3C /* libPods-RSDayFlowExample.a */,
+				51F89F985060E37EB33750EF /* libPods-RSDayFlowExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -230,12 +224,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B8F807E919A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExample" */;
 			buildPhases = (
-				D31E44BFD47FF397ABA8E061 /* Check Pods Manifest.lock */,
+				7112576476D439381981B20C /* 📦 Check Pods Manifest.lock */,
 				B8F807B919A34B990047C24B /* Sources */,
 				B8F807BA19A34B990047C24B /* Frameworks */,
 				B8F807BB19A34B990047C24B /* Resources */,
-				9AFE989F978413ACC92256C6 /* Embed Pods Frameworks */,
-				3A159FF7E295FE881770E049 /* Copy Pods Resources */,
+				1FD9FF1ED321FD63C58C2F01 /* 📦 Embed Pods Frameworks */,
+				59B946013087A25E31C7FAE3 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,12 +244,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B8F807EC19A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExampleTests" */;
 			buildPhases = (
-				6B9030BBEA136278CABD1238 /* Check Pods Manifest.lock */,
 				B8F807D419A34B9A0047C24B /* Sources */,
 				B8F807D519A34B9A0047C24B /* Frameworks */,
 				B8F807D619A34B9A0047C24B /* Resources */,
-				A975138353EEFDA6491BC047 /* Copy Pods Resources */,
-				EB65EF3CA94B0C0B9748C379 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -323,94 +314,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3A159FF7E295FE881770E049 /* Copy Pods Resources */ = {
+		1FD9FF1ED321FD63C58C2F01 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExample/Pods-RSDayFlowExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6B9030BBEA136278CABD1238 /* Check Pods Manifest.lock */ = {
+		59B946013087A25E31C7FAE3 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExample/Pods-RSDayFlowExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7112576476D439381981B20C /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9AFE989F978413ACC92256C6 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A975138353EEFDA6491BC047 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D31E44BFD47FF397ABA8E061 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		EB65EF3CA94B0C0B9748C379 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -552,7 +498,7 @@
 		};
 		B8F807EA19A34B9A0047C24B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F434A31CFBFFC0E79A0A541 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 7E6CFEE0DB45FD233F562BAD /* Pods-RSDayFlowExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -568,7 +514,7 @@
 		};
 		B8F807EB19A34B9A0047C24B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 434ABF2D56A43FF2FA5817BD /* Pods.release.xcconfig */;
+			baseConfigurationReference = 4C53D902E48EA751AE6E1C15 /* Pods-RSDayFlowExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -584,7 +530,6 @@
 		};
 		B8F807ED19A34B9A0047C24B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -607,7 +552,6 @@
 		};
 		B8F807EE19A34B9A0047C24B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C13884567013AD95F8B2B770 /* Pods-RSDayFlowExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
 				FRAMEWORK_SEARCH_PATHS = (
