@@ -2,7 +2,7 @@
 // RSDayFlow.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,13 +30,14 @@
 #ifndef RSDayFlow_RSDayFlow_h
 #define RSDayFlow_RSDayFlow_h
 
-#import "RSDFDatePickerView.h"
-#import "RSDFDatePickerView+Protected.h"
-#import "RSDFDatePickerDate.h"
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "RSDFDatePickerCollectionView.h"
-#import "RSDFDatePickerCollectionViewLayout.h"
-#import "RSDFDatePickerMonthHeader.h"
-#import "RSDFDatePickerDayCell.h"
+#import <RSDayFlow/RSDFDatePickerView.h>
+#import <RSDayFlow/RSDFDatePickerView+Protected.h>
+#import <RSDayFlow/RSDFDatePickerDate.h>
+#import <RSDayFlow/RSDFDatePickerDaysOfWeekView.h>
+#import <RSDayFlow/RSDFDatePickerCollectionView.h>
+#import <RSDayFlow/RSDFDatePickerCollectionViewLayout.h>
+#import <RSDayFlow/RSDFDatePickerMonthHeader.h>
+#import <RSDayFlow/RSDFDatePickerDayCell.h>
+#import <RSDayFlow/NSCalendar+RSDFAdditions.h>
 
 #endif

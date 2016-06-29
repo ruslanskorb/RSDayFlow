@@ -2,7 +2,7 @@
 // RSDFDatePickerDaysOfWeekView.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -238,20 +238,23 @@
             UIColor *dayOfWeekLabelBackgroundColor = [UIColor clearColor];
             UIColor *dayOfWeekLabelTextColor = [self dayOfWeekLabelTextColor];
             UIColor *dayOffOfWeekLabelTextColor = [self dayOffOfWeekLabelTextColor];
+            UIFont *dayOffOfWeekLabelFont = [self dayOffOfWeekLabelFont];
             
             NSMutableArray *weekdayLabels = [NSMutableArray arrayWithCapacity:[symbolsToUse count]];
             [symbolsToUse enumerateObjectsUsingBlock:^(NSString *weekdaySymbol, NSUInteger idx, BOOL *stop) {
                 UILabel *weekdayLabel = [[UILabel alloc] init];
                 weekdayLabel.textAlignment = NSTextAlignmentCenter;
                 weekdayLabel.backgroundColor = dayOfWeekLabelBackgroundColor;
-                weekdayLabel.font = dayOfWeekLabelFont;
                 NSUInteger originalIndexOfWeekdaySymbol = [self originalIndexOfWeekdaySymbolFromReorderedIndex:[symbolsToUse indexOfObjectIdenticalTo:weekdaySymbol]];
                 if (originalIndexOfWeekdaySymbol != self.originalIndexOfSaturdaySymbol && originalIndexOfWeekdaySymbol != self.originalIndexOfSundaySymbol) {
+                    weekdayLabel.font = dayOfWeekLabelFont;
                     weekdayLabel.textColor = dayOfWeekLabelTextColor;
                 } else {
+                    weekdayLabel.font = dayOffOfWeekLabelFont;
                     weekdayLabel.textColor = dayOffOfWeekLabelTextColor;
                 }
                 weekdayLabel.text = weekdaySymbol;
+                weekdayLabel.isAccessibilityElement = NO;
                 [weekdayLabels addObject:weekdayLabel];
                 [self addSubview:weekdayLabel];
             }];
@@ -311,6 +314,19 @@
 #pragma mark - Attributes of Subviews
 
 - (UIFont *)dayOfWeekLabelFont
+{
+    if ([self isPhone]) {
+        if ([self isPortraitInterfaceOrientation]) {
+            return [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
+        } else {
+            return [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0];
+        }
+    } else {
+        return [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
+    }
+}
+
+- (UIFont *)dayOffOfWeekLabelFont
 {
     if ([self isPhone]) {
         if ([self isPortraitInterfaceOrientation]) {

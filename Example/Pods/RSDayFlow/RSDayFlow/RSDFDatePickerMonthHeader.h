@@ -2,7 +2,7 @@
 // RSDFDatePickerMonthHeader.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RSDFDatePickerDate.h"
+#import <RSDayFlow/RSDFDatePickerDate.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  The `RSDFDatePickerMonthHeader` is a reusable view which used to display a month and year in the date picker view.
@@ -91,3 +93,5 @@
 - (UIColor *)currentMonthLabelTextColor;
 
 @end
+
+NS_ASSUME_NONNULL_END

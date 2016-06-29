@@ -2,7 +2,7 @@
 // RSDFDatePickerView.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,14 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol RSDFDatePickerViewDelegate;
 @protocol RSDFDatePickerViewDataSource;
 
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
-*/
+ */
 @interface RSDFDatePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 /**
@@ -39,7 +41,7 @@
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for the date picker view.
  */
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar;
 
 
 /**
@@ -47,10 +49,10 @@
  
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for the date picker view.
- @param startDate First selectable date
- @param endDate Last selectable date
+ @param startDate The first selectable date.
+ @param endDate The last selectable date.
  */
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar startDate:(NSDate *)startDate endDate:(NSDate *)endDate;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar startDate:(nullable NSDate *)startDate endDate:(nullable NSDate *)endDate;
 
 ///-----------------------------
 /// @name Accessing the Delegate
@@ -61,7 +63,7 @@
  
  @discussion A `RSDFDatePickerView` delegate responds to message sent by tapping on date in the date picker view.
  */
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDelegate> delegate;
+@property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDelegate> delegate;
 
 ///--------------------------------
 /// @name Accessing the Data Source
@@ -73,7 +75,7 @@
  @discussion A `RSDFDatePickerView` data source provides dates to mark in the date picker view.
  */
 
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> dataSource;
+@property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDataSource> dataSource;
 
 ///------------------
 /// @name Paging Mode
@@ -120,7 +122,7 @@
  @param date The date to select. Specifying nil for this parameter clears the current selection.
  */
 
-- (void)selectDate:(NSDate *)date;
+- (void)selectDate:(nullable NSDate *)date;
 
 ///-------------------------
 /// @name Reloading the Data
@@ -171,6 +173,23 @@
  @discussion Can be overridden in subclasses for customization.
  */
 - (Class)dayCellClass;
+
+///-----------------------------------------
+/// @name Accessing Attributes of the Layout
+///-----------------------------------------
+
+/**
+ The height of the days of week view. Default value depends on the interface idiom and the interface orientation.
+ 
+ `UIUserInterfaceIdiomPhone`:
+ - `UIInterfaceOrientationPortrait` or `UIInterfaceOrientationPortraitUpsideDown`: `22.0f`
+ - Other: `26.0f`
+ Other:
+ - Any: `36.0f`
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGFloat)daysOfWeekViewHeight;
 
 @end
 
@@ -264,6 +283,8 @@
  
  @return The mark image for the specified date.
  */
-- (UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
+- (nullable UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
 
 @end
+
+NS_ASSUME_NONNULL_END

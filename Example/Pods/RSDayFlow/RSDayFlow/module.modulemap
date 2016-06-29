@@ -1,0 +1,6 @@
+framework module RSDayFlow {
+    umbrella header "RSDayFlow.h"
+
+    export *
+    module * { export * }
+}

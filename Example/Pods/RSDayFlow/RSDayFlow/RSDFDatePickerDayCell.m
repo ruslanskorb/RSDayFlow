@@ -2,7 +2,7 @@
 // RSDFDatePickerDayCell.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,10 @@
 //
 
 #import "RSDFDatePickerDayCell.h"
+
+CGFloat roundOnBase(CGFloat x, CGFloat base) {
+    return round(x * base) / base;
+}
 
 @interface RSDFDatePickerDayCell ()
 
@@ -121,12 +125,12 @@
 
 - (CGRect)dividerImageViewFrame
 {
-    return CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame) + 3.0f, 0.5f);
+    return CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame) + 3.0f, roundOnBase(0.5f, [UIScreen mainScreen].scale));
 }
 
 - (CGRect)markImageViewFrame
 {
-    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 4.5f, 45.5f, 9.0f, 9.0f);
+    return CGRectMake(roundOnBase(CGRectGetWidth(self.frame) / 2 - 4.5f, [UIScreen mainScreen].scale), roundOnBase(45.5f, [UIScreen mainScreen].scale), 9.0f, 9.0f);
 }
 
 - (UIImage *)markImage
@@ -183,7 +187,7 @@
 
 - (CGRect)selectedImageViewFrame
 {
-    return CGRectMake(CGRectGetWidth(self.frame) / 2 - 17.5f, 5.5f, 35.0f, 35.0f);
+    return CGRectMake(roundOnBase(CGRectGetWidth(self.frame) / 2 - 17.5f, [UIScreen mainScreen].scale), roundOnBase(5.5, [UIScreen mainScreen].scale), 35.0f, 35.0f);
 }
 
 - (void)setMarkImage:(UIImage *)markImage
