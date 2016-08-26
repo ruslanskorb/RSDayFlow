@@ -52,4 +52,9 @@
     return RSDFMonthsDisplayStyleFull;
 }
 
+- (UIEdgeInsets)selfEdgeInsets
+{
+    return UIEdgeInsetsMake(30, 0, 0, 0);
+}
+
 @end

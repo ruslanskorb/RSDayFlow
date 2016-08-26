@@ -74,6 +74,13 @@ typedef NS_ENUM (NSUInteger, RSDFMonthsDisplayStyle) {
  */
 - (UIColor *)selfBackgroundColor;
 
+/**
+ Insets around month label. Default value is `UIEdgeInsetsZero`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIEdgeInsets)selfEdgeInsets;
+
 ///--------------------
 /// @name Display Style
 ///--------------------
