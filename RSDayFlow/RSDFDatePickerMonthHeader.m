@@ -85,6 +85,13 @@
     }
 }
 
+#pragma mark - Attributes of the Layout
+
+- (RSDFMonthsDisplayStyle)displayStyle
+{
+    return RSDFMonthsDisplayStyleShortUppercase;
+}
+
 #pragma mark - Attributes of the View
 
 - (UIColor *)selfBackgroundColor
