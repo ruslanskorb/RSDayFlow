@@ -102,4 +102,9 @@
     return [UIColor lightGrayColor];
 }
 
+- (CGRect)selectedImageViewFrame
+{
+    return CGRectMake(0, 0, CGRectGetWidth(self.frame), 30);
+}
+
 @end
