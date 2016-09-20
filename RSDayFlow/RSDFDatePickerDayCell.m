@@ -263,6 +263,7 @@
         }
     }
 
+    [self.delegate datePickerDayCellDidUpdateUserInterface:self];
 }
 
 + (NSCache *)imageCache

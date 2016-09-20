@@ -25,6 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class RSDFDatePickerDayCell;
 @protocol RSDFDatePickerViewDelegate;
 @protocol RSDFDatePickerViewDataSource;
 
@@ -291,6 +292,11 @@ Deselect dates
  @param endDate The selected end date for range.
  */
 - (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectDates:(NSArray<NSDate *> * __nonnull)dates;
+
+/**
+Called after the layout is complete on each cell, and alow customizing cells based on custom logic and based on specific dates
+ */
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didUpdateCellUserInterface:(RSDFDatePickerDayCell * __nonnull)cell;
 
 @end
 

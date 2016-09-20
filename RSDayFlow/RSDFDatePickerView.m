@@ -36,7 +36,7 @@
 static NSString * const RSDFDatePickerViewMonthHeaderIdentifier = @"RSDFDatePickerViewMonthHeaderIdentifier";
 static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerViewDayCellIdentifier";
 
-@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate>
+@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate, RSDFDatePickerDayCellDelegate>
 
 @property (nonatomic, readonly, strong) NSCalendar *calendar;
 @property (nonatomic, readonly, strong) RSDFDatePickerDaysOfWeekView *daysOfWeekView;
@@ -389,7 +389,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     _selectedDate = nil;
     _selectedStartDateRange = nil;
     _selectedEndDateRange = nil;
-    [_collectionView deselectItemAtIndexPath:_collectionView.indexPathsForSelectedItems animated:animated];
+
+    for (NSIndexPath *indexPath in _collectionView.indexPathsForSelectedItems) {
+        [_collectionView deselectItemAtIndexPath:indexPath animated:animated];
+    }
 }
 
 - (void)reloadData
@@ -859,6 +862,14 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
 }
 
+#pragma mark - RSDFDatePickerDayCellDelegate
+
+- (void)datePickerDayCellDidUpdateUserInterface:(RSDFDatePickerDayCell *)cell {
+    if ([self.delegate respondsToSelector:@selector(datePickerView:didUpdateCellUserInterface:)]) {
+        [self.delegate datePickerView:self didUpdateCellUserInterface:(RSDFDatePickerDayCell *)cell];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -874,6 +885,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (RSDFDatePickerDayCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     RSDFDatePickerDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier forIndexPath:indexPath];
+    cell.delegate = self;
     
     NSDate *firstDayInMonth = [self dateForFirstDayInSection:indexPath.section];
     RSDFDatePickerDate firstDayPickerDate = [self pickerDateFromDate:firstDayInMonth];
