@@ -385,6 +385,13 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [self selectDateInDateRange:lastDate];
 }
 
+- (void)deselectDatesAnimated:(BOOL)animated {
+    _selectedDate = nil;
+    _selectedStartDateRange = nil;
+    _selectedEndDateRange = nil;
+    [_collectionView deselectItemAtIndexPath:_collectionView.indexPathsForSelectedItems animated:animated];
+}
+
 - (void)reloadData
 {
     [self.collectionView reloadData];

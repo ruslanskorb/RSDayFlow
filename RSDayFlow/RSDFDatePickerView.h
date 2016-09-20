@@ -159,6 +159,13 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  */
 - (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate;
 
+/**
+Deselect dates
+ 
+ @param animated if tru animates using standard collectionView animation
+ */
+- (void)deselectDatesAnimated:(BOOL)animated;
+
 ///-------------------------
 /// @name Reloading the Data
 ///-------------------------
