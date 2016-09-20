@@ -395,6 +395,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (void)reloadData
 {
     [self.collectionView reloadData];
+    [self restoreSelection];
 }
 
 #pragma mark - Private
