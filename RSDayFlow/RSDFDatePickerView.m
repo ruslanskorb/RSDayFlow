@@ -865,8 +865,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 #pragma mark - RSDFDatePickerDayCellDelegate
 
 - (void)datePickerDayCellDidUpdateUserInterface:(RSDFDatePickerDayCell *)cell {
-    if ([self.delegate respondsToSelector:@selector(datePickerView:didUpdateCellUserInterface:)]) {
-        [self.delegate datePickerView:self didUpdateCellUserInterface:(RSDFDatePickerDayCell *)cell];
+    if ([self.delegate respondsToSelector:@selector(datePickerView:didDisplayCell:)]) {
+        [self.delegate datePickerView:self didDisplayCell:(RSDFDatePickerDayCell *)cell];
     }
 }
 

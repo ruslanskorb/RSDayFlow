@@ -296,7 +296,7 @@ Deselect dates
 /**
 Called after the layout is complete on each cell, and alow customizing cells based on custom logic and based on specific dates
  */
-- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didUpdateCellUserInterface:(RSDFDatePickerDayCell * __nonnull)cell;
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didDisplayCell:(RSDFDatePickerDayCell * __nonnull)cell;
 
 @end
 

@@ -262,8 +262,8 @@
     }
 }
 
-- (void)datePickerView:(RSDFDatePickerView *)view didUpdateCellUserInterface:(RSDFDatePickerDayCell *)cell {
-    cell.dateLabel.textColor = [UIColor redColor];    
+- (void)datePickerView:(RSDFDatePickerView *)view didDisplayCell:(RSDFDatePickerDayCell *)cell {
+    //cell.dateLabel.textColor = [UIColor redColor];
 }
 
 @end
