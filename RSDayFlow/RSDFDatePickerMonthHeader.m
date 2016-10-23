@@ -59,7 +59,7 @@
 - (UILabel *)dateLabel
 {
 	if (!_dateLabel) {
-        CGRect frame = CGRectMake(self.selfEdgeInsets.left, self.selfEdgeInsets.top, CGRectGetWidth(self.bounds) - self.selfEdgeInsets.left - self.selfEdgeInsets.right, CGRectGetHeight(self.bounds) - self.selfEdgeInsets.top - self.selfEdgeInsets.bottom);
+        CGRect frame = UIEdgeInsetsInsetRect(self.bounds, self.selfEdgeInsets);
         _dateLabel = [[UILabel alloc] initWithFrame:frame];
         _dateLabel.backgroundColor = [UIColor clearColor];
         _dateLabel.opaque = NO;
