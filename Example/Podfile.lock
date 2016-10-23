@@ -2,11 +2,15 @@ PODS:
   - RSDayFlow (1.5.2)
 
 DEPENDENCIES:
-  - RSDayFlow (= 1.5.2)
+  - RSDayFlow (from `../`)
+
+EXTERNAL SOURCES:
+  RSDayFlow:
+    :path: "../"
 
 SPEC CHECKSUMS:
   RSDayFlow: 5b9b519adaa4a261d41d3efaa724544ea0019160
 
-PODFILE CHECKSUM: a816a6d2ed2a2c2a4edc9f9e3fee4b925a74ff85
+PODFILE CHECKSUM: 4d829404726d7bc5a75114c890aa28219a446b4b
 
 COCOAPODS: 1.0.1

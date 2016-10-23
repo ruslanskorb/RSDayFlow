@@ -47,4 +47,14 @@
     return [UIColor colorWithRed:3/255.0f green:117/255.0f blue:214/255.0f alpha:1.0f];
 }
 
+- (RSDFMonthsDisplayStyle)displayStyle
+{
+    return RSDFMonthsDisplayStyleFull;
+}
+
+- (UIEdgeInsets)selfEdgeInsets
+{
+    return UIEdgeInsetsMake(30, 0, 0, 0);
+}
+
 @end

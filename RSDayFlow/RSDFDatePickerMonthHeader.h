@@ -28,6 +28,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM (NSUInteger, RSDFMonthsDisplayStyle) {
+    /// Short uppercase display style: JAN, FEB, MAR, APR, ...
+    RSDFMonthsDisplayStyleShortUppercase,
+    /// Full display style: January, February, March, April, ...
+    RSDFMonthsDisplayStyleFull
+};
+
 /**
  The `RSDFDatePickerMonthHeader` is a reusable view which used to display a month and year in the date picker view.
  */
@@ -66,6 +73,24 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)selfBackgroundColor;
+
+/**
+ Insets around month label. Default value is `UIEdgeInsetsZero`.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (UIEdgeInsets)selfEdgeInsets;
+
+///--------------------
+/// @name Display Style
+///--------------------
+
+/**
+ The Display Style to use. Default value is `RSDFMonthsDisplayStyleShortUppercase`.
+ 
+ @discussion Can be overriden in subclasses for customization.
+ */
+- (RSDFMonthsDisplayStyle)displayStyle;
 
 ///---------------------------------------
 /// @name Accessing Attributes of Subviews
