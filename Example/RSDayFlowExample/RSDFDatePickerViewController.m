@@ -26,6 +26,7 @@
 #import "RSDFDatePickerViewController.h"
 #import "RSDFDatePickerView.h"
 #import "RSDFCustomDatePickerView.h"
+#import "RSDFDatePickerDayCell.h"
 
 @interface RSDFDatePickerViewController() <RSDFDatePickerViewDelegate, RSDFDatePickerViewDataSource>
 
@@ -68,9 +69,8 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
-    NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-    NSDate *today = [self.calendar dateFromComponents:todayComponents];
-    [self.datePickerView selectDate:today];
+    self.datePickerView.selectionMode = RSDFSelectionModeRange;
+    self.datePickerView.delegate = self;
     
     self.customDatePickerView.hidden = YES;
     
@@ -166,7 +166,7 @@
         _datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar startDate:[NSDate date] endDate:nil];
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
-        _datePickerView.selectionMode = RSDFSelectionModeRange;
+        _datePickerView.selectionMode = RSDFSelectionModeMultiple;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;
@@ -260,6 +260,10 @@
     } else {
         return self.completedTasksColor;
     }
+}
+
+- (void)datePickerView:(RSDFDatePickerView *)view didDisplayCell:(RSDFDatePickerDayCell *)cell {
+    //cell.dateLabel.textColor = [UIColor redColor];
 }
 
 @end

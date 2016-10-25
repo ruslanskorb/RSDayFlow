@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		83DD4F68056ED27DD5F0A05C /* libPods-RSDayFlowExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */; };
+		4C71408370CE06DDC82C2EBE /* libPods-RSDayFlowExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC99DA45A7381DA6793515D /* libPods-RSDayFlowExampleTests.a */; };
 		B82FFF9819A35722000816FF /* RSDFDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9719A35722000816FF /* RSDFDatePickerCollectionViewLayout.m */; };
 		B82FFFA519A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9A19A37EDB000816FF /* RSDFCustomDatePickerCollectionView.m */; };
 		B82FFFA619A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B82FFF9C19A37EDB000816FF /* RSDFCustomDatePickerCollectionViewLayout.m */; };
@@ -48,8 +48,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		10BD1E3E5653B498F028ABD4 /* Pods-RSDayFlowExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		6CC99DA45A7381DA6793515D /* libPods-RSDayFlowExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E435C984375E4637F33A08B /* Pods-RSDayFlowExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B80E4FB31B3EF77400B1341A /* RSDFDatePickerDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerDate.h; sourceTree = "<group>"; };
 		B82FFF9619A35722000816FF /* RSDFDatePickerCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerCollectionViewLayout.h; sourceTree = "<group>"; };
 		B82FFF9719A35722000816FF /* RSDFDatePickerCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerCollectionViewLayout.m; sourceTree = "<group>"; };
@@ -97,7 +98,6 @@
 		B8F8081519A3502D0047C24B /* RSDFDatePickerMonthHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerMonthHeader.m; sourceTree = "<group>"; };
 		B8F8081619A3502D0047C24B /* RSDFDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerView.h; sourceTree = "<group>"; };
 		B8F8081719A3502D0047C24B /* RSDFDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerView.m; sourceTree = "<group>"; };
-		C13884567013AD95F8B2B770 /* Pods-RSDayFlowExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSDayFlowExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,18 +118,18 @@
 				B8F807DA19A34B9A0047C24B /* XCTest.framework in Frameworks */,
 				B8F807DC19A34B9A0047C24B /* UIKit.framework in Frameworks */,
 				B8F807DB19A34B9A0047C24B /* Foundation.framework in Frameworks */,
-				83DD4F68056ED27DD5F0A05C /* libPods-RSDayFlowExampleTests.a in Frameworks */,
+				4C71408370CE06DDC82C2EBE /* libPods-RSDayFlowExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A2759054D64B3C864AA16E23 /* Pods */ = {
+		B553B4F8397EC9222F95A342 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */,
-				C13884567013AD95F8B2B770 /* Pods-RSDayFlowExampleTests.release.xcconfig */,
+				8E435C984375E4637F33A08B /* Pods-RSDayFlowExampleTests.debug.xcconfig */,
+				10BD1E3E5653B498F028ABD4 /* Pods-RSDayFlowExampleTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -161,7 +161,7 @@
 				B8F807DF19A34B9A0047C24B /* RSDayFlowExampleTests */,
 				B8F807BF19A34B990047C24B /* Frameworks */,
 				B8F807BE19A34B990047C24B /* Products */,
-				A2759054D64B3C864AA16E23 /* Pods */,
+				B553B4F8397EC9222F95A342 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,7 +181,7 @@
 				B8F807C219A34B9A0047C24B /* CoreGraphics.framework */,
 				B8F807C419A34B9A0047C24B /* UIKit.framework */,
 				B8F807D919A34B9A0047C24B /* XCTest.framework */,
-				26B36FCC0EC84CA276B3AAA7 /* libPods-RSDayFlowExampleTests.a */,
+				6CC99DA45A7381DA6793515D /* libPods-RSDayFlowExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -295,11 +295,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B8F807EC19A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExampleTests" */;
 			buildPhases = (
-				6B9030BBEA136278CABD1238 /* Check Pods Manifest.lock */,
+				77487B9A66F17706AB1EC205 /* [CP] Check Pods Manifest.lock */,
 				B8F807D419A34B9A0047C24B /* Sources */,
 				B8F807D519A34B9A0047C24B /* Frameworks */,
 				B8F807D619A34B9A0047C24B /* Resources */,
-				A975138353EEFDA6491BC047 /* Copy Pods Resources */,
+				6D35C41AEF260CC3F2578EB2 /* [CP] Embed Pods Frameworks */,
+				DCF93AADD8390065D11821D2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -367,14 +368,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6B9030BBEA136278CABD1238 /* Check Pods Manifest.lock */ = {
+		6D35C41AEF260CC3F2578EB2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSDayFlowExampleTests/Pods-RSDayFlowExampleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77487B9A66F17706AB1EC205 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,14 +398,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		A975138353EEFDA6491BC047 /* Copy Pods Resources */ = {
+		DCF93AADD8390065D11821D2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,7 +586,7 @@
 		};
 		B8F807ED19A34B9A0047C24B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A50F23C0AB118A688CDE13CE /* Pods-RSDayFlowExampleTests.debug.xcconfig */;
+			baseConfigurationReference = 8E435C984375E4637F33A08B /* Pods-RSDayFlowExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -593,7 +609,7 @@
 		};
 		B8F807EE19A34B9A0047C24B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C13884567013AD95F8B2B770 /* Pods-RSDayFlowExampleTests.release.xcconfig */;
+			baseConfigurationReference = 10BD1E3E5653B498F028ABD4 /* Pods-RSDayFlowExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
 				FRAMEWORK_SEARCH_PATHS = (
