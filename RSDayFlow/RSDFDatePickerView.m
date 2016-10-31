@@ -258,11 +258,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)significantTimeChange:(NSNotification *)notification
 {
-    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
-    
-    [self.collectionView reloadData];
-    [self restoreSelection];
+    [self updateCalendarTodayDate];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    [self updateCalendarTodayDate];
 }
 
 #pragma mark - Public
@@ -402,6 +403,14 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 }
 
 #pragma mark - Private
+
+- (void)updateCalendarTodayDate {
+    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
+    
+    [self.collectionView reloadData];
+    [self restoreSelection];
+}
 
 - (void)handleSelectAndDeselect:(NSIndexPath *)indexPath
 {
@@ -556,6 +565,11 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(significantTimeChange:)
                                                  name:UIApplicationSignificantTimeChangeNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
 
