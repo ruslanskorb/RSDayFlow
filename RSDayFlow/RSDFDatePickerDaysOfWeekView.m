@@ -232,7 +232,7 @@
                 
                 CGFloat realWeekdayIndex = idx + [self.calendar firstWeekday] - 1;
                 if (realWeekdayIndex > 6) {
-                    realWeekdayIndex -= 6;
+                    realWeekdayIndex -= 7;
                 }
                 
                 if (realWeekdayIndex != 0 && realWeekdayIndex!=6) {
