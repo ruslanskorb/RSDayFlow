@@ -267,6 +267,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
         }
     }
 
+    [self.delegate datePickerDayCellDidUpdateUserInterface:self];
 }
 
 + (NSCache *)imageCache

@@ -245,8 +245,13 @@
                 UILabel *weekdayLabel = [[UILabel alloc] init];
                 weekdayLabel.textAlignment = NSTextAlignmentCenter;
                 weekdayLabel.backgroundColor = dayOfWeekLabelBackgroundColor;
-                NSUInteger originalIndexOfWeekdaySymbol = [self originalIndexOfWeekdaySymbolFromReorderedIndex:[symbolsToUse indexOfObjectIdenticalTo:weekdaySymbol]];
-                if (originalIndexOfWeekdaySymbol != self.originalIndexOfSaturdaySymbol && originalIndexOfWeekdaySymbol != self.originalIndexOfSundaySymbol) {
+
+                CGFloat realWeekdayIndex = idx + [self.calendar firstWeekday] - 1;
+                if (realWeekdayIndex > 6) {
+                    realWeekdayIndex -= 7;
+                }
+                
+                if (realWeekdayIndex != 0 && realWeekdayIndex!=6) {
                     weekdayLabel.font = dayOfWeekLabelFont;
                     weekdayLabel.textColor = dayOfWeekLabelTextColor;
                 } else {

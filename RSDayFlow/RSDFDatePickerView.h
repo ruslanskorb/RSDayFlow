@@ -25,10 +25,21 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
+@class RSDFDatePickerDayCell;
 @protocol RSDFDatePickerViewDelegate;
 @protocol RSDFDatePickerViewDataSource;
+
+typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
+    
+    /// Allows selecting a single date
+    RSDFSelectionModeSingle,
+
+    /// Allows selecting multiple dates
+    RSDFSelectionModeMultiple,
+    
+    /// Allows selecting a date range (start range & end range)
+    RSDFSelectionModeRange
+};
 
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
@@ -78,6 +89,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDataSource> dataSource;
 
 ///------------------
+/// @name Selection Mode
+/// -----------------
+
+/**
+   Am enum that determines date selection type
+  
+   @discussion Default values is RSDFSelectionModeSingle
+   If 'RSDFSelectionModeSingle' only allows a single date to be selected
+   If 'RSDFSelectionModeRange' allows selecting a date range (start date and end date)
+   */
+@property (nonatomic, readwrite, assign) RSDFSelectionMode selectionMode;
+
+///------------------
 /// @name Paging Mode
 /// -----------------
 
@@ -106,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param animated YES if you want to animate the change in position, NO if it should be immediate.
  */
 
-- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
+- (void)scrollToDate:(NSDate * __nonnull)date animated:(BOOL)animated;
 
 /// ------------------------
 /// @name Selecting the Date
@@ -123,6 +147,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 - (void)selectDate:(nullable NSDate *)date;
+
+/**
+ Selects dates in range.
+ 
+ If there is an existing selection of a different date, calling this method replaces the previous selection.
+ 
+ This method does not cause any selection-related delegate methods to be called.
+ 
+ @param firstDate The start range date to select.
+ @param lastDate The end range date to select.
+ */
+- (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate;
+
+/**
+Deselect dates
+ 
+ @param animated if tru animates using standard collectionView animation
+ */
+- (void)deselectDatesAnimated:(BOOL)animated;
 
 ///-------------------------
 /// @name Reloading the Data
@@ -144,35 +187,35 @@ NS_ASSUME_NONNULL_BEGIN
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (Class)daysOfWeekViewClass;
+- (Class __nonnull)daysOfWeekViewClass;
 
 /**
  The class of the collection view which used to display days and months in the date picker view. Default value is `RSDFDatePickerCollectionView`.
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (Class)collectionViewClass;
+- (Class __nonnull)collectionViewClass;
 
 /**
  The class of the layout of the collection view which used the date picker. Default value is `RSDFDatePickerCollectionViewLayout`.
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (Class)collectionViewLayoutClass;
+- (Class __nonnull)collectionViewLayoutClass;
 
 /**
  The class of the reusable view which used to display a month and year in the date picker view. Default value is `RSDFDatePickerMonthHeader`.
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (Class)monthHeaderClass;
+- (Class __nonnull)monthHeaderClass;
 
 /**
  The class of the cell which used to display a day in the date picker view. Default value is `RSDFDatePickerDayCell`.
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (Class)dayCellClass;
+- (Class __nonnull)dayCellClass;
 
 ///-----------------------------------------
 /// @name Accessing Attributes of the Layout
@@ -216,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return YES if the date should be highlighted or NO if it should not.
  */
-- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date;
+- (BOOL)datePickerView:(RSDFDatePickerView * __nonnull)view shouldHighlightDate:(NSDate * __nonnull)date;
 
 /**
  Asks the delegate if the specified date should be selected.
@@ -230,7 +273,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return YES if the date should be selected or NO if it should not.
  */
-- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldSelectDate:(NSDate *)date;
+- (BOOL)datePickerView:(RSDFDatePickerView * __nonnull)view shouldSelectDate:(NSDate * __nonnull)date;
 
 /**
  Tells the delegate that the user did select a date.
@@ -241,7 +284,36 @@ NS_ASSUME_NONNULL_BEGIN
  @param view The view whose date was selected.
  @param date The selected date.
  */
-- (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date;
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectDate:(NSDate * __nonnull)date;
+
+/**
+ Tells the delegate that the user did select a date in RSDFSelectionModeRange.
+ 
+ The date picker view calls this method when the user successfully selects a date in the date picker view.
+ It does not call this method when you programmatically set the selection.
+ 
+ @param view The view whose date was selected.
+ @param startDate The selected start date for range.
+ @param endDate The selected end date for range.
+ */
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectStartDate:(NSDate * __nullable)startDate endDate:(NSDate * __nullable)endDate;
+
+/**
+ Tells the delegate that the user did select a date in RSDFSelectionModeRange.
+ 
+ The date picker view calls this method when the user successfully selects a date in the date picker view.
+ It does not call this method when you programmatically set the selection.
+ 
+ @param view The view whose date was selected.
+ @param startDate The selected start date for range.
+ @param endDate The selected end date for range.
+ */
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didSelectDates:(NSArray<NSDate *> * __nonnull)dates;
+
+/**
+Called after the layout is complete on each cell, and alow customizing cells based on custom logic and based on specific dates
+ */
+- (void)datePickerView:(RSDFDatePickerView * __nonnull)view didDisplayCell:(RSDFDatePickerDayCell * __nonnull)cell;
 
 @end
 
@@ -263,7 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return YES if the date should be marked or NO if it should not.
  */
-- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date;
+- (BOOL)datePickerView:(RSDFDatePickerView * __nonnull)view shouldMarkDate:(NSDate * __nonnull)date;
 
 /**
  Asks the data source about the color of the default mark image for the specified date.
@@ -274,7 +346,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @discussion Will be ignored if the method `datePickerView:markImageForDate:` is implemented.
  */
-- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date;
+- (UIColor * __nonnull)datePickerView:(RSDFDatePickerView * __nonnull)view markImageColorForDate:(NSDate * __nonnull)date;
 
 /**
  Asks the data source about the mark image for the specified date.
@@ -286,5 +358,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
 
 @end
-
-NS_ASSUME_NONNULL_END
