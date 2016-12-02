@@ -158,7 +158,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         [_collectionView registerClass:[self dayCellClass] forCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier];
         [_collectionView reloadData];
         [_collectionView layoutIfNeeded];
-        [self scrollToToday:NO];
     }
     return _collectionView;
 }
@@ -523,7 +522,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 #pragma mark - Helper Methods
 
-- (void)appendFutureDates{
+- (void)appendFutureDates
+{
     [self shiftDatesByComponents:((^{
         NSDateComponents *dateComponents = [NSDateComponents new];
         dateComponents.month = 6;
@@ -543,7 +543,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (void)commonInitializer
 {
     _selectedDates = [NSMutableArray array];
-    self.selectionMode = RSDFSelectionModeSingle;
     
     NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth) fromDate:[NSDate date]];
     NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
@@ -785,20 +784,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         cv.contentOffset.x,
         cv.contentOffset.y + (toSectionOrigin.y - fromSectionOrigin.y)
     }];
-}
-
-- (NSDate *)dateFromPickerDate:(RSDFDatePickerDate)dateStruct
-{
-    return [self.calendar dateFromComponents:[self dateComponentsFromPickerDate:dateStruct]];
-}
-
-- (NSDateComponents *)dateComponentsFromPickerDate:(RSDFDatePickerDate)dateStruct
-{
-    NSDateComponents *components = [NSDateComponents new];
-    components.year = dateStruct.year;
-    components.month = dateStruct.month;
-    components.day = dateStruct.day;
-    return components;
 }
 
 - (NSIndexPath *)indexPathForDate:(NSDate *)date
