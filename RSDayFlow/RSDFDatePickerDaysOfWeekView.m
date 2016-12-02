@@ -229,7 +229,13 @@
                 weekdayLabel.textAlignment = NSTextAlignmentCenter;
                 weekdayLabel.backgroundColor = dayOfWeekLabelBackgroundColor;
                 weekdayLabel.font = dayOfWeekLabelFont;
-                if ([symbolsToUse indexOfObjectIdenticalTo:weekdaySymbol] != 0 && [symbolsToUse indexOfObjectIdenticalTo:weekdaySymbol] != 6) {
+                
+                CGFloat realWeekdayIndex = idx + [self.calendar firstWeekday] - 1;
+                if (realWeekdayIndex > 6) {
+                    realWeekdayIndex -= 7;
+                }
+                
+                if (realWeekdayIndex != 0 && realWeekdayIndex!=6) {
                     weekdayLabel.textColor = dayOfWeekLabelTextColor;
                 } else {
                     weekdayLabel.textColor = dayOffOfWeekLabelTextColor;
