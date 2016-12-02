@@ -2,7 +2,7 @@
 // RSDFDatePickerDayCell.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RSDFDatePickerDate.h"
+#import <RSDayFlow/RSDFDatePickerDate.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class RSDFDatePickerDayCell;
 
@@ -99,7 +101,7 @@
 /**
  The mark image for the cell of the day. The default mark image is a small round mark.
  */
-@property (nonatomic, strong) UIImage *markImage;
+@property (nonatomic, strong, nullable) UIImage *markImage;
 
 ///---------------------------------------
 /// @name Accessing Attributes of the View
@@ -212,7 +214,7 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customSelectedTodayImage;
+- (nullable UIImage *)customSelectedTodayImage;
 
 /**
  The font for the label of the day when it is selected. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
@@ -240,7 +242,7 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customSelectedDayImage;
+- (nullable UIImage *)customSelectedDayImage;
 
 /**
  The color of the overlay image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
@@ -254,7 +256,7 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customOverlayImage;
+- (nullable UIImage *)customOverlayImage;
 
 /**
  The color of the divider image for the cell of the day. Default value is [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f].
@@ -268,6 +270,15 @@
  
  @discussion Can be overridden in subclasses for customization.
  */
-- (UIImage *)customDividerImage;
+- (nullable UIImage *)customDividerImage;
+
+/**
+ Default selection bubble rectangle.
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGRect)selectedImageViewFrame;
 
 @end
+
+NS_ASSUME_NONNULL_END

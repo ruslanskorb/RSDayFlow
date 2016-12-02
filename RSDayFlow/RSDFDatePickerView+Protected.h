@@ -1,5 +1,5 @@
 //
-// NSCalendar+RSDFAdditions.h
+// RSDFDatePickerView+Protected.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
 // Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
@@ -23,17 +23,34 @@
 // THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <RSDayFlow/RSDFDatePickerView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSCalendar (RSDFAdditions)
+/**
+ The methods in the RSDFDatePickerViewProtectedMethods category
+ typically should only be called by subclasses which are implementing new
+ date picker views. If you override one you must call super.
+ */
+@interface RSDFDatePickerView (RSDFDatePickerViewProtectedMethods)
 
-@property (readonly, nonatomic) NSUInteger rsdf_daysInWeek;
-@property (readonly, nonatomic) NSUInteger rsdf_saturdayIndex;
-@property (readonly, nonatomic) NSUInteger rsdf_sundayIndex;
+/**
+ Returns the date that corresponds to the specified cell in the date picker view.
+ 
+ @param indexPath The index path that specifies the location of the cell.
+ 
+ @return The date that corresponds to the specified cell in the date picker view.
+ */
+- (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath;
 
-- (NSDateFormatter *)df_dateFormatterNamed:(NSString *)name withConstructor:(NSDateFormatter *(^)(void))block;
+/**
+ Returns the date of the first day of the month that corresponds to the specified section in the date picker view.
+ 
+ @param section The section that specifies the location of the month.
+ 
+ @return The date of the first day of the month that corresponds to the specified section in the date picker view.
+ */
+- (NSDate *)dateForFirstDayInSection:(NSInteger)section;
 
 @end
 

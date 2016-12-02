@@ -2,7 +2,7 @@
 // RSDFDatePickerMonthHeader.m
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -59,7 +59,8 @@
 - (UILabel *)dateLabel
 {
 	if (!_dateLabel) {
-		_dateLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        CGRect frame = UIEdgeInsetsInsetRect(self.bounds, self.selfEdgeInsets);
+        _dateLabel = [[UILabel alloc] initWithFrame:frame];
         _dateLabel.backgroundColor = [UIColor clearColor];
         _dateLabel.opaque = NO;
 		_dateLabel.textAlignment = NSTextAlignmentCenter;
@@ -85,11 +86,23 @@
     }
 }
 
+#pragma mark - Attributes of the Layout
+
+- (RSDFMonthsDisplayStyle)displayStyle
+{
+    return RSDFMonthsDisplayStyleShortUppercase;
+}
+
 #pragma mark - Attributes of the View
 
 - (UIColor *)selfBackgroundColor
 {
     return [UIColor clearColor];
+}
+
+- (UIEdgeInsets)selfEdgeInsets
+{
+    return UIEdgeInsetsZero;
 }
 
 #pragma mark - Attributes of Subviews

@@ -2,7 +2,7 @@
 // RSDFDatePickerView.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
 
 /**
  The `RSDFDatePickerView` is a calendar view with infinity scrolling.
-*/
+ */
 @interface RSDFDatePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 /**
@@ -52,7 +52,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for the date picker view.
  */
-- (nonnull instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar * __nonnull)calendar;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar;
 
 
 /**
@@ -60,10 +60,10 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  
  @param frame The frame rectangle for the view, measured in points.
  @param calendar The calendar for the date picker view.
- @param startDate First selectable date
- @param endDate Last selectable date
+ @param startDate The first selectable date.
+ @param endDate The last selectable date.
  */
-- (nonnull instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar * __nonnull)calendar startDate:(NSDate * __nullable)startDate endDate:(NSDate * __nullable)endDate;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar startDate:(nullable NSDate *)startDate endDate:(nullable NSDate *)endDate;
 
 ///-----------------------------
 /// @name Accessing the Delegate
@@ -74,7 +74,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  
  @discussion A `RSDFDatePickerView` delegate responds to message sent by tapping on date in the date picker view.
  */
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDelegate> __nullable delegate;
+@property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDelegate> delegate;
 
 ///--------------------------------
 /// @name Accessing the Data Source
@@ -86,7 +86,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @discussion A `RSDFDatePickerView` data source provides dates to mark in the date picker view.
  */
 
-@property (nonatomic, readwrite, weak) id<RSDFDatePickerViewDataSource> __nullable dataSource;
+@property (nonatomic, readwrite, weak, nullable) id<RSDFDatePickerViewDataSource> dataSource;
 
 ///------------------
 /// @name Selection Mode
@@ -146,7 +146,7 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @param date The date to select. Specifying nil for this parameter clears the current selection.
  */
 
-- (void)selectDate:(NSDate * __nullable)date;
+- (void)selectDate:(nullable NSDate *)date;
 
 /**
  Selects dates in range.
@@ -216,6 +216,23 @@ Deselect dates
  @discussion Can be overridden in subclasses for customization.
  */
 - (Class __nonnull)dayCellClass;
+
+///-----------------------------------------
+/// @name Accessing Attributes of the Layout
+///-----------------------------------------
+
+/**
+ The height of the days of week view. Default value depends on the interface idiom and the interface orientation.
+ 
+ `UIUserInterfaceIdiomPhone`:
+ - `UIInterfaceOrientationPortrait` or `UIInterfaceOrientationPortraitUpsideDown`: `22.0f`
+ - Other: `26.0f`
+ Other:
+ - Any: `36.0f`
+ 
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGFloat)daysOfWeekViewHeight;
 
 @end
 
@@ -338,6 +355,6 @@ Called after the layout is complete on each cell, and alow customizing cells bas
  
  @return The mark image for the specified date.
  */
-- (UIImage * __nonnull)datePickerView:(RSDFDatePickerView * __nonnull)view markImageForDate:(NSDate * __nonnull)date;
+- (nullable UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
 
 @end

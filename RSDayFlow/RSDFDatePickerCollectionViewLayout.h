@@ -2,7 +2,7 @@
 // RSDFDatePickerCollectionViewLayout.h
 //
 // Copyright (c) 2013 Evadne Wu, http://radi.ws/
-// Copyright (c) 2013-2015 Ruslan Skorb, http://ruslanskorb.com
+// Copyright (c) 2013-2016 Ruslan Skorb, http://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  Types of supported directions of the layout of the collection view.
@@ -78,3 +80,5 @@ typedef NS_ENUM(NSUInteger, RSDFDatePickerCollectionViewLayoutDirection) {
 - (CGFloat)selfMinimumInteritemSpacing;
 
 @end
+
+NS_ASSUME_NONNULL_END
