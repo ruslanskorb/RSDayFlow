@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSDFDatePickerDayCell.h"
+#import <RSDayFlow/RSDFDatePickerDayCell.h>
 
 CGFloat roundOnBase(CGFloat x, CGFloat base) {
     return round(x * base) / base;

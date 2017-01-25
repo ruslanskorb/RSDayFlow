@@ -23,8 +23,8 @@
 // THE SOFTWARE.
 //
 
-#import "RSDFDatePickerDaysOfWeekView.h"
-#import "NSCalendar+RSDFAdditions.h"
+#import <RSDayFlow/RSDFDatePickerDaysOfWeekView.h>
+#import <RSDayFlow/NSCalendar+RSDFAdditions.h>
 
 @interface RSDFDatePickerDaysOfWeekView ()
 
