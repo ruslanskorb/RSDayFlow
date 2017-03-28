@@ -28,10 +28,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class RSDFDatePickerDayCell;
+
+@protocol RSDFDatePickerDayCellDelegate <NSObject>
+- (void)datePickerDayCellDidUpdateUserInterface:(RSDFDatePickerDayCell *)cell;
+@end
+
 /**
  The `RSDFDatePickerDayCell` is a cell which used to display a day in the date picker view.
  */
 @interface RSDFDatePickerDayCell : UICollectionViewCell
+
+@property (nonatomic, weak) id<RSDFDatePickerDayCellDelegate> delegate;
 
 ///-------------------------
 /// @name Accessing Subviews

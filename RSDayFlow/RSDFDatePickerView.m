@@ -36,7 +36,7 @@
 static NSString * const RSDFDatePickerViewMonthHeaderIdentifier = @"RSDFDatePickerViewMonthHeaderIdentifier";
 static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerViewDayCellIdentifier";
 
-@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate>
+@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate, RSDFDatePickerDayCellDelegate>
 
 @property (nonatomic, readonly, strong) NSCalendar *calendar;
 @property (nonatomic, readonly, strong) RSDFDatePickerDaysOfWeekView *daysOfWeekView;
@@ -45,6 +45,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) NSDate *today;
 @property (nonatomic, readonly, assign) NSUInteger daysInWeek;
 @property (nonatomic, readonly, strong) NSDate *selectedDate;
+@property (nonatomic, readonly, strong) NSDate *selectedStartDateRange;
+@property (nonatomic, readonly, strong) NSDate *selectedEndDateRange;
+@property (nonatomic, readonly, strong) NSMutableArray<NSDate *> *selectedDates;
 
 // From and to date are the currently displayed dates in the calendar.
 // These values change in infinite scrolling mode.
@@ -66,6 +69,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @synthesize collectionView = _collectionView;
 @synthesize collectionViewLayout = _collectionViewLayout;
 @synthesize daysInWeek = _daysInWeek;
+@synthesize selectionMode = _selectionMode;
 
 #pragma mark - Object Lifecycle
 
@@ -154,7 +158,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         [_collectionView registerClass:[self dayCellClass] forCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier];
         [_collectionView reloadData];
         [_collectionView layoutIfNeeded];
-        [self scrollToToday:NO];
     }
     return _collectionView;
 }
@@ -254,23 +257,26 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return [RSDFDatePickerMonthHeader class];
 }
 
+- (void)setSelectionMode:(RSDFSelectionMode)selectionMode
+{
+    _selectionMode = selectionMode;
+    
+    self.collectionView.allowsMultipleSelection = selectionMode != RSDFSelectionModeSingle;
+}
+
 #pragma mark - Handling Notifications
 
 - (void)significantTimeChange:(NSNotification *)notification
 {
-    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
-    
-    [self.collectionView reloadData];
-    [self restoreSelection];
+    [self updateCalendarTodayDate];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    [self updateCalendarTodayDate];
 }
 
 #pragma mark - Public
-
-- (void)reloadData
-{
-    [self.collectionView reloadData];
-}
 
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated
 {
@@ -335,29 +341,181 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)selectDate:(NSDate *)date
 {
-    if (![self.selectedDate isEqual:date]) {
-        if (self.selectedDate &&
-            [self.selectedDate compare:self.fromDate] != NSOrderedAscending &&
-            [self.selectedDate compare:self.toDate] == NSOrderedAscending) {
-            NSIndexPath *previousSelectedCellIndexPath = [self indexPathForDate:self.selectedDate];
-            [self.collectionView deselectItemAtIndexPath:previousSelectedCellIndexPath animated:NO];
-            UICollectionViewCell *previousSelectedCell = [self.collectionView cellForItemAtIndexPath:previousSelectedCellIndexPath];
-            if (previousSelectedCell) {
-                [previousSelectedCell setNeedsDisplay];
+
+    if (self.selectionMode == RSDFSelectionModeSingle) {
+        if (![self.selectedDate isEqual:date]) {
+            if (self.selectedDate &&
+                [self.selectedDate compare:self.fromDate] != NSOrderedAscending &&
+                [self.selectedDate compare:self.toDate] == NSOrderedAscending) {
+                NSIndexPath *previousSelectedCellIndexPath = [self indexPathForDate:self.selectedDate];
+                [self.collectionView deselectItemAtIndexPath:previousSelectedCellIndexPath animated:NO];
+                UICollectionViewCell *previousSelectedCell = [self.collectionView cellForItemAtIndexPath:previousSelectedCellIndexPath];
+                if (previousSelectedCell) {
+                    [previousSelectedCell setNeedsDisplay];
+                }
+            }
+            
+            _selectedDate = date;
+            
+            if (self.selectedDate &&
+                [self.selectedDate compare:self.fromDate] != NSOrderedAscending &&
+                [self.selectedDate compare:self.toDate] == NSOrderedAscending) {
+                NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:self.selectedDate];
+                [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+                UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
+                if (selectedCell) {
+                    [selectedCell setNeedsDisplay];
+                }
             }
         }
-        
-        _selectedDate = date;
-        
-        if (self.selectedDate &&
-            [self.selectedDate compare:self.fromDate] != NSOrderedAscending &&
-            [self.selectedDate compare:self.toDate] == NSOrderedAscending) {
-            NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:self.selectedDate];
-            [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-            UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
-            if (selectedCell) {
-                [selectedCell setNeedsDisplay];
+    }
+    else if (self.selectionMode == RSDFSelectionModeMultiple) {
+        if ([date compare:self.fromDate] != NSOrderedAscending &&
+            [date compare:self.toDate] != NSOrderedDescending) {
+         
+            if ([self.selectedDates containsObject:date]) {
+                [self.selectedDates removeObject:date];
+                NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:date];
+                [self.collectionView deselectItemAtIndexPath:indexPathForSelectedDate animated:NO];
             }
+            else {
+                [self.selectedDates addObject:date];
+                NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:date];
+                [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+            }
+        }
+    }
+}
+
+- (void)selectDateRange:(NSDate *)firstDate lastDate:(NSDate *)lastDate
+{
+    if (!firstDate || !lastDate) {
+        return;
+    }
+    
+    [self selectDateInDateRange:firstDate];
+    [self selectDateInDateRange:lastDate];
+}
+
+- (void)deselectDatesAnimated:(BOOL)animated {
+    _selectedDate = nil;
+    _selectedStartDateRange = nil;
+    _selectedEndDateRange = nil;
+
+    for (NSIndexPath *indexPath in _collectionView.indexPathsForSelectedItems) {
+        [_collectionView deselectItemAtIndexPath:indexPath animated:animated];
+    }
+}
+
+- (void)reloadData
+{
+    [self.collectionView reloadData];
+    [self restoreSelection];
+}
+
+#pragma mark - Private
+
+- (void)updateCalendarTodayDate {
+    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
+    
+    [self.collectionView reloadData];
+    [self restoreSelection];
+}
+
+- (void)handleSelectAndDeselect:(NSIndexPath *)indexPath
+{
+    NSDate *date = [self dateForCellAtIndexPath:indexPath];
+    
+    switch (self.selectionMode) {
+        case RSDFSelectionModeSingle: {
+            [self selectDate:date];
+            
+            if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
+                [self.delegate datePickerView:self didSelectDate:date];
+            }
+            
+            break;
+        }
+            
+        case RSDFSelectionModeMultiple: {
+            [self selectDate:date];
+            
+            if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDates:)]) {
+                [self.delegate datePickerView:self didSelectDates:self.selectedDates.copy];
+            }
+            
+            break;
+        }
+            
+        case RSDFSelectionModeRange: {
+            [self selectDateInDateRange:date];
+            
+            if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartDate:endDate:)]) {
+                [self.delegate datePickerView:self didSelectStartDate:self.selectedStartDateRange endDate:self.selectedEndDateRange];
+            }
+            
+            break;
+        }
+    }
+}
+
+- (void)selectDateInDateRange:(NSDate *)date
+{
+    __weak typeof(self) weakSelf = self;
+    
+    // Range already completed, user is trying to cancel and start a new range (reset)
+    if (self.selectedStartDateRange && self.selectedEndDateRange) {
+        
+        NSIndexPath *firstIndexPath = [self indexPathForDate:self.selectedStartDateRange];
+        NSIndexPath *lastIndexPath = [self indexPathForDate:self.selectedEndDateRange];
+        
+        [self enumerateBetweenFirstIndexPath:firstIndexPath secondIndexPath:lastIndexPath withBlock:^(NSIndexPath *indexPath) {
+            [weakSelf.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+            [[weakSelf.collectionView cellForItemAtIndexPath:indexPath] setNeedsDisplay];
+        }];
+        
+        _selectedStartDateRange = nil;
+        _selectedEndDateRange = nil;
+    }
+    
+    if (self.selectedStartDateRange == nil) {
+        _selectedStartDateRange = date;
+        
+        NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:date];
+        [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+    }
+    else {
+        // Rearrange first an second date so that they are in ascending order
+        if ([date compare:self.selectedStartDateRange] == NSOrderedAscending) {
+            _selectedEndDateRange = self.selectedStartDateRange;
+            _selectedStartDateRange = date;
+        }
+        else {
+            _selectedEndDateRange = date;
+        }
+        
+        NSIndexPath *firstIndexPath = [self indexPathForDate:self.selectedStartDateRange];
+        NSIndexPath *lastIndexPath = [self indexPathForDate:self.selectedEndDateRange];
+        
+        [self enumerateBetweenFirstIndexPath:firstIndexPath secondIndexPath:lastIndexPath withBlock:^(NSIndexPath *indexPath) {
+            [weakSelf.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+            [[weakSelf.collectionView cellForItemAtIndexPath:indexPath] setNeedsDisplay];
+        }];
+    }
+}
+
+- (void)enumerateBetweenFirstIndexPath:(NSIndexPath *)firstIndexPath secondIndexPath:(NSIndexPath *)lastIndexPath withBlock:(void (^)(NSIndexPath *))block
+{
+    for (NSUInteger section = firstIndexPath.section ; section <= lastIndexPath.section ; section++) {
+        
+        NSUInteger rowToStart = section == firstIndexPath.section ? firstIndexPath.row : 0;
+        NSUInteger rowToEnd = section == lastIndexPath.section ? lastIndexPath.row : [self collectionView:self.collectionView numberOfItemsInSection:section];
+        
+        for (NSUInteger row = rowToStart ; row <= rowToEnd ; row++) {
+
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+            block(indexPath);
         }
     }
 }
@@ -384,6 +542,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)commonInitializer
 {
+    _selectedDates = [NSMutableArray array];
+    
     NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth) fromDate:[NSDate date]];
     NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
     
@@ -413,6 +573,11 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(significantTimeChange:)
                                                  name:UIApplicationSignificantTimeChangeNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
 
@@ -476,17 +641,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return attributes.frame;
 }
 
-- (NSIndexPath *)indexPathForDate:(NSDate *)date
-{
-    NSInteger monthSection = [self sectionForDate:date];
-    NSDate *firstDayInMonth = [self dateForFirstDayInSection:monthSection];
-    NSUInteger weekday = [self reorderedWeekday:[self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday];
-    NSInteger dateItem = [self.calendar components:NSCalendarUnitDay fromDate:firstDayInMonth toDate:date options:0].day + weekday;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:dateItem inSection:monthSection];
-    
-    return indexPath;
-}
-
 - (NSUInteger)numberOfWeeksForMonthOfDate:(NSDate *)date
 {
     NSDate *firstDayInMonth = [self.calendar dateFromComponents:[self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:date]];
@@ -531,20 +685,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
     
     return ordered;
-}
-
-- (void)restoreSelection
-{
-    if (self.selectedDate &&
-        [self.selectedDate compare:self.fromDate] != NSOrderedAscending &&
-        [self.selectedDate compare:self.toDate] == NSOrderedAscending) {
-        NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:self.selectedDate];
-        [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-        UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
-        if (selectedCell) {
-            [selectedCell setNeedsDisplay];
-        }
-    }
 }
 
 - (void)scrollToTopOfSection:(NSInteger)section animated:(BOOL)animated
@@ -646,11 +786,101 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }];
 }
 
-#pragma mark - <UICollectionViewDataSource>
+- (NSIndexPath *)indexPathForDate:(NSDate *)date
+{
+    NSInteger monthSection = [self sectionForDate:date];
+    NSDate *firstDayInMonth = [self dateForFirstDayInSection:monthSection];
+    NSUInteger weekday = [self reorderedWeekday:[self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday];
+    NSInteger dateItem = [self.calendar components:NSCalendarUnitDay fromDate:firstDayInMonth toDate:date options:0].day + weekday;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:dateItem inSection:monthSection];
+    
+    return indexPath;
+}
+
+- (void)restoreSelection
+{
+    switch (self.selectionMode) {
+        case RSDFSelectionModeSingle: {
+            if (self.selectedDate &&
+                [self.selectedDate compare:self.fromDate] != NSOrderedAscending &&
+                [self.selectedDate compare:self.toDate] == NSOrderedAscending) {
+                NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:self.selectedDate];
+                [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+                UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
+                if (selectedCell) {
+                    [selectedCell setNeedsDisplay];
+                }
+            }
+            
+            break;
+        }
+    
+        case RSDFSelectionModeMultiple: {
+            for (NSDate *date in self.selectedDates) {
+                if ([date compare:self.fromDate] != NSOrderedAscending &&
+                    [date compare:self.toDate] != NSOrderedDescending) {
+                    
+                    NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:date];
+                    [self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+                    UICollectionViewCell *selectedCell = [self.collectionView cellForItemAtIndexPath:indexPathForSelectedDate];
+                    
+                    if (selectedCell) {
+                        [selectedCell setNeedsDisplay];
+                    }
+                }
+            }
+            break;
+        }
+    
+        case RSDFSelectionModeRange: {
+            // If both exist select all items in range
+            if (self.selectedStartDateRange && self.selectedEndDateRange) {
+                NSIndexPath *firstIndexPath = [self indexPathForDate:self.selectedStartDateRange];
+                NSIndexPath *lastIndexPath = [self indexPathForDate:self.selectedEndDateRange];
+                
+                if (firstIndexPath && lastIndexPath) {
+                    __weak typeof(self) weakSelf = self;
+                    
+                    [self enumerateBetweenFirstIndexPath:firstIndexPath secondIndexPath:lastIndexPath withBlock:^(NSIndexPath *indexPath) {
+                        [weakSelf.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+                        [[weakSelf.collectionView cellForItemAtIndexPath:indexPath] setNeedsDisplay];
+                    }];
+                }
+            }
+            // If only one exists only select that one
+            else {
+                if (self.selectedStartDateRange || self.selectedEndDateRange) {
+                    NSIndexPath *indexPath =  [self indexPathForDate:self.selectedStartDateRange ? self.selectedStartDateRange : self.selectedEndDateRange];
+                    
+                    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+                    [[self.collectionView cellForItemAtIndexPath:indexPath] setNeedsDisplay];
+                }
+                
+                break;
+            }
+        }
+    }
+}
+
+#pragma mark - RSDFDatePickerDayCellDelegate
+
+- (void)datePickerDayCellDidUpdateUserInterface:(RSDFDatePickerDayCell *)cell {
+    if ([self.delegate respondsToSelector:@selector(datePickerView:didDisplayCell:)]) {
+        [self.delegate datePickerView:self didDisplayCell:(RSDFDatePickerDayCell *)cell];
+    }
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.daysInWeek * [self numberOfWeeksForMonthOfDate:[self dateForFirstDayInSection:section]];
+}
 
 - (RSDFDatePickerDayCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     RSDFDatePickerDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:RSDFDatePickerViewDayCellIdentifier forIndexPath:indexPath];
+    cell.delegate = self;
     
     NSDate *firstDayInMonth = [self dateForFirstDayInSection:indexPath.section];
     NSUInteger firstDayInMonthWeekday = [self reorderedWeekday:[self.calendar components:NSCalendarUnitWeekday fromDate:firstDayInMonth].weekday];
@@ -721,11 +951,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return cell;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return self.daysInWeek * [self numberOfWeeksForMonthOfDate:[self dateForFirstDayInSection:section]];
-}
-
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
@@ -790,16 +1015,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [cell setNeedsDisplay];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSDate *date = [self dateForCellAtIndexPath:indexPath];
-    [self selectDate:date];
-    
-    if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
-        [self.delegate datePickerView:self didSelectDate:date];
-    }
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -839,6 +1054,17 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 }
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self handleSelectAndDeselect:indexPath];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.selectionMode == RSDFSelectionModeRange) {
+        [self handleSelectAndDeselect:indexPath];
+    }
+}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(RSDFDatePickerCollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
