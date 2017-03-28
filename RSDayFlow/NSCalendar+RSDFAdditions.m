@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-#import "NSCalendar+RSDFAdditions.h"
+#import <RSDayFlow/NSCalendar+RSDFAdditions.h>
 
 @implementation NSCalendar (RSDFAdditions)
 

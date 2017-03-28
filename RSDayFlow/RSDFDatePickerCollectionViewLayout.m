@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSDFDatePickerCollectionViewLayout.h"
+#import <RSDayFlow/RSDFDatePickerCollectionViewLayout.h>
 
 @interface RSDFDatePickerCollectionViewLayout ()
 

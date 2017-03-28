@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSDFDatePickerMonthHeader.h"
+#import <RSDayFlow/RSDFDatePickerMonthHeader.h>
 
 @implementation RSDFDatePickerMonthHeader
 
