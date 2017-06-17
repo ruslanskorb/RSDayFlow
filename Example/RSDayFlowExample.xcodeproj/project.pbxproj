@@ -28,23 +28,8 @@
 		B8F807CD19A34B9A0047C24B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F807CC19A34B9A0047C24B /* main.m */; };
 		B8F807D119A34B9A0047C24B /* RSDFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F807D019A34B9A0047C24B /* RSDFAppDelegate.m */; };
 		B8F807D319A34B9A0047C24B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8F807D219A34B9A0047C24B /* Images.xcassets */; };
-		B8F807DA19A34B9A0047C24B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807D919A34B9A0047C24B /* XCTest.framework */; };
-		B8F807DB19A34B9A0047C24B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C019A34B990047C24B /* Foundation.framework */; };
-		B8F807DC19A34B9A0047C24B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F807C419A34B9A0047C24B /* UIKit.framework */; };
-		B8F807E419A34B9A0047C24B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B8F807E219A34B9A0047C24B /* InfoPlist.strings */; };
-		B8F807E619A34B9A0047C24B /* RSDayFlowExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */; };
 		B8F8080819A34CDC0047C24B /* RSDFDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F8080719A34CDC0047C24B /* RSDFDatePickerViewController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		B8F807DD19A34B9A0047C24B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B8F807B519A34B990047C24B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B8F807BC19A34B990047C24B;
-			remoteInfo = RSDayFlowExample;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B82FFF9919A37EDB000816FF /* RSDFCustomDatePickerCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFCustomDatePickerCollectionView.h; sourceTree = "<group>"; };
@@ -88,11 +73,6 @@
 		B8F807CF19A34B9A0047C24B /* RSDFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSDFAppDelegate.h; sourceTree = "<group>"; };
 		B8F807D019A34B9A0047C24B /* RSDFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSDFAppDelegate.m; sourceTree = "<group>"; };
 		B8F807D219A34B9A0047C24B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		B8F807D819A34B9A0047C24B /* RSDayFlowExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RSDayFlowExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B8F807D919A34B9A0047C24B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		B8F807E119A34B9A0047C24B /* RSDayFlowExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RSDayFlowExampleTests-Info.plist"; sourceTree = "<group>"; };
-		B8F807E319A34B9A0047C24B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSDayFlowExampleTests.m; sourceTree = "<group>"; };
 		B8F8080619A34CDC0047C24B /* RSDFDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSDFDatePickerViewController.h; sourceTree = "<group>"; };
 		B8F8080719A34CDC0047C24B /* RSDFDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSDFDatePickerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,16 +85,6 @@
 				B8F807C319A34B9A0047C24B /* CoreGraphics.framework in Frameworks */,
 				B8F807C519A34B9A0047C24B /* UIKit.framework in Frameworks */,
 				B8F807C119A34B990047C24B /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B8F807D519A34B9A0047C24B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B8F807DA19A34B9A0047C24B /* XCTest.framework in Frameworks */,
-				B8F807DC19A34B9A0047C24B /* UIKit.framework in Frameworks */,
-				B8F807DB19A34B9A0047C24B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +148,6 @@
 			children = (
 				B8F807C619A34B9A0047C24B /* Classes */,
 				B89C2ADC1DCC552E005710E0 /* Vendor */,
-				B8F807DF19A34B9A0047C24B /* RSDayFlowExampleTests */,
 				B8F807BF19A34B990047C24B /* Frameworks */,
 				B8F807BE19A34B990047C24B /* Products */,
 			);
@@ -188,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				B8F807BD19A34B990047C24B /* RSDayFlowExample.app */,
-				B8F807D819A34B9A0047C24B /* RSDayFlowExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -199,7 +167,6 @@
 				B8F807C019A34B990047C24B /* Foundation.framework */,
 				B8F807C219A34B9A0047C24B /* CoreGraphics.framework */,
 				B8F807C419A34B9A0047C24B /* UIKit.framework */,
-				B8F807D919A34B9A0047C24B /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -226,24 +193,6 @@
 				B8F807C919A34B9A0047C24B /* InfoPlist.strings */,
 				B8F807CC19A34B9A0047C24B /* main.m */,
 				B8F807CE19A34B9A0047C24B /* RSDayFlowExample-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B8F807DF19A34B9A0047C24B /* RSDayFlowExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				B8F807E519A34B9A0047C24B /* RSDayFlowExampleTests.m */,
-				B8F807E019A34B9A0047C24B /* Supporting Files */,
-			);
-			path = RSDayFlowExampleTests;
-			sourceTree = "<group>";
-		};
-		B8F807E019A34B9A0047C24B /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B8F807E119A34B9A0047C24B /* RSDayFlowExampleTests-Info.plist */,
-				B8F807E219A34B9A0047C24B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -277,24 +226,6 @@
 			productReference = B8F807BD19A34B990047C24B /* RSDayFlowExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B8F807D719A34B9A0047C24B /* RSDayFlowExampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B8F807EC19A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExampleTests" */;
-			buildPhases = (
-				B8F807D419A34B9A0047C24B /* Sources */,
-				B8F807D519A34B9A0047C24B /* Frameworks */,
-				B8F807D619A34B9A0047C24B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B8F807DE19A34B9A0047C24B /* PBXTargetDependency */,
-			);
-			name = RSDayFlowExampleTests;
-			productName = RSDayFlowExampleTests;
-			productReference = B8F807D819A34B9A0047C24B /* RSDayFlowExampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -304,11 +235,6 @@
 				CLASSPREFIX = RSDF;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Ruslan Skorb";
-				TargetAttributes = {
-					B8F807D719A34B9A0047C24B = {
-						TestTargetID = B8F807BC19A34B990047C24B;
-					};
-				};
 			};
 			buildConfigurationList = B8F807B819A34B990047C24B /* Build configuration list for PBXProject "RSDayFlowExample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -324,7 +250,6 @@
 			projectRoot = "";
 			targets = (
 				B8F807BC19A34B990047C24B /* RSDayFlowExample */,
-				B8F807D719A34B9A0047C24B /* RSDayFlowExampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -337,14 +262,6 @@
 				B8F807CB19A34B9A0047C24B /* InfoPlist.strings in Resources */,
 				B872EE8319E82DF000E52146 /* LaunchScreen.xib in Resources */,
 				B8F807D319A34B9A0047C24B /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B8F807D619A34B9A0047C24B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B8F807E419A34B9A0047C24B /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,23 +291,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B8F807D419A34B9A0047C24B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B8F807E619A34B9A0047C24B /* RSDayFlowExampleTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		B8F807DE19A34B9A0047C24B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B8F807BC19A34B990047C24B /* RSDayFlowExample */;
-			targetProxy = B8F807DD19A34B9A0047C24B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B872EE8119E82DF000E52146 /* LaunchScreen.xib */ = {
@@ -405,14 +306,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				B8F807CA19A34B9A0047C24B /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B8F807E219A34B9A0047C24B /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B8F807E319A34B9A0047C24B /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -530,46 +423,6 @@
 			};
 			name = Release;
 		};
-		B8F807ED19A34B9A0047C24B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "RSDayFlowExampleTests/RSDayFlowExampleTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		B8F807EE19A34B9A0047C24B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSDayFlowExample.app/RSDayFlowExample";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RSDayFlowExample/RSDayFlowExample-Prefix.pch";
-				INFOPLIST_FILE = "RSDayFlowExampleTests/RSDayFlowExampleTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -587,15 +440,6 @@
 			buildConfigurations = (
 				B8F807EA19A34B9A0047C24B /* Debug */,
 				B8F807EB19A34B9A0047C24B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B8F807EC19A34B9A0047C24B /* Build configuration list for PBXNativeTarget "RSDayFlowExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B8F807ED19A34B9A0047C24B /* Debug */,
-				B8F807EE19A34B9A0047C24B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
