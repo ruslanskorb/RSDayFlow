@@ -36,10 +36,10 @@ Just create your date picker view and set a delegate / a data source if needed.
 ``` objective-c
 - (void)viewDidLoad
 {
-	[super viewDidLoad];
-	
-	RSDFDatePickerView *datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds];
-	datePickerView.delegate = self;
+    [super viewDidLoad];
+    
+    RSDFDatePickerView *datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds];
+    datePickerView.delegate = self;
     datePickerView.dataSource = self;
     [self.view addSubview:datePickerView];
 }
