@@ -135,6 +135,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)reloadData;
 
+///-----------------------------------------------
+/// @name Reloading the Data with completion block
+///-----------------------------------------------
+
+/**
+ Reloads all of the data for the date picker view, call compltion block when done
+ 
+ @discussion Discard the dataSource and delegate data and requery as necessary.
+ */
+- (void)reloadDataWithCompletion:(void (^)(BOOL))completionBlock;
+
 ///------------------------------------
 /// @name Accessing Classes of Subviews
 ///------------------------------------

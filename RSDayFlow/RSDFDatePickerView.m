@@ -272,6 +272,16 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [self.collectionView reloadData];
 }
 
+- (void)reloadDataWithCompletion:(void (^)(BOOL))completionBlock
+{
+    [self.collectionView reloadData];
+    [_collectionView performBatchUpdates:^{
+        
+    } completion:^(BOOL finished) {
+        completionBlock(finished);
+    }];
+}
+
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated
 {
     if (self.startDate && [date compare:self.startDate] == NSOrderedAscending) {
