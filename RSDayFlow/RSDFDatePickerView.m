@@ -938,4 +938,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(datePickerView:willDisplayCell:atIndexPath:)]) {
+        [self.delegate datePickerView:self willDisplayCell:cell atIndexPath:indexPath];
+    }
+}
+
 @end
