@@ -243,7 +243,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date;
 
-- (void)datePickerView:(RSDFDatePickerView *)view willDisplayCell:(RSDFDatePickerDayCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)datePickerView:(RSDFDatePickerView *)view willDisplayCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
