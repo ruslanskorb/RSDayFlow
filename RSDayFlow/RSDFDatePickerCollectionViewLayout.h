@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, RSDFDatePickerCollectionViewLayoutDirection) {
 /**
  Designated initializer. Initializes and returns a newly allocated layout object with the specified direction.
  
- @param frame The direction of the layout.
+ @param direction The direction of the layout.
  */
 - (instancetype)initWithDirection:(RSDFDatePickerCollectionViewLayoutDirection)direction;
 
