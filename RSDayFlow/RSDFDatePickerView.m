@@ -275,10 +275,14 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated
 {
     if (self.startDate && [date compare:self.startDate] == NSOrderedAscending) {
+        NSInteger firstSection = [self sectionForDate:self.startDate];
+        [self scrollToTopOfSection:firstSection animated:animated];
         return;
     }
     
     if (self.endDate && [date compare:self.endDate] == NSOrderedDescending) {
+        NSInteger lastSection = [self sectionForDate:self.endDate];
+        [self scrollToTopOfSection:lastSection animated:animated];
         return;
     }
     
