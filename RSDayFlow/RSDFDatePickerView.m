@@ -55,6 +55,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
+@property (nonatomic, strong) NSDate *visibleFirstDay;
+
 @end
 
 @implementation RSDFDatePickerView
@@ -326,6 +328,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     } else {
         [cv scrollToItemAtIndexPath:dateItemIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
     }
+    
+    self.visibleFirstDay = [self dateWithFirstDayOfMonth:date];
 }
 
 - (void)scrollToToday:(BOOL)animated
@@ -396,6 +400,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
             return components;
         })()) toDate:now options:0]];
     }
+    
+    self.visibleFirstDay = [self dateWithFirstDayOfMonth:now];
     
     if (self.endDate) {
         _toDate = [self dateWithFirstDayOfNextMonth:self.endDate];
@@ -935,6 +941,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         *targetContentOffset = topOfHeader;
         
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+        
+        self.visibleFirstDay = [self dateForFirstDayInSection:visibleSection];
     }
 }
 
