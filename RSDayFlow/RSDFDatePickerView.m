@@ -942,7 +942,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
         
-        self.visibleFirstDay = [self dateForFirstDayInSection:visibleSection];
+        self.visibleFirstDay = [self dateForFirstDayInSection:nextSection];
     }
 }
 
