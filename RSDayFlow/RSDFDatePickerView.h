@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface RSDFDatePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic, readonly, strong) NSDate *visibleFirstDay;
+
 /**
  Designated initializer. Initializes and returns a newly allocated view object with the specified frame rectangle and the specified calendar.
  

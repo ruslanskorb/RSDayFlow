@@ -55,6 +55,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
+@property (nonatomic, strong) NSDate *visibleFirstDay;
+
 @end
 
 @implementation RSDFDatePickerView
@@ -326,6 +328,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     } else {
         [cv scrollToItemAtIndexPath:dateItemIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
     }
+    
+    self.visibleFirstDay = [self dateWithFirstDayOfMonth:date];
 }
 
 - (void)scrollToToday:(BOOL)animated
@@ -396,6 +400,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
             return components;
         })()) toDate:now options:0]];
     }
+    
+    self.visibleFirstDay = [self dateWithFirstDayOfMonth:now];
     
     if (self.endDate) {
         _toDate = [self dateWithFirstDayOfNextMonth:self.endDate];
@@ -899,7 +905,13 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 {
     if (self.isPagingEnabled) {
         NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems] sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
-            return obj1.section > obj2.section;
+            if (obj1.section < obj2.section) {
+                return NSOrderedAscending;
+            } else if (obj1.section > obj2.section) {
+                return NSOrderedDescending;
+            } else {
+                return NSOrderedSame;
+            }
         }];
         
         NSUInteger visibleSection;
@@ -913,13 +925,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
                 nextSection = visibleSection + 1;
             }
         } else if (velocity.y < 0.0) {
-            visibleSection = [[sortedIndexPathsForVisibleItems lastObject] section];
+            visibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
             
-            if (self.startDate && visibleSection <= [self sectionForDate:self.startDate]) {
-                nextSection = visibleSection;
-            } else {
-                nextSection = visibleSection - 1;
-            }
+            // we are scrolling upwards, that means that the previous section (which we are trying to reach) is already visible
+            nextSection = visibleSection;
         } else {
             visibleSection = [sortedIndexPathsForVisibleItems[sortedIndexPathsForVisibleItems.count / 2] section];
             nextSection = visibleSection;
@@ -935,6 +944,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
         *targetContentOffset = topOfHeader;
         
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+        
+        self.visibleFirstDay = [self dateForFirstDayInSection:nextSection];
     }
 }
 
