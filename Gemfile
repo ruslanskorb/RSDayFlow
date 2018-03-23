@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '0.39.0'
+gem 'cocoapods', '1.4.0'
 
-gem 'fui', '~> 0.3.0'
-gem 'second_curtain', '~> 0.2.3'
-gem 'xcpretty'
+gem 'fui', '0.4.1'
+gem 'xcpretty', '0.2.8'
