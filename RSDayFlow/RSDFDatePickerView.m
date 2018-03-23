@@ -55,6 +55,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
+@property (assign, nonatomic) CGPoint lastKnownContentOffset;
+@property (assign, nonatomic) UISwipeGestureRecognizerDirection lastKnownVerticalDraggingDirection;
+
 @end
 
 @implementation RSDFDatePickerView
@@ -895,34 +898,50 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     });
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y > self.lastKnownContentOffset.y) {
+        
+        self.lastKnownVerticalDraggingDirection = UISwipeGestureRecognizerDirectionUp;
+    }
+    else if (scrollView.contentOffset.y < self.lastKnownContentOffset.y) {
+        
+        self.lastKnownVerticalDraggingDirection = UISwipeGestureRecognizerDirectionDown;
+    }
+    self.lastKnownContentOffset = scrollView.contentOffset;
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     if (self.isPagingEnabled) {
-        NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems] sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
-            return obj1.section > obj2.section;
-        }];
         
-        NSUInteger visibleSection;
+        NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
+        
+        NSUInteger visibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
+        
         NSUInteger nextSection;
-        if (velocity.y > 0.0) {
-            visibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
+        switch (self.lastKnownVerticalDraggingDirection) {
             
-            if (self.endDate && visibleSection >= [self sectionForDate:self.endDate]) {
-                nextSection = visibleSection;
-            } else {
-                nextSection = visibleSection + 1;
-            }
-        } else if (velocity.y < 0.0) {
-            visibleSection = [[sortedIndexPathsForVisibleItems lastObject] section];
+            case UISwipeGestureRecognizerDirectionUp:
+                if ((self.endDate && visibleSection == [self sectionForDate:self.endDate]) || (scrollView.contentOffset.y < 0.0)) {
+                    nextSection = visibleSection;
+                }
+                else {
+                    nextSection = visibleSection + 1;
+                }
+                break;
             
-            if (self.startDate && visibleSection <= [self sectionForDate:self.startDate]) {
+            case UISwipeGestureRecognizerDirectionDown:
+                if (scrollView.contentOffset.y + scrollView.bounds.size.height > scrollView.contentSize.height) {
+                    nextSection = [sortedIndexPathsForVisibleItems.lastObject section];
+                } else {
+                    nextSection = visibleSection;
+                }
+                break;
+                
+            default:
                 nextSection = visibleSection;
-            } else {
-                nextSection = visibleSection - 1;
-            }
-        } else {
-            visibleSection = [sortedIndexPathsForVisibleItems[sortedIndexPathsForVisibleItems.count / 2] section];
-            nextSection = visibleSection;
+                break;
         }
         
         CGRect headerRect = [self frameForHeaderForSection:nextSection];
