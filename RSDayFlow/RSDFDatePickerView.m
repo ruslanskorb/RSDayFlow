@@ -404,7 +404,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
             NSDateComponents *components = [NSDateComponents new];
             components.month = 6;
             return components;
-        })()) toDate:now options:0]];
+        })()) toDate:(now > self.fromDate ? now : self.fromDate) options:0]];
     }
     
     NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
