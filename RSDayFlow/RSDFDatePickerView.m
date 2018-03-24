@@ -194,6 +194,32 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return [RSDFDatePickerCollectionViewLayout class];
 }
 
+- (NSDate *)dateForFirstDayInCurrentSection
+{
+    CGPoint point = [self.collectionView.superview convertPoint:self.collectionView.center toView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:point];
+    if (indexPath == nil) {
+        
+        NSArray<UICollectionViewLayoutAttributes *> *layoutAttributesArray = [self.collectionView.collectionViewLayout layoutAttributesForElementsInRect:self.collectionView.bounds];
+        if (layoutAttributesArray.count == 0) {
+            
+            return nil;
+        }
+        
+        for (UICollectionViewLayoutAttributes *layoutAttributes in layoutAttributesArray) {
+            
+            if (CGRectContainsPoint(layoutAttributes.frame, point) == YES) {
+                
+                return [self dateForFirstDayInSection:layoutAttributes.indexPath.section];
+            }
+        }
+        
+        return nil;
+    }
+    
+    return [self dateForFirstDayInSection:indexPath.section];
+}
+
 - (Class)dayCellClass
 {
     return [RSDFDatePickerDayCell class];

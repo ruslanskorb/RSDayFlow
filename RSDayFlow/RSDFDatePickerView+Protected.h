@@ -35,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RSDFDatePickerView (RSDFDatePickerViewProtectedMethods)
 
 /**
+ The date of the first day of the month that corresponds to the currently visible section in the date picker view.
+ */
+@property (nonatomic, readonly, nullable) NSDate *dateForFirstDayInCurrentSection;
+
+/**
  Returns the date that corresponds to the specified cell in the date picker view.
  
  @param indexPath The index path that specifies the location of the cell.
