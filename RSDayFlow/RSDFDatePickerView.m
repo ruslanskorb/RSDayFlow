@@ -55,9 +55,6 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
-@property (assign, nonatomic) CGPoint lastKnownContentOffset;
-@property (assign, nonatomic) UISwipeGestureRecognizerDirection lastKnownVerticalDraggingDirection;
-
 @end
 
 @implementation RSDFDatePickerView
@@ -898,53 +895,31 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     });
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.contentOffset.y > self.lastKnownContentOffset.y) {
-        
-        self.lastKnownVerticalDraggingDirection = UISwipeGestureRecognizerDirectionUp;
-    }
-    else if (scrollView.contentOffset.y < self.lastKnownContentOffset.y) {
-        
-        self.lastKnownVerticalDraggingDirection = UISwipeGestureRecognizerDirectionDown;
-    }
-    self.lastKnownContentOffset = scrollView.contentOffset;
-}
-
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     if (self.isPagingEnabled) {
-        
         NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
         
-        NSUInteger visibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
+        NSUInteger firstVisibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
         
-        NSUInteger nextSection;
-        switch (self.lastKnownVerticalDraggingDirection) {
-            
-            case UISwipeGestureRecognizerDirectionUp:
-                if ((self.endDate && visibleSection == [self sectionForDate:self.endDate]) || (scrollView.contentOffset.y < 0.0)) {
-                    nextSection = visibleSection;
-                }
-                else {
-                    nextSection = visibleSection + 1;
-                }
-                break;
-            
-            case UISwipeGestureRecognizerDirectionDown:
-                if (scrollView.contentOffset.y + scrollView.bounds.size.height > scrollView.contentSize.height) {
-                    nextSection = [sortedIndexPathsForVisibleItems.lastObject section];
-                } else {
-                    nextSection = visibleSection;
-                }
-                break;
-                
-            default:
-                nextSection = visibleSection;
-                break;
+        NSUInteger targetSection;
+        if (velocity.y > 0.0) {
+            if ((self.endDate && firstVisibleSection == [self sectionForDate:self.endDate]) || (scrollView.contentOffset.y < 0.0)) {
+                targetSection = firstVisibleSection;
+            } else {
+                targetSection = firstVisibleSection + 1;
+            }
+        } else if (velocity.y < 0.0) {
+            if (scrollView.contentOffset.y + scrollView.bounds.size.height > scrollView.contentSize.height) {
+                targetSection = [sortedIndexPathsForVisibleItems.lastObject section];
+            } else {
+                targetSection = firstVisibleSection;
+            }
+        } else {
+            targetSection = [sortedIndexPathsForVisibleItems[sortedIndexPathsForVisibleItems.count / 2] section];
         }
         
-        CGRect headerRect = [self frameForHeaderForSection:nextSection];
+        CGRect headerRect = [self frameForHeaderForSection:targetSection];
         CGPoint topOfHeader = CGPointMake(0, headerRect.origin.y - self.collectionView.contentInset.top);
         CGFloat maxYContentOffset = self.collectionView.contentSize.height - CGRectGetHeight(self.collectionView.bounds);
         if (topOfHeader.y > maxYContentOffset) {
