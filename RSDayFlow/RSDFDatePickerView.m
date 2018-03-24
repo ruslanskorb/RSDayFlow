@@ -898,11 +898,17 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     if (self.isPagingEnabled) {
-        NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)];
+        NSArray<NSIndexPath *> *indexPathsForVisibleItems = [self.collectionView indexPathsForVisibleItems];
+        if (indexPathsForVisibleItems.count == 0) {
+            
+            return;
+        }
         
-        NSUInteger firstVisibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
+        NSArray<NSIndexPath *> *sortedIndexPathsForVisibleItems = [indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)];
         
-        NSUInteger targetSection;
+        NSInteger firstVisibleSection = [[sortedIndexPathsForVisibleItems firstObject] section];
+        
+        NSInteger targetSection;
         if (velocity.y > 0.0) {
             if ((self.endDate && firstVisibleSection == [self sectionForDate:self.endDate]) || (scrollView.contentOffset.y < 0.0)) {
                 targetSection = firstVisibleSection;
