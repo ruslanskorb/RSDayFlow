@@ -580,7 +580,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     [_collectionView setContentOffset:topOfHeader animated:animated];
 }
 
-- (NSInteger)sectionForDate:(NSDate *)date;
+- (NSInteger)sectionForDate:(NSDate *)date
 {
     return [self.calendar components:NSCalendarUnitMonth fromDate:[self dateForFirstDayInSection:0] toDate:date options:0].month;
 }
