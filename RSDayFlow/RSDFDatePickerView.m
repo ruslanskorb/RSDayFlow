@@ -910,12 +910,45 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.isPagingEnabled) {
-            if (!self.startDate && scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
-                [self appendPastDates];
+            NSArray *sortedIndexPathsForVisibleItems = nil;
+
+            if (!self.startDate) {
+                sortedIndexPathsForVisibleItems = [self.collectionView.indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)];
+
+                NSIndexPath *firstVisibleItemIndexPath = sortedIndexPathsForVisibleItems.firstObject;
+                if (firstVisibleItemIndexPath != nil) {
+                    NSDate *dateForFirstDayInSection = [self dateForFirstDayInSection:firstVisibleItemIndexPath.section];
+
+                    NSDateComponents *dateComponents = [self.calendar components:NSCalendarUnitMonth
+                                                                        fromDate:self.fromDate
+                                                                          toDate:dateForFirstDayInSection
+                                                                         options:0];
+
+                    if (dateComponents.month < 2) {
+
+                        [self appendPastDates];
+                    }
+                }
             }
-            
-            if (!self.endDate && scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
-                [self appendFutureDates];
+
+            if (!self.endDate) {
+                if (sortedIndexPathsForVisibleItems == nil) {
+                    sortedIndexPathsForVisibleItems = [self.collectionView.indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)];
+                }
+
+                NSIndexPath *lastVisibleItemIndexPath = sortedIndexPathsForVisibleItems.lastObject;
+                if (lastVisibleItemIndexPath != nil) {
+                    NSDate *dateForFirstDayInSection = [self dateForFirstDayInSection:lastVisibleItemIndexPath.section];
+
+                    NSDateComponents *dateComponents = [self.calendar components:NSCalendarUnitMonth
+                                                                        fromDate:dateForFirstDayInSection
+                                                                          toDate:self.toDate
+                                                                         options:0];
+                    if (dateComponents.month < 2) {
+
+                        [self appendFutureDates];
+                    }
+                }
             }
         }
     });
