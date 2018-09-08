@@ -104,7 +104,7 @@
 
 - (CGRect)selectedImageViewFrame
 {
-    return CGRectMake(0, 0, CGRectGetWidth(self.frame), 30);
+    return CGRectMake(0, 0, 30, 30);
 }
 
 @end
