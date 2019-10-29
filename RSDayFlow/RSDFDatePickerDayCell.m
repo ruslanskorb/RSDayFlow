@@ -264,6 +264,20 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
             } else {
                 self.markImageView.image = nil;
             }
+            if (self.offDay) {
+                if (self.isPastDate) {
+                    self.dateLabel.textColor = [self pastDayOffLabelTextColor];
+                } else {
+                    self.dateLabel.textColor = [self dayOffLabelTextColor];
+              }
+            }else{
+                if (self.isPastDate) {
+                    self.dateLabel.textColor = [self pastDayLabelTextColor];
+                } else {
+                    self.dateLabel.textColor = [self dayLabelTextColor];
+                }
+            }
+            
         }
     }
 

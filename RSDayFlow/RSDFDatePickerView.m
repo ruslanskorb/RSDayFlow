@@ -712,7 +712,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
                 }
             }
         }
-        
+        if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMakeAsOffDate:)]) {
+                  cell.offDay = [self.dataSource datePickerView:self shouldMakeAsOffDate:cellDate];
+        }
         NSComparisonResult result = [_today compare:cellDate];
         switch (result) {
             case NSOrderedSame: {

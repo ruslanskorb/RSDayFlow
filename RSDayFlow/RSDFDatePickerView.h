@@ -264,6 +264,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return YES if the date should be marked or NO if it should not.
  */
 - (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date;
+/**
+Asks the data source if the date should be made as off day.
+
+@param view The date picker view object that is asking whether the date should made as off day.
+
+@return YES if the date should be made as off day or NO if it should not.
+*/
+- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMakeAsOffDate:(NSDate *)date;
 
 /**
  Asks the data source about the color of the default mark image for the specified date.

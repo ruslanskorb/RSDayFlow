@@ -79,6 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, getter = isMarked) BOOL marked;
 
 /**
+ A Boolean value that determines whether the day is off.
+ */
+@property (nonatomic, getter = isOffDay) BOOL offDay;
+
+/**
  A Boolean value that determines whether the cell is out of range or not (startDate, endDate)
  */
 @property (nonatomic, getter = isOutOfRange) BOOL outOfRange;
