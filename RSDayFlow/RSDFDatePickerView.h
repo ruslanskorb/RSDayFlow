@@ -250,11 +250,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol RSDFDatePickerViewDataSource <NSObject>
 
+@optional
+
 ///------------------------------
 /// @name Providing Dates to Mark
 ///------------------------------
-
-@optional
 
 /**
  Asks the data source if the date should be marked.
@@ -284,6 +284,19 @@ NS_ASSUME_NONNULL_BEGIN
  @return The mark image for the specified date.
  */
 - (nullable UIImage *)datePickerView:(RSDFDatePickerView *)view markImageForDate:(NSDate *)date;
+
+///--------------------------
+/// @name Providing Off Dates
+///--------------------------
+
+/**
+ Asks the data source if the date is day off.
+ 
+ @param view The date picker view object that is asking whether the date is day off.
+ 
+ @return YES if the date is day off or NO if it is not.
+ */
+- (BOOL)datePickerView:(RSDFDatePickerView *)view isDayOffDate:(NSDate *)date;
 
 @end
 
