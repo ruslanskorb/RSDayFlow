@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '1.4.0'
+gem 'cocoapods', '1.8.4'
 
-gem 'fui', '0.4.1'
-gem 'xcpretty', '0.2.8'
+gem 'fui', '0.5.0'
+gem 'xcpretty', '0.3.0'
