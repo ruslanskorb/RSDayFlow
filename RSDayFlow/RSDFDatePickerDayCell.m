@@ -342,7 +342,10 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIColor *)dayLabelTextColor
 {
-    return [UIColor blackColor];
+  if (@available(iOS 13, *)) {
+    return [UIColor labelColor];
+  }
+  return [UIColor blackColor];
 }
 
 - (UIColor *)dayOffLabelTextColor
