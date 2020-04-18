@@ -114,7 +114,10 @@
 
 - (UIColor *)monthLabelTextColor
 {
-    return [UIColor blackColor];
+  if (@available(iOS 13, *)) {
+    return [UIColor labelColor];
+  }
+  return [UIColor blackColor];
 }
 
 - (UIColor *)currentMonthLabelTextColor
