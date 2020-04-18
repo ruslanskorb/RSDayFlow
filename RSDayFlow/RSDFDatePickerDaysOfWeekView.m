@@ -279,7 +279,10 @@
 
 - (UIColor *)selfBackgroundColor
 {
-    return [UIColor colorWithRed:248.0/255 green:248.0/255 blue:248.0/255 alpha:1.0];
+  if (@available(iOS 13, *)) {
+    return [UIColor groupTableViewBackgroundColor];
+  }
+  return [UIColor colorWithRed:248.0/255 green:248.0/255 blue:248.0/255 alpha:1.0];
 }
 
 #pragma mark - Attributes of the Layout
@@ -341,7 +344,10 @@
 
 - (UIColor *)dayOfWeekLabelTextColor
 {
-    return [UIColor blackColor];
+  if (@available(iOS 13, *)) {
+    return [UIColor labelColor];
+  }
+  return [UIColor blackColor];
 }
 
 - (UIColor *)dayOffOfWeekLabelTextColor
