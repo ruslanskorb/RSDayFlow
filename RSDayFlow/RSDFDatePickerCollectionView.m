@@ -80,7 +80,10 @@
 
 - (UIColor *)selfBackgroundColor
 {
-    return [UIColor whiteColor];
+  if (@available(iOS 13, *)) {
+    return [UIColor groupTableViewBackgroundColor];
+  }
+  return [UIColor whiteColor];
 }
 
 @end
