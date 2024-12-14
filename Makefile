@@ -1,7 +1,7 @@
 WORKSPACE = Example/RSDayFlowExample.xcworkspace
 SCHEME = RSDayFlowExample
 CONFIGURATION = Release
-DEVICE_HOST = platform='iOS Simulator',OS='11.2',name='iPhone X'
+DEVICE_HOST = platform='iOS Simulator',OS='17.2',name='iPhone 15 Pro'
 
 .PHONY: all build ci clean lint
 

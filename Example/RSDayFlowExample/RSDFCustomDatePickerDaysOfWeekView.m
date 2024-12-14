@@ -32,6 +32,11 @@
     return [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
 }
 
+- (UIColor *)dayOfWeekLabelTextColor
+{
+  return [UIColor blackColor];
+}
+
 - (UIColor *)dayOffOfWeekLabelTextColor
 {
     return [UIColor blackColor];

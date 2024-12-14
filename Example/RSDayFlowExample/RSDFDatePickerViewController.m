@@ -49,24 +49,25 @@
 	[super viewDidLoad];
 	
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.opaque = YES;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
-    
-    self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17.0f]};
-    
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    if (@available(iOS 13, *)) {
+        [self configureNavigationBarAndTabBarAppearanceForDatePickerView];
+    } else {
+        self.navigationController.navigationBar.translucent = NO;
+        self.navigationController.navigationBar.opaque = YES;
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
+        
+        self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17.0f]};
+        
+        [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    }
     
     UIBarButtonItem *todayBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(onTodayButtonTouch:)];
     self.navigationItem.rightBarButtonItem = todayBarButtonItem;
     
     UIBarButtonItem *restyleBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStylePlain target:self action:@selector(onRestyleButtonTouch:)];
     self.navigationItem.leftBarButtonItem = restyleBarButtonItem;
-    
-    self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
     NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
     NSDate *today = [self.calendar dateFromComponents:todayComponents];
@@ -183,6 +184,31 @@
     return _customDatePickerView;
 }
 
+#pragma mark - Private Functions
+
+- (void)configureNavigationBarAndTabBarAppearanceForDatePickerView API_AVAILABLE(ios(13.0))
+{
+    UINavigationBarAppearance *navigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+    [navigationBarAppearance configureWithOpaqueBackground];
+    navigationBarAppearance.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    navigationBarAppearance.shadowColor = [UIColor clearColor];
+    navigationBarAppearance.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17.0f]};
+    self.navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance;
+    self.navigationController.navigationBar.compactAppearance = navigationBarAppearance;
+    self.navigationController.navigationBar.standardAppearance = navigationBarAppearance;
+    if (@available(iOS 15, *)) {
+        self.navigationController.navigationBar.compactScrollEdgeAppearance = navigationBarAppearance;
+    }
+    UITabBarAppearance *tabBarAppearance = [[UITabBarAppearance alloc] init];
+    [tabBarAppearance configureWithOpaqueBackground];
+    tabBarAppearance.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    tabBarAppearance.shadowColor = [UIColor clearColor];
+    self.tabBarController.tabBar.standardAppearance = tabBarAppearance;
+    if (@available(iOS 15, *)) {
+        self.tabBarController.tabBar.scrollEdgeAppearance = tabBarAppearance;
+    }
+}
+
 #pragma mark - Action handling
 
 - (void)onTodayButtonTouch:(UIBarButtonItem *)sender
@@ -197,11 +223,41 @@
 - (void)onRestyleButtonTouch:(UIBarButtonItem *)sender
 {
     if (!self.datePickerView.hidden) {
-        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
+        UIColor *backgroundColor = [UIColor colorWithRed:244/255.0f green:245/255.0f blue:247/255.0f alpha:1.0f];
+        if (@available(iOS 13, *)) {
+            UINavigationBarAppearance *navigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+            [navigationBarAppearance configureWithOpaqueBackground];
+            navigationBarAppearance.backgroundColor = backgroundColor;
+            navigationBarAppearance.shadowColor = [UIColor clearColor];
+            navigationBarAppearance.titleTextAttributes = @{
+                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17.0f],
+                NSForegroundColorAttributeName: [UIColor blackColor]
+            };
+            self.navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance;
+            self.navigationController.navigationBar.compactAppearance = navigationBarAppearance;
+            self.navigationController.navigationBar.standardAppearance = navigationBarAppearance;
+            if (@available(iOS 15, *)) {
+                self.navigationController.navigationBar.compactScrollEdgeAppearance = navigationBarAppearance;
+            }
+            UITabBarAppearance *tabBarAppearance = [[UITabBarAppearance alloc] init];
+            [tabBarAppearance configureWithOpaqueBackground];
+            tabBarAppearance.backgroundColor = backgroundColor;
+            tabBarAppearance.shadowColor = [UIColor clearColor];
+            self.tabBarController.tabBar.standardAppearance = tabBarAppearance;
+            if (@available(iOS 15, *)) {
+                self.tabBarController.tabBar.scrollEdgeAppearance = tabBarAppearance;
+            }
+        } else {
+            self.navigationController.navigationBar.barTintColor = backgroundColor;
+        }
         self.datePickerView.hidden = YES;
         self.customDatePickerView.hidden = NO;
     } else {
-        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
+        if (@available(iOS 13, *)) {
+            [self configureNavigationBarAndTabBarAppearanceForDatePickerView];
+        } else {
+            self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
+        }
         self.customDatePickerView.hidden = YES;
         self.datePickerView.hidden = NO;
     }
@@ -211,7 +267,10 @@
 
 - (void)datePickerView:(RSDFDatePickerView *)view didSelectDate:(NSDate *)date
 {
-    [[[UIAlertView alloc] initWithTitle:@"Picked Date" message:[self.dateFormatter stringFromDate:date] delegate:nil cancelButtonTitle:@":D" otherButtonTitles:nil] show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Picked Date" message:[self.dateFormatter stringFromDate:date] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAlertAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAlertAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - RSDFDatePickerViewDataSource

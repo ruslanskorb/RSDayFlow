@@ -31,7 +31,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13, *)) {
+        self.window.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+        self.window.backgroundColor = [UIColor whiteColor];
+    }
     
     // ------------------
     // Gregorian calendar

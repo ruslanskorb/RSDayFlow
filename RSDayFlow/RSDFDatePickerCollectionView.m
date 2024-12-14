@@ -62,6 +62,7 @@
 - (void)commonInitializer
 {
     self.backgroundColor = [self selfBackgroundColor];
+    self.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     self.showsVerticalScrollIndicator = NO;
     self.showsHorizontalScrollIndicator = NO;
     self.scrollsToTop = NO;
@@ -81,7 +82,7 @@
 - (UIColor *)selfBackgroundColor
 {
   if (@available(iOS 13, *)) {
-    return [UIColor groupTableViewBackgroundColor];
+    return [UIColor systemBackgroundColor];
   }
   return [UIColor whiteColor];
 }

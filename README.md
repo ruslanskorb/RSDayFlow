@@ -1,10 +1,10 @@
-# RSDayFlow [![Build Status](https://travis-ci.org/ruslanskorb/RSDayFlow.svg)](https://travis-ci.org/ruslanskorb/RSDayFlow) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/ruslanskorb/RSDayFlow)
+# RSDayFlow ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSKImageCropper.svg?style=flat) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
 </p>
 
-iOS 7 Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
+iOS 12+ Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 
 > [RSDayFlow](https://github.com/ruslanskorb/RSDayFlow) is a slim fork of [DayFlow](https://github.com/evadne/DayFlow) with updates and extensions:
 
@@ -14,14 +14,29 @@ iOS 7 Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 * Much more updates
 
 ## Installation
+*RSDayFlow requires iOS 12.0 or later.*
 
-[CocoaPods](http://cocoapods.org) is the recommended method of installing RSDayFlow. Simply add the following line to your `Podfile`:
+### Using [Swift Package Manager](https://swift.org/package-manager/)
 
-#### Podfile
+1. To add the `RSDayFlow` package to your Xcode project, select File > Swift Packages > Add Package Dependency and enter the repository URL. 
+    
+        https://github.com/ruslanskorb/RSDayFlow.git
 
-```ruby
-pod 'RSDayFlow'
-```
+### Using [CocoaPods](http://cocoapods.org)
+
+1.  Add the pod `RSDayFlow` to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html).
+
+        pod 'RSDayFlow'
+
+2.  Run `pod install` from Terminal, then open your app's `.xcworkspace` file to launch Xcode.
+
+### Using [Carthage](https://github.com/Carthage/Carthage)
+
+1.  Add the `ruslanskorb/RSDayFlow` project to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
+
+        github "ruslanskorb/RSDayFlow"
+
+2.  Run `carthage update`, then follow the [additional steps required](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the iOS and/or Mac frameworks into your project.
 
 ## Basic Usage
 
@@ -141,7 +156,6 @@ Have fun. Make it faster. Fork and send pull requests. Figure out hooks for cust
 Ruslan Skorb
 
 - http://github.com/ruslanskorb
-- http://twitter.com/ruslanskorb
 - ruslan.skorb@gmail.com
 
 ## License

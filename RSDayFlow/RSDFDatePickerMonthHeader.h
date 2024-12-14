@@ -104,7 +104,7 @@ typedef NS_ENUM (NSUInteger, RSDFMonthsDisplayStyle) {
 - (UIFont *)monthLabelFont;
 
 /**
- The text color for the label of the month. Default value is [UIColor blackColor].
+ The text color for the label of the month. Default value is `[UIColor labelColor]` on iOS 13+ and `[UIColor blackColor]` before.
  
  @discussion Can be overridden in subclasses for customization.
  */

@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///---------------------------------------
 
 /**
- The view’s background color. Default value is `[UIColor whiteColor]`.
+ The view’s background color. Default value is `[UIColor systemBackgroundColor]` on iOS 13+ and `[UIColor whiteColor]` before.
  
  @discussion Can be overridden in subclasses for customization.
  */

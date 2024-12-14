@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIFont *)dayLabelFont;
 
 /**
- The text color for the label of the day. Default value is [UIColor blackColor].
+ The text color for the label of the day. Default value is [UIColor labelColor] on iOS 13+ and [UIColor blackColor] before.
  
  @discussion Can be overridden in subclasses for customization.
  */

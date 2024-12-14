@@ -24,7 +24,7 @@
 //
 
 /**
- `RSDayFlow` is an iOS 7 Calendar with Infinite Scrolling.
+ `RSDayFlow` is an iOS 12+ Calendar with Infinite Scrolling.
  */
 
 #ifndef RSDayFlow_RSDayFlow_h
