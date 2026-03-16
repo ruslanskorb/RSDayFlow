@@ -1,4 +1,4 @@
-# RSDayFlow ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSKImageCropper.svg?style=flat) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
+# RSDayFlow ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSDayFlow.svg?style=flat) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
