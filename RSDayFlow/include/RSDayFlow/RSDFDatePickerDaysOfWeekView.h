@@ -1,1 +1,1 @@
-/Users/ruslanskorb/Developer/RSDayFlow/RSDayFlow/RSDFDatePickerDaysOfWeekView.h
+../../RSDFDatePickerDaysOfWeekView.h
