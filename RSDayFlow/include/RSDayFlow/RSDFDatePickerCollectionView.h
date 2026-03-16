@@ -1,1 +1,1 @@
-/Users/ruslanskorb/Developer/RSDayFlow/RSDayFlow/RSDFDatePickerCollectionView.h
+../../RSDFDatePickerCollectionView.h
