@@ -1,4 +1,4 @@
-# RSDayFlow ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSDayFlow.svg?style=flat) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
+# RSDayFlow ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
@@ -21,22 +21,6 @@ iOS 12+ Calendar with Infinite Scrolling. Only need 4 lines of code to set up.
 1. To add the `RSDayFlow` package to your Xcode project, select File > Swift Packages > Add Package Dependency and enter the repository URL. 
     
         https://github.com/ruslanskorb/RSDayFlow.git
-
-### Using [CocoaPods](http://cocoapods.org)
-
-1.  Add the pod `RSDayFlow` to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html).
-
-        pod 'RSDayFlow'
-
-2.  Run `pod install` from Terminal, then open your app's `.xcworkspace` file to launch Xcode.
-
-### Using [Carthage](https://github.com/Carthage/Carthage)
-
-1.  Add the `ruslanskorb/RSDayFlow` project to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
-
-        github "ruslanskorb/RSDayFlow"
-
-2.  Run `carthage update`, then follow the [additional steps required](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the iOS and/or Mac frameworks into your project.
 
 ## Basic Usage
 
